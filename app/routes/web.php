@@ -20,5 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::post('/schedule', [App\Http\Controllers\ScheduleController::class, 'index']);
+Route::get('/schedule', [App\Http\Controllers\ScheduleController::class, 'index']);
 Route::post('/home/post', [App\Http\Controllers\HomeController::class, 'handleClick'])->name('button.click');
+Route::post('/schedule/register', [App\Http\Controllers\ScheduleController::class, 'addPlan'])->name('travel.click');
+
