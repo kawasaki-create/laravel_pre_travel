@@ -23,26 +23,30 @@
             <div class="card">
                 <div class="card-header">旅行概要 <span style="color:red; font-size:4px;">※旅行中のみ表示</span></div>
                 <div class="card-body">
-                    <table border="2">
-                        <thead>
-                            <tr>
-                                <th>header</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>a</td>
-                                <td>a'</td>
-                            </tr>
-                            <tr>
-                                <td>b</td>
-                                <td>b'</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    @foreach ($travelPlans as $travelPlan)
+                        <p>旅行名: {{ $travelPlan->trip_title }}</p>
+                        <p>期間: {{ $travelPlan->trip_start }} 〜 {{ $travelPlan->trip_end }}</p>
+                        <p>出発時刻: {{ $travelPlan->departure_time }}</p>
+                        <p>集合場所: {{ $travelPlan->meet_place }}</p>
+                        <p>予算: {{ $travelPlan->budget }}円</p>
+                        <br>
+                    @endforeach
                 </div>
             </div>
             <br><br>
+            <div class="card">
+                <div class="card-header">つぶやき表示 <span style="color:red; font-size:4px;">※旅行中のみ表示</span></div>
+                <div class="card-body">
+                    @foreach ($travelPlans as $travelPlan)
+                        <p>旅行名: {{ $travelPlan->trip_title }}</p>
+                        <p>期間: {{ $travelPlan->trip_start }} 〜 {{ $travelPlan->trip_end }}</p>
+                        <p>出発時刻: {{ $travelPlan->departure_time }}</p>
+                        <p>集合場所: {{ $travelPlan->meet_place }}</p>
+                        <p>予算: {{ $travelPlan->budget }}円</p>
+                        <br>
+                    @endforeach
+                </div>
+            </div>
             <div class="card">
                 <div class="card-header">つぶやき <span style="color:red; font-size:4px;">※旅行中のみ表示</span></div>
                 <div class="card-body">
