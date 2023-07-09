@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TravelPlan extends Model
 {
     use HasFactory;
+
+    public function tweet()
+    {
+        return $this->hasMany(Tweet::class);
+    }
 }

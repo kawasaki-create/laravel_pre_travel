@@ -48,7 +48,8 @@ class HomeController extends Controller
         return view('home',[
             'hello' => $hello,
             'nya' => $nya,
-            'travelPlans' => $travelPlans
+            'travelPlans' => $travelPlans,
+            'tweets' => $tweets
         ]);
     }
 
@@ -60,9 +61,18 @@ class HomeController extends Controller
         $tweet->save();
 
         // 保存後のリダイレクトなどの処理を行う
-
-        return redirect()->back()->with('success', 'Tweet saved successfully');
+        return redirect()->back()->with('success', 'つぶやきを保存しました！');
     }
 
+    public function tweetDelete(Request $request)
+    {
+        $selectedTweets = $request->input('tweets');
+        if (!empty($selectedTweets)) {
+            Tweet::whereIn('id', $selectedTweets)->delete();
+        }
+
+        // 削除後のリダイレクトなどの処理を行う
+        return redirect('/home')->with('success', 'つぶやきを削除しました！');
+    }
 
 }
