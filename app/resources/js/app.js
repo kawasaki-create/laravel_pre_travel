@@ -5,6 +5,7 @@ var textarea = document.getElementById('myTextarea');
 var charCount = document.getElementById('charCount');
 var deleteButton = document.getElementById('tweetDeleteButton');
 var tweetButton = document.getElementById('tweetButton');
+var planDeleteButton = document.getElementById('planDeleteButton');
 
 var txtLength = 0;
 
@@ -24,6 +25,7 @@ textarea.addEventListener('input', function() {
 document.addEventListener('DOMContentLoaded', function() {
     deleteButton.addEventListener('click', deleteSelected);
     tweetButton.addEventListener('click', tweetValid);
+    planDeleteButton.addEventListener('click', planDeleteValid);
 
     function deleteSelected() {
         // 選択されたチェックボックスの数を取得
@@ -45,5 +47,9 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault(); // フォームの送信をキャンセル
             alert("何も入力されていません🙃");
         }
+    }
+
+    function planDeleteValid(){
+        alert('旅行を削除しますか？(この動作はもどせません)');
     }
 });

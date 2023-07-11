@@ -34,7 +34,7 @@ class ScheduleController extends Controller
 
         // 保存後のリダイレクトなどの処理を行う
 
-        return redirect('/home')->with('success', '新しい旅行プランを追加しました');
+        return redirect('/home')->with('success', '新しい旅行プランを追加しました！');
     }
 
     public function allPlan()
@@ -55,4 +55,20 @@ class ScheduleController extends Controller
         ]);
     }
 
+    public function edit($id)
+    {
+        // 予定のIDを取得して編集画面に渡す例
+        $travelPlan = TravelPlan::find($id);
+
+        // 編集画面のビューにデータを渡す
+        return view('schedule_edit', compact('travelPlan'));
+        
+    }
+
+    public function delete($id)
+    {
+        TravelPlan::where('id', $id)->delete();
+        
+        return redirect('/schedule/all_plan')->with('success', '予定を削除しました！');
+    }
 }

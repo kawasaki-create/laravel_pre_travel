@@ -97,30 +97,37 @@
                 </div>
             @endif
             <br><br>
-            @foreach ($tweets as $tweet)
-                @php
-                    $travelPlan = $tweet->travelPlan;
-                @endphp
-                @if ($travelPlan && $travelPlan->trip_start < $tweet->created_at && $tweet->created_at < $travelPlan->trip_end)
-                    @php
-                        $displayCard = true;
-                    @endphp
-                @endif
+            @php
+                $displayCard = false;
+            @endphp
+            @foreach ($travelPlans as $travelPlan)
+                @foreach ($tweets as $tweet)
+                    @if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end)
+                        @php
+                            $displayCard = true;
+                        @endphp
+                    @endif
+                @endforeach
             @endforeach
             @if($displayCard)
                 <div class="card">
                     <form action="{{ route('tweets.delete') }}" method="POST">
                         @csrf
-                        <div class="card-header">旅行中のつぶやき表示 <span style="color:red; font-size:4px;">※旅行中のつぶやきのみ表示</span></div>
+                        <div class="card-header">今回の旅行中のつぶやき表示 <span style="color:red; font-size:4px;">※旅行中のつぶやきのみ表示</span></div>
                         <div class="card-body">
+                        @foreach ($travelPlans as $travelPlan)
                             @foreach ($tweets as $tweet)
-                                @if ($travelPlan && $travelPlan->trip_start < $tweet->created_at && $tweet->created_at < $travelPlan->trip_end)
+                                @if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end && $tweet->created_at < $tweet->travelPlan->trip_end && $tweet->travelPlan->trip_start < $tweet->created_at)
+                                    @php
+                                        $displayCard = true;
+                                    @endphp
                                     <input type="checkbox" name="tweets[]" value="{{ $tweet->id }}">
                                     <span>{{ $tweet->tweet }}</span><br>
                                     <span style="font-size :4px; color: gray;">{{ $tweet->created_at }}</span><br>
                                     <br>
                                 @endif
                             @endforeach
+                        @endforeach
                             <button type="submit" class="btn btn-warning" id="tweetDeleteButton">削除</button>
                         </div>
                     </form>

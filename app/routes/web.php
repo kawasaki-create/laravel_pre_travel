@@ -25,3 +25,5 @@ Route::post('/home/post', [App\Http\Controllers\HomeController::class, 'handleCl
 Route::post('/schedule/register', [App\Http\Controllers\ScheduleController::class, 'addPlan'])->name('travel.click');
 Route::post('/tweets/delete', [App\Http\Controllers\HomeController::class, 'tweetDelete'])->name('tweets.delete');
 Route::get('/schedule/all_plan', [App\Http\Controllers\ScheduleController::class, 'allPlan']);
+Route::get('/schedule/edit/{id}', [App\Http\Controllers\ScheduleController::class, 'edit'])->name('schedule.edit');
+Route::get('/schedule/delete/{id}', [App\Http\Controllers\ScheduleController::class, 'delete'])->name('schedule.delete');
