@@ -18,7 +18,7 @@
             <li class="nav-item active">
             <a class="nav-link" href="/schedule/all_plan/">全ての旅行</a>
             <li class="nav-item">
-            <a class="nav-link" href="/all_tweet">全てのつぶやきを</a>
+            <a class="nav-link" href="/all_tweet">全てのつぶやきを表示</a>
             </li>
             <li class="nav-item">
             <a class="nav-link" href="account">アカウント設定</a>
