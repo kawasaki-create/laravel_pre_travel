@@ -28,13 +28,36 @@ class ScheduleController extends Controller
         $travel_plan->meet_place = $request->input('meet-place');
         $travel_plan->departure_time = sprintf('%s %s', $date, $time);
         $travel_plan->budget = $request->input('budget');
-        $travel_plan->user_id = auth()->user()->id; 
+        $travel_plan->user_id = auth()->user()->id;
         $travel_plan->save();
 
 
         // 保存後のリダイレクトなどの処理を行う
 
         return redirect('/home')->with('success', '新しい旅行プランを追加しました！');
+    }
+
+    public function editPlan(Request $request)
+    {
+        $date = $request->input('trip-start');
+        $time = $request->input('departure-time');
+
+        $travel_plan = TravelPlan::find($request->input('plan-id'));
+        // dd($travel_plan);
+        $travel_plan->id = $request->input('plan-id');
+        $travel_plan->trip_title = $request->input('trip-title');
+        $travel_plan->trip_start = $date;
+        $travel_plan->trip_end = $request->input('trip-end');
+        $travel_plan->meet_place = $request->input('meet-place');
+        $travel_plan->departure_time = sprintf('%s %s', $date, $time);
+        $travel_plan->budget = $request->input('budget');
+        $travel_plan->user_id = auth()->user()->id;
+        $travel_plan->save();
+
+
+        // 保存後のリダイレクトなどの処理を行う
+
+        return redirect('/schedule/all_plan')->with('success', '旅行プランを編集しました！');
     }
 
     public function allPlan()
@@ -62,13 +85,15 @@ class ScheduleController extends Controller
 
         // 編集画面のビューにデータを渡す
         return view('schedule_edit', compact('travelPlan'));
-        
+
     }
 
     public function delete($id)
     {
         TravelPlan::where('id', $id)->delete();
-        
+
         return redirect('/schedule/all_plan')->with('success', '予定を削除しました！');
     }
+
+
 }

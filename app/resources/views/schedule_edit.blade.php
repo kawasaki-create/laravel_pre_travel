@@ -13,7 +13,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <form action="{{ route('travel.click') }}" method="POST">
+                    <form action="{{ route('travel.edit') }}" method="POST">
+                        @php
+                            $url = $_SERVER['REQUEST_URI'];
+                            $editUrl = ltrim(strrchr("$url", "/"), '/');
+                        @endphp
                         @csrf
                         <span>旅行名：</span>
                         <input type="text" name="trip-title"><br><br>
@@ -25,10 +29,12 @@
                         <input type="time" name="departure-time"><br><br>
                         <span>予算：</span>
                         <input type="text" name="budget">&ensp;円&emsp;
-                        <button type="submit" name="plan-register" class="btn btn-primary">登録</button>            
+                        <button type="submit" name="plan-register" class="btn btn-primary">登録</button>
+                        <input type="hidden" name="plan-id" value="{{ $editUrl }}">
                     </form>
                 </div>
             </div>
+
             <br><br>
         </div>
     </div>

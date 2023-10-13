@@ -14,10 +14,10 @@ textarea.addEventListener('input', function() {
     // 入力された文字数を取得します
     var currentLength = textarea.value.length;
     txtLength = currentLength;
-  
+
   // 最大文字数を取得します
   var maxLength = parseInt(textarea.getAttribute('maxlength'));
-  
+
   // 文字数表示用のテキストを更新します
   charCount.textContent = currentLength + '/' + maxLength;
 });
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("削除対象が選択されていません🙃");
         } else {
             // 削除処理を実行する場合の処理を記述
-            if(!confirm("選択したツイートを削除しますがよろしいですか？")){
+            if(!confirm("選択したつぶやきを削除しますがよろしいですか？(この動作はもどせません)")){
                 event.preventDefault(); // フォームの送信をキャンセル
             }
         }
