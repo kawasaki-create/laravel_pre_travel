@@ -44,7 +44,7 @@ class HomeController extends Controller
         $userId = Auth::id();
         $tweets = Tweet::where('user_id', $userId)
         ->get();
-    
+
         return view('home',[
             'hello' => $hello,
             'nya' => $nya,
@@ -57,7 +57,7 @@ class HomeController extends Controller
     {
         $tweet = new Tweet;
         $tweet->tweet = $request->input('tweet');
-        $tweet->user_id = auth()->user()->id; 
+        $tweet->user_id = auth()->user()->id;
         $tweet->save();
 
         // 保存後のリダイレクトなどの処理を行う
@@ -73,6 +73,22 @@ class HomeController extends Controller
 
         // 削除後のリダイレクトなどの処理を行う
         return redirect('/home')->with('success', 'つぶやきを削除しました！');
+    }
+
+    public function allTweet()
+    {
+        $userId = Auth::id();
+        $tweets = Tweet::where('user_id', $userId)
+        ->get()
+        ->map(function ($tweet) {
+            $formatted_updated = Carbon::parse($tweet->updated_at)->format('Y-m-d');
+            $tweet->updated_at = $formatted_updated;
+            return $tweet;
+        });
+
+        return view('all_tweet',[
+            'tweets' => $tweets,
+        ]);
     }
 
 }

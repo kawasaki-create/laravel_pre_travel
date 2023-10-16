@@ -28,3 +28,4 @@ Route::post('/tweets/delete', [App\Http\Controllers\HomeController::class, 'twee
 Route::get('/schedule/all_plan', [App\Http\Controllers\ScheduleController::class, 'allPlan']);
 Route::get('/schedule/edit/{id}', [App\Http\Controllers\ScheduleController::class, 'edit'])->name('schedule.edit');
 Route::get('/schedule/delete/{id}', [App\Http\Controllers\ScheduleController::class, 'delete'])->name('schedule.delete');
+Route::get('/home/all_tweet', [App\Http\Controllers\HomeController::class, 'allTweet']);
