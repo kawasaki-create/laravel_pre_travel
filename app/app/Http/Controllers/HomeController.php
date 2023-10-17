@@ -75,6 +75,17 @@ class HomeController extends Controller
         return redirect('/home')->with('success', 'つぶやきを削除しました！');
     }
 
+    public function allTweetDelete(Request $request)
+    {
+        $selectedTweets = $request->input('tweets');
+        if (!empty($selectedTweets)) {
+            Tweet::whereIn('id', $selectedTweets)->delete();
+        }
+
+        // 削除後のリダイレクトなどの処理を行う
+        return redirect('/home/all_tweet')->with('success', 'つぶやきを削除しました！');
+    }
+
     public function allTweet()
     {
         $userId = Auth::id();
