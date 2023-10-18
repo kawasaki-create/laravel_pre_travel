@@ -6,6 +6,7 @@ var charCount = document.getElementById('charCount');
 var deleteButton = document.getElementById('tweetDeleteButton');
 var tweetButton = document.getElementById('tweetButton');
 var planDeleteButton = document.getElementById('planDeleteButton');
+var editButtons = document.getElementsByClassName('editButton');
 
 var txtLength = 0;
 
@@ -54,4 +55,18 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault(); // フォームの送信をキャンセル
         }
     }
+
 });
+
+// NodeList の各要素に対してイベントリスナーを設定
+Array.from(editButtons).forEach(function(button) {
+    button.addEventListener('click', showPopup);
+});
+
+
+// ポップアップを表示する関数を定義します
+function showPopup() {
+    // ポップアップの内容やスタイルを設定します
+    var popupContent = "これはポップアップです。";
+    alert(popupContent); // 例としてアラートを表示しますが、実際のポップアップに置き換えることができます
+}
