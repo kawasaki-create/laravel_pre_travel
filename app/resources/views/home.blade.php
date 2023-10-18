@@ -50,7 +50,7 @@
                         </div>
                     @endif
 
-                    <p>ようこそ、{{Auth::user()->email;}}さん！</p>
+                    <p>ようこそ、{{Auth::user()->name;}}さん！</p>
                     <input type="button" class="btn btn-secondary" onclick="location.href='/schedule'" value="スケジュール作成">
                 </div>
             </div>
@@ -91,7 +91,6 @@
                                     <p>予算: {{ $travelPlan->budget }}円</p>
                                 @endif
                             @endif
-                            <br>
                         @endforeach
                     </div>
                 </div>
@@ -113,7 +112,7 @@
                 <div class="card">
                     <form action="{{ route('tweets.delete') }}" method="POST">
                         @csrf
-                        <div class="card-header">今回の旅行中のつぶやき表示 <span style="color:red; font-size:10px;">※旅行中のつぶやきのみ表示</span></div>
+                        <div class="card-header">つぶやき表示 <span style="color:red; font-size:10px;">※旅行中限定</span></div>
                         <div class="card-body">
                         @foreach ($travelPlans as $travelPlan)
                             @foreach ($tweets as $tweet)

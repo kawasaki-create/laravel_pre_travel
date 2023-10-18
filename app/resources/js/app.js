@@ -50,6 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function planDeleteValid(){
-        alert('旅行を削除しますか？(この動作はもどせません)');
+        if(!confirm("旅行を削除しますか？(この動作はもどせません)")){
+            event.preventDefault(); // フォームの送信をキャンセル
+        }
     }
 });
