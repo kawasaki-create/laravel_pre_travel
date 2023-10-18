@@ -122,8 +122,9 @@
                                     @endphp
                                     <input type="checkbox" name="tweets[]" value="{{ $tweet->id }}">
                                     <span>{{ $tweet->tweet }}</span><br>
-                                    <span style="font-size :10px; color: gray;">{{ $tweet->created_at }}</span><br>
-                                    <br>
+                                    <span style="font-size :10px; color: gray;">{{ $tweet->created_at }}</span>
+                                    <button type="text" id="editButton">編集</button>
+                                    <br><br>
                                 @endif
                             @endforeach
                         @endforeach
