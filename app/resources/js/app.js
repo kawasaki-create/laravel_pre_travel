@@ -2,6 +2,7 @@ import './bootstrap';
 
 // textarea要素と文字数表示用の要素を取得します
 var textarea = document.getElementById('myTextarea');
+var myTweetEdit = document.getElementById('myTweetEdit');
 var charCount = document.getElementById('charCount');
 var deleteButton = document.getElementById('tweetDeleteButton');
 var tweetButton = document.getElementById('tweetButton');
@@ -18,6 +19,18 @@ textarea.addEventListener('input', function() {
 
   // 最大文字数を取得します
   var maxLength = parseInt(textarea.getAttribute('maxlength'));
+
+  // 文字数表示用のテキストを更新します
+  charCount.textContent = currentLength + '/' + maxLength;
+});
+
+myTweetEdit.addEventListener('input', function() {
+    // 入力された文字数を取得します
+    var currentLength = myTweetEdit.value.length;
+    txtLength = currentLength;
+
+  // 最大文字数を取得します
+  var maxLength = parseInt(myTweetEdit.getAttribute('maxlength'));
 
   // 文字数表示用のテキストを更新します
   charCount.textContent = currentLength + '/' + maxLength;
@@ -63,10 +76,25 @@ Array.from(editButtons).forEach(function(button) {
     button.addEventListener('click', showPopup);
 });
 
+const modal = document.getElementById('easyModal');
+const buttonClose = document.getElementsByClassName('modalClose')[0];
 
 // ポップアップを表示する関数を定義します
 function showPopup() {
     // ポップアップの内容やスタイルを設定します
-    var popupContent = "これはポップアップです。";
-    alert(popupContent); // 例としてアラートを表示しますが、実際のポップアップに置き換えることができます
+    modal.style.display = 'block';
+}
+
+// バツ印がクリックされた時
+buttonClose.addEventListener('click', modalClose);
+function modalClose() {
+    modal.style.display = 'none';
+}
+
+// モーダルコンテンツ以外がクリックされた時
+addEventListener('click', outsideClose);
+function outsideClose(e) {
+    if (e.target == modal) {
+        modal.style.display = 'none';
+    }
 }

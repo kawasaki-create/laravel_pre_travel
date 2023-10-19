@@ -121,9 +121,21 @@
                                         $displayCard = true;
                                     @endphp
                                     <input type="checkbox" name="tweets[]" value="{{ $tweet->id }}">
-                                    <span>{{ $tweet->tweet }}</span><br>
-                                    <span style="font-size :10px; color: gray;">{{ $tweet->created_at }}</span>
-                                    <button type="button" class="editButton">編集</button>
+                                    <span name="{{ $tweet->id }}">{{ $tweet->tweet }}</span><br>
+                                    <span style="font-size :10px; color: gray;">{{ $tweet->updated_at }}</span>
+                                    <button type="button" class="editButton" id="modalOpen">編集</button>
+                                    <div id="easyModal" class="modal">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1>つぶやき編集🐦</h1>
+                                                <span class="modalClose">×</span>
+                                            </div>
+                                            <div class="modal-body">
+                                                <textarea id="myTweetEdit" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
+                                                <a href="/home/editedtweet/register/{{ $tweet->id }}" class="btn">保存</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <br><br>
                                 @endif
                             @endforeach
