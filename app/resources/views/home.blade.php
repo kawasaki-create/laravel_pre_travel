@@ -133,6 +133,7 @@
                                             <div class="modal-body">
                                                 <textarea id="myTweetEdit" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
                                                 <a href="/home/editedtweet/register/" class="btn editSaveBtn">保存</a>
+                                                <span class="tweet-id"></span>
                                             </div>
                                         </div>
                                     </div>

@@ -115,13 +115,12 @@ class ScheduleController extends Controller
         foreach ($period as $date) {
             $dateCount ++;
         }
-        $dateCount = (string)$dateCountString;
 
         return view('schedule_detail', [
             'travelPlan' => $travelPlan,
             'formatted_start' => $formatted_start,
             'formatted_end' => $formatted_end,
-            'dateCount' -> $dateCountString
+            'dateCount' => $dateCount
         ]);
     }
 

@@ -14,6 +14,7 @@
                 <a href="/home">←ホーム画面に戻る</a>　　　
                 <span>旅行名：{{ $travelPlan->trip_title }}</span><br>
                 <span>期間：{{ $formatted_start }}〜{{ $formatted_end }}</span>
+                <p>{{ $dateCount }}日間</p>
                 <br><br>
             </div>
             <div class="edit">

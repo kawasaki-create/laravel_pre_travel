@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // NodeList の各要素に対してイベントリスナーを設定
 Array.from(editButtons).forEach(function(button) {
     button.addEventListener('click', function(e) {
+        e.preventDefault(); // ページのリロードを防ぐ
         var clickedButton = e.target;
         showPopup(clickedButton); // ボタンがクリックされたときに showPopup 関数を呼び出す
     });
@@ -94,10 +95,14 @@ function showPopup(button) {
      // 保存ボタンのリンクに tweetId を追加する
     var saveButton = modal.querySelector('.editSaveBtn');
     // 保存ボタンをクリックしたときの処理
-    saveButton.addEventListener('click', function() {
+    console.log("到達している");
+    console.log(saveButton);
+
+    saveButton.addEventListener('mouseover', function() {
+        console.log("クリックした");
         var tweetContent = document.getElementById('myTweetEdit').value;
         var tweetId = button.getAttribute('data-tweet-id');
-        window.location.href = "/home/editedtweet/register/" + tweetId + "?tweetContent=" + encodeURIComponent(tweetContent);
+        window.location.href = "/home/editedtweet/register/" + tweetId + "?tweetContent=" + decodeURIComponent(tweetContent);
     });
 }
 

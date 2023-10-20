@@ -102,20 +102,22 @@ class HomeController extends Controller
         ]);
     }
 
-    public function renewTweet(Request $request)
+    public function renewTweet()
     {
-        dd($request);exit;
-
         $url = $_SERVER['REQUEST_URI'];
-        $id = ltrim(strrchr("$url", "/"), '/');
+        $cid = ltrim(strrchr("$url", "/"), '/');
+        $id = mb_substr( $cid , 0 , mb_strpos($cid, "?tweetContent=") );
+
+        $encodeNewTweet = ltrim(strrchr("$url", "="), '=');
+        $newTweet = urldecode($encodeNewTweet);
 
         $tweet = Tweet::find($id);
-        $tweet->tweet = $request->input('tweet');
+        $tweet->tweet = $newTweet;
         $tweet->user_id = auth()->user()->id;
         $tweet->save();
 
         // 保存後のリダイレクトなどの処理を行う
-        return redirect()->back()->with('success', 'つぶやきを保存しました！');
+        return redirect()->back()->with('success', 'つぶやきを更新しました！');
     }
 
 }
