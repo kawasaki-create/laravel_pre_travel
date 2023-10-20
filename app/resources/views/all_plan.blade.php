@@ -18,7 +18,7 @@
         <div class="card-header">
             旅行概要　
             <a href="{{ route('schedule.edit', ['id' => $travelPlan->id]) }}" class="btn btn-primary">編集</a>
-            <a href="" class="btn btn-secondary">旅行詳細設定</a>
+            <a href="{{ route('schedule.detail', ['id' => $travelPlan->id]) }}" class="btn btn-secondary">旅行詳細設定</a>
             <form action="{{ route('schedule.delete', ['id' => $travelPlan->id]) }}" method="GET" style="display:inline;" onsubmit="return confirm('旅行を削除しますか？(この動作は取り消せません)');">
                 @csrf
                 @method('DELETE')
