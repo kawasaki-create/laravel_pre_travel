@@ -49,7 +49,7 @@ class HomeController extends Controller
             'hello' => $hello,
             'nya' => $nya,
             'travelPlans' => $travelPlans,
-            'tweets' => $tweets
+            'tweets' => $tweets,
         ]);
     }
 
@@ -114,10 +114,13 @@ class HomeController extends Controller
         $tweet = Tweet::find($id);
         $tweet->tweet = $newTweet;
         $tweet->user_id = auth()->user()->id;
+        $tweet->editFlg = 1;
         $tweet->save();
 
         // 保存後のリダイレクトなどの処理を行う
-        return redirect()->back()->with('success', 'つぶやきを更新しました！');
+        return redirect()->back()->with([
+            'success'=> 'つぶやきを更新しました！',
+        ]);
     }
 
 }

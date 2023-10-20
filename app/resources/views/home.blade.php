@@ -121,7 +121,11 @@
                                         $displayCard = true;
                                     @endphp
                                     <input type="checkbox" name="tweets[]" value="{{ $tweet->id }}">
-                                    <span name="{{ $tweet->id }}">{{ $tweet->tweet }}</span><br>
+                                    <span name="{{ $tweet->id }}">{{ $tweet->tweet }}
+                                        @if($tweet->editFlg == 1)
+                                            <span name="edited" style="color:gray; font-size: 10px;">(編集済み)</span>
+                                        @endif
+                                    </span><br>
                                     <span style="font-size :10px; color: gray;">{{ $tweet->updated_at }}</span>
                                     <button type="button" class="editButton" id="modalOpen" data-tweet-id="{{ $tweet->id }}">編集</button>
                                     <div id="easyModal" class="modal">
