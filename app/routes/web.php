@@ -30,3 +30,4 @@ Route::get('/schedule/edit/{id}', [App\Http\Controllers\ScheduleController::clas
 Route::get('/schedule/delete/{id}', [App\Http\Controllers\ScheduleController::class, 'delete'])->name('schedule.delete');
 Route::get('/home/all_tweet', [App\Http\Controllers\HomeController::class, 'allTweet']);
 Route::post('/home/all_tweet/delete', [App\Http\Controllers\HomeController::class, 'allTweetDelete'])->name('allTweets.delete');
+Route::get('/home/editedtweet/register/{id}', [App\Http\Controllers\HomeController::class, 'renewTweet']);

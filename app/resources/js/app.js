@@ -73,16 +73,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // NodeList の各要素に対してイベントリスナーを設定
 Array.from(editButtons).forEach(function(button) {
-    button.addEventListener('click', showPopup);
+    button.addEventListener('click', function(e) {
+        var clickedButton = e.target;
+        showPopup(clickedButton); // ボタンがクリックされたときに showPopup 関数を呼び出す
+    });
 });
 
 const modal = document.getElementById('easyModal');
 const buttonClose = document.getElementsByClassName('modalClose')[0];
 
 // ポップアップを表示する関数を定義します
-function showPopup() {
+function showPopup(button) {
     // ポップアップの内容やスタイルを設定します
     modal.style.display = 'block';
+    var tweetId = button.getAttribute('data-tweet-id');
+    var tweetIdSpan = modal.querySelector('.tweet-id'); // モーダル内の適切な場所を指定
+    // モーダル内の特定の場所にtweetIdを表示する
+    tweetIdSpan.textContent = tweetId;
+
+     // 保存ボタンのリンクに tweetId を追加する
+    var saveButton = modal.querySelector('.editSaveBtn');
+    // 保存ボタンをクリックしたときの処理
+    saveButton.addEventListener('click', function() {
+        var tweetContent = document.getElementById('myTweetEdit').value;
+        var tweetId = button.getAttribute('data-tweet-id');
+        window.location.href = "/home/editedtweet/register/" + tweetId + "?tweetContent=" + encodeURIComponent(tweetContent);
+    });
 }
 
 // バツ印がクリックされた時
