@@ -95,11 +95,8 @@ function showPopup(button) {
      // 保存ボタンのリンクに tweetId を追加する
     var saveButton = modal.querySelector('.editSaveBtn');
     // 保存ボタンをクリックしたときの処理
-    console.log("到達している");
-    console.log(saveButton);
 
     saveButton.addEventListener('mouseover', function() {
-        console.log("クリックした");
         var tweetContent = document.getElementById('myTweetEdit').value;
         var tweetId = button.getAttribute('data-tweet-id');
         window.location.href = "/home/editedtweet/register/" + tweetId + "?tweetContent=" + decodeURIComponent(tweetContent);

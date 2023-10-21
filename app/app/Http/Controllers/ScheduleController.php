@@ -115,12 +115,30 @@ class ScheduleController extends Controller
         foreach ($period as $date) {
             $dateCount ++;
         }
+        
+        $start = new DateTime($formatted_start);
+        $end = new DateTime($formatted_end);
+
+        $interval = new DateInterval('P1D'); // 1日ごとに増加
+        $period = new DatePeriod($start, $interval, $end->modify('+1 day'));
+        $displayDays = []; // 日付を格納する配列
+        foreach ($period as $date) {
+            $displayDays[] = $date->format('Y-m-d'); // 日付を配列に追加
+        }
+
+        $today = new DateTime();
+        foreach ($displayDays as $date) {
+            // 現在の日付と配列内の日付が一致する場合は表示フラグをtrueにする
+            $displayFlags[$date] = $today->format('Y-m-d') === $date;
+        }
 
         return view('schedule_detail', [
             'travelPlan' => $travelPlan,
             'formatted_start' => $formatted_start,
             'formatted_end' => $formatted_end,
-            'dateCount' => $dateCount
+            'dateCount' => $dateCount,
+            'displayDays' => $displayDays,
+            'displayFlags' => $displayFlags
         ]);
     }
 

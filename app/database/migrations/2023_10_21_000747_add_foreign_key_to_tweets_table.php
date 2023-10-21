@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('tweets', function (Blueprint $table) {
-            $table->dropColumn('budget');
+            $table->unsignedBigInteger('travel_plan_id');
+            $table->foreign('travel_plan_id')->references('id')->on('travel_plans');
         });
     }
 
@@ -26,7 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('tweets', function (Blueprint $table) {
-            //
+            $table->dropForeign(['travel_plan_id']);
+            $table->dropColumn('travel_plan_id');
         });
     }
 };

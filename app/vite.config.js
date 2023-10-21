@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/allTweetDelete.js',
                 'resources/js/scheduleDelete.js',
+                'resources/js/scheduleDetail.js',
                 'resources/css/app.css', //これを追加
             ],
             refresh: true,
