@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\TravelPlan;
+use App\Models\TravelDetail;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
@@ -142,4 +143,45 @@ class ScheduleController extends Controller
         ]);
     }
 
+    public function detailNew(Request $request)
+    {
+        $travelPlanId = $request->travel_plan_id;
+        $travelDate = $request->travelDate;
+        $travelPlan = TravelPlan::find($travelPlanId);
+        // $travelDetail = new TravelDetail;
+        // $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+        // $travelDetail->date = $request->input('travelDate');
+        // $travelDetail->contents = $request->input('contents');
+        // $travelDetail->kubun = $request->input('kubun');
+        // $travelDetail->price = $request->input('price');
+        // $travelDetail->time = $request->input('time');
+        // $travel_plan->save();
+
+        return view('travel_detail_new',[
+            'travelPlanId' => $travelPlanId,
+            'travelDate' => $travelDate,
+            'travelPlan' => $travelPlan
+        ]);
+    }
+
+    public function detailEdit(Request $request)
+    {
+        $travelPlanId = $request->travel_plan_id;
+        $travelDate = $request->travelDate;
+        $travelPlan = TravelPlan::find($travelPlanId);
+        // $travelDetail = new TravelDetail;
+        // $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+        // $travelDetail->date = $request->input('travelDate');
+        // $travelDetail->contents = $request->input('contents');
+        // $travelDetail->kubun = $request->input('kubun');
+        // $travelDetail->price = $request->input('price');
+        // $travelDetail->time = $request->input('time');
+        // $travel_plan->save();
+
+        return view('travel_detail_edit',[
+            'travelPlanId' => $travelPlanId,
+            'travelDate' => $travelDate,
+            'travelPlan' => $travelPlan
+        ]);
+    }
 }

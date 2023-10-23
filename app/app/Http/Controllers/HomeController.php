@@ -45,11 +45,25 @@ class HomeController extends Controller
         $tweets = Tweet::where('user_id', $userId)
         ->get();
 
+        $tripCnt = 0;
+        $duplicatedIdList = [];
+        $duplicatedTitleList = [];
+        foreach($travelPlans as $travelPlan) {
+            if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end) {
+                $tripCnt++;
+                $duplicatedIdList[] = $travelPlan->id;
+                $duplicatedTitleList[] = $travelPlan->trip_title;
+            }
+        }
+
         return view('home',[
             'hello' => $hello,
             'nya' => $nya,
             'travelPlans' => $travelPlans,
             'tweets' => $tweets,
+            'tripCnt' => $tripCnt,
+            'duplicatedIdList' => $duplicatedIdList,
+            'duplicatedTitleList' => $duplicatedTitleList
         ]);
     }
 
@@ -58,6 +72,7 @@ class HomeController extends Controller
         $tweet = new Tweet;
         $tweet->tweet = $request->input('tweet');
         $tweet->user_id = auth()->user()->id;
+        $tweet->travel_plan_id = $request->input('duplicatedTravel');
         $tweet->save();
 
         // 保存後のリダイレクトなどの処理を行う

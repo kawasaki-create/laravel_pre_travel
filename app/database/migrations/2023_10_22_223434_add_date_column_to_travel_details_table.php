@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('tweets', function (Blueprint $table) {
-            $table->dropColumn('budget');
+        Schema::table('travel_details', function (Blueprint $table) {
+            $table->date('date')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('tweets', function (Blueprint $table) {
-            //
+        Schema::table('travel_details', function (Blueprint $table) {
+            $table->dropColumn('date');
         });
     }
 };

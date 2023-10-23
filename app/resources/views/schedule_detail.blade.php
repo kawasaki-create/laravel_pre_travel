@@ -19,10 +19,23 @@
                 <br><br>
                 @for($i = 0; $i < $dateCount; $i ++)
                     <a href="" class="date" id="date{{$i}}">{{ $displayDays[$i] }}<span style="font-size: 10px; color: gray;" id="dateText{{$i}}">{{ $displayFlags[$displayDays[$i]] ? '(クリックで閉じる)' : '(クリックで表示)' }}</span></a>
-                    <span name="clickInline" style="display: {{ $displayFlags[$displayDays[$i]] ? '' : 'none' }};"><br><br></span>
-                    <div class="d-grid text-right">
-                        <button class="btn btn-outline-primary" type="button" name="newEdit" style="display: {{ $displayFlags[$displayDays[$i]] ? '' : 'none' }};">予定追加・編集</button>
-                    </div>
+                    <span name="clickInline" style="display: {{ $displayFlags[$displayDays[$i]] ? '' : 'none' }};"><br><br></span>     
+                        <form action="{{ route('schedule.detailNew', ['travel_plan_id' => $travelPlan->id, 'date' => $displayDays[$i]]) }}" method="POST">
+                            @csrf
+                            <div class="d-grid gap-2 d-md-block">
+                                <button class="btn btn-outline-primary" name="newDetail" style="display: {{ $displayFlags[$displayDays[$i]] ? 'inline' : 'none' }};">予定追加</button>　
+                            </div>
+                            <textarea type="text" name="travel_plan_id" hidden>{{ $travelPlan->id }}</textarea>
+                            <textarea type="text" name="travelDate" hidden>{{ $displayDays[$i] }}</textarea>
+                        </form>
+                        <form action="{{ route('schedule.detailEdit', ['travel_plan_id' => $travelPlan->id, 'date' => $displayDays[$i]]) }}" method="POST">
+                            @csrf
+                            <div class="d-grid gap-2 d-md-block">
+                                <button class="btn btn-outline-secondary" name="editDetail" style="display: {{ $displayFlags[$displayDays[$i]] ? 'inline' : 'none' }};">予定編集</button>
+                            </div>
+                            <textarea type="text" name="travel_plan_id" hidden>{{ $travelPlan->id }}</textarea>
+                            <textarea type="text" name="travelDate" hidden>{{ $displayDays[$i] }}</textarea>
+                        </form>
                     <span>　</span>
                     <table name="expense" class="table table-bordered table-striped table-responsive" style="display: {{ $displayFlags[$displayDays[$i]] ? 'table' : 'none' }};">
                         <thead>
@@ -40,6 +53,41 @@
                             </tr>
                             <tr>
                                 <td>昼食</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>夕食</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>間食</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>交通費</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>宿泊費</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>お土産</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>レジャー</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>その他雑費</td>
                                 <td></td>
                                 <td></td>
                             </tr>

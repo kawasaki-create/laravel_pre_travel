@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('tweets', function (Blueprint $table) {
-            $table->unsignedBigInteger('travel_plan_id');
+            $table->unsignedBigInteger('travel_plan_id')->nullable();
             $table->foreign('travel_plan_id')->references('id')->on('travel_plans');
         });
     }

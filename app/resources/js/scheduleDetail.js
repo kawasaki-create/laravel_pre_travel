@@ -7,7 +7,8 @@ import './bootstrap';
             event.preventDefault(); // リンクのクリックイベントを無効化
             var expenseTable = document.querySelectorAll('[name="expense"]')[index];
             var todoTable = document.querySelectorAll('[name="todo"]')[index];
-            var newEditButton = document.querySelectorAll('[name="newEdit"]')[index];
+            var newDetailButton = document.querySelectorAll('[name="newDetail"]')[index];
+            var editDetailButton = document.querySelectorAll('[name="editDetail"]')[index];
             var clickInline = document.querySelectorAll('[name="clickInline"]')[index];
             var dateText = document.getElementById('dateText' + [index]);
 
@@ -17,13 +18,15 @@ import './bootstrap';
             if (expenseTable.style.display === 'none' || expenseTable.style.display === '') {
                 expenseTable.style.display = 'table';
                 todoTable.style.display = 'table';
-                newEditButton.style.display = '';
+                newDetailButton.style.display = 'inline';
+                editDetailButton.style.display = 'inline';
                 clickInline.style.display = '';
                 dateText.innerText = "(クリックで閉じる)"
             } else {
                 expenseTable.style.display = 'none';
                 todoTable.style.display = 'none';
-                newEditButton.style.display = 'none';
+                newDetailButton.style.display = 'none';
+                editDetailButton.style.display = 'none';
                 clickInline.style.display = 'none';
                 dateText.innerText = "(クリックで表示)"
             }

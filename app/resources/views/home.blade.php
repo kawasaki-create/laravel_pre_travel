@@ -59,7 +59,7 @@
                 $displayCard = false;
             @endphp
             @foreach ($travelPlans as $travelPlan)
-                @if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end)
+                @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s') <= $travelPlan->trip_end)
                     @php
                         $displayCard = true;
                     @endphp
@@ -73,7 +73,12 @@
                             @csrf
                             <textarea id="myTextarea" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
                             <div id="charCount"></div>
-                            <button type="submit" class="btn btn-primary" id="tweetButton">投稿</button>
+                            <button type="submit" class="btn btn-primary" id="tweetButton">投稿</button>　
+                            <select name="duplicatedTravel" id="duplicatedTravel" {{ $tripCnt >= 2 ? '' : 'hidden' }}>
+                            @for($i = 0; $i < $tripCnt; $i++)
+                                <option value="{{ $duplicatedIdList[$i] }}">{{ $duplicatedTitleList[$i] }}</option>
+                            @endfor
+                            </select>
                         </form>
                     </div>
                 </div>
@@ -82,7 +87,10 @@
                     <div class="card-header">旅行概要 <span style="color:red; font-size:10px;">※旅行中のみ表示</span></div>
                     <div class="card-body">
                         @foreach ($travelPlans as $travelPlan)
-                            @if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end)
+                            @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s') <= $travelPlan->trip_end)
+                                @if($loop->iteration > 7)
+                                    <span name="clickInline" style="display: {{ $tripCnt >= 2 ? '' : 'none' }};"><br></span>
+                                @endif
                                 <p>旅行名: {{ $travelPlan->trip_title }}</p>
                                 <p>期間: {{ $travelPlan->trip_start }} 〜 {{ $travelPlan->trip_end }}</p>
                                 <p>出発時刻: {{ $travelPlan->departure_time }}</p>
@@ -116,7 +124,7 @@
                         <div class="card-body">
                         @foreach ($travelPlans as $travelPlan)
                             @foreach ($tweets as $tweet)
-                                @if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end && $tweet->created_at < $travelPlan->trip_end && $travelPlan->trip_start < $tweet->created_at)
+                                @if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end && $tweet->created_at < $travelPlan->trip_end && $travelPlan->trip_start < $tweet->created_at && $travelPlan->id == $tweet->travel_plan_id)
                                     @php
                                         $displayCard = true;
                                     @endphp
@@ -137,7 +145,6 @@
                                             <div class="modal-body">
                                                 <textarea id="myTweetEdit" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
                                                 <a href="/home/editedtweet/register/" class="btn editSaveBtn">保存</a>
-                                                <span class="tweet-id"></span>
                                             </div>
                                         </div>
                                     </div>
