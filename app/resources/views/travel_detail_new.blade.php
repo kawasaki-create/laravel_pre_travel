@@ -23,6 +23,7 @@
                     <span>{{ $travelDate }}</span><br><br>
                     <a href="#" class="expense">食事・費用を入力する</a><br><br>
                     <form action="{{ route('schedule.detailNR') }}" method="POST">
+                        @csrf
                         <div name="expenses" style="display: none;">
                             <div name="morning">
                                 <span>朝食：</span>
@@ -76,16 +77,18 @@
                     </form>
                     <a href="#" class="todo">予定を入力する</a><br>
                     <form action="{{ route('schedule.detailNR') }}" method="POST">
-                        <div class="times" style="display: none;">
+                        @csrf
+                        <div name="times" style="display: none;">
                             <button type="button" name="add" class="btn btn-outline-success btn-sm">＋</button>
                             <button type="button" name="delete" class="btn btn-outline-danger btn-sm">－</button><br><br>
                                 <div id="timeContainer" class="time">
                                     <span name="num">1：</span>
-                                    <input type="time" name="time-from-1" style="width: 62px;">〜
-                                    <input type="time" name="time-to-1" style="width: 62px;">　
-                                    <input type="text" name="going-1" size="15">
+                                    <input type="time" name="time-from-1" style="width: 72px;">〜
+                                    <input type="time" name="time-to-1" style="width: 72px;">　
+                                    <input type="text" name="going-1" style="width: 34%;">
                                 </div>
-                            <button name="todo-register">登録</button>
+                            <button name="todo-register" class="btn btn-primary">登録</button>
+                            <span id="timeCnt" name="timeCnt" hidden>1</span>
                             <textarea type="text" name="travel_plan_id" hidden>{{ $travelPlanId }}</textarea>
                             <textarea type="text" name="travelDate" hidden>{{ $travelDate }}</textarea>
                         </div>

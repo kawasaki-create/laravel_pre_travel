@@ -188,15 +188,28 @@ class ScheduleController extends Controller
     public function detailNR(Request $request)
     {
         $travelDetail = new TravelDetail;
+        $timeCnt = $request->input('timeCnt');
 
-        if($request->input('contents1')) $travelDetail->kubun = 1;
+        if($request->input('contents1') !== '') {
+            $travelDetail->kubun = 1;
+            $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+            $travelDetail->date = $request->input('travelDate');
+            $travelDetail->contents = $request->input('contents1');
+            $travelDetail->price = $request->input('price1');
+            $travelDetail->save();
+        }
 
-        $travelDetail->travel_plan_id = $request->input('travel_plan_id');
-        $travelDetail->date = $request->input('travelDate');
-        $travelDetail->contents = $request->input('contents');
-        $travelDetail->kubun = $request->input('kubun');
-        $travelDetail->price = $request->input('price');
-        $travelDetail->time = $request->input('time');
-        $travelDetail->save();
+        if($request->input('going-1') !== '') {
+            for($i = 0; $i <= $timeCnt; $i ++){
+                $travelDetail->kubun = 9;
+                $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+                $travelDetail->date = $request->input('travelDate');
+                $travelDetail->contents = $request->input('going-' . strval($i + 1));
+                $travelDetail->time_from = $travelDetail->date .' '. $request->input('time-from-' . strval($i + 1)) . ':' . '00';
+                $travelDetail->time_to = $travelDetail->date .' '. $request->input('time-to-' . strval($i + 1)) . ':' . '00';
+                $travelDetail->save();
+            }
+        }
+        return redirect('/schedule/all_plan')->with('success', '旅行の詳細を追加しました！');
     }
 }

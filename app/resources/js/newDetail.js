@@ -14,6 +14,8 @@ import './bootstrap';
     var deleteButton  = document.querySelector('[name="delete"]');
     var timeContainer = document.getElementById('timeContainer');
 
+    var timeCnt = document.getElementById('timeCnt');
+
     var num = 1; // 初期のnum値
     // リンクがクリックされたときの処理
     expenseLink.addEventListener('click', function(event) {
@@ -47,6 +49,8 @@ import './bootstrap';
 
         // numをインクリメント
         num++;
+
+        timeCnt.innerText = num;
     });
 
     deleteButton.addEventListener('click', function() {
@@ -57,6 +61,8 @@ import './bootstrap';
             // 最後に追加した時間入力フィールドを削除
             var lastTimeDiv = timeContainer.lastElementChild;
             timeContainer.removeChild(lastTimeDiv);
+            
+            timeCnt.innerText = num;
         }
     });
 
@@ -74,24 +80,25 @@ import './bootstrap';
         var input1 = document.createElement('input');
         input1.type = 'time';
         input1.name = 'time-from' + '-' + num;
-        input1.style.width = '62px';
+        input1.style.width = '72px';
 
         var input2 = document.createElement('input');
         input2.type = 'time';
         input2.name = 'time-to' + '-' + num;
-        input2.style.width = '62px';
+        input2.style.width = '72px';
 
         var input3 = document.createElement('input');
         input3.type = 'text';
         input3.name = 'going' + '-' + num;
-        input3.size = 15;
+        input3.style.width = '35%';
 
         // 新しい要素を追加
         newTimeDiv.appendChild(input1);
         newTimeDiv.appendChild(document.createTextNode('～ '));
         newTimeDiv.appendChild(input2);
-        newTimeDiv.appendChild(document.createTextNode('　　'));
+        newTimeDiv.appendChild(document.createTextNode('　'));
         newTimeDiv.appendChild(input3);
+
 
         return newTimeDiv;
     }
