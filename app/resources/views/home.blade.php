@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<script src="{{ asset('resources/js/app.js') }}"></script>
+@vite(['resources/js/app.js'])
 <link rel="stylesheet" src="{{ asset('resources/css/app.css') }}">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -144,7 +144,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <textarea id="myTweetEdit" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
-                                                <a href="/home/editedtweet/register/" class="btn editSaveBtn">保存</a>
+                                                <a href="#" class="btn editSaveBtn">保存</a>
                                             </div>
                                         </div>
                                     </div>

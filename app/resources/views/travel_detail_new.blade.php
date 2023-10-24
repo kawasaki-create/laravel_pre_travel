@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 @vite(['resources/js/newDetail.js'])
+@vite(['resources/css/newSchedule.css'])
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -21,66 +22,72 @@
                     <span>旅行名：{{ $travelPlan->trip_title }}</span>　
                     <span>{{ $travelDate }}</span><br><br>
                     <a href="#" class="expense">食事・費用を入力する</a><br><br>
-                    <form action="" method="POST">
+                    <form action="{{ route('schedule.detailNR') }}" method="POST">
                         <div name="expenses" style="display: none;">
                             <div name="morning">
                                 <span>朝食：</span>
-                                <input type="text" placeholder="ビュッフェ" name="contents1" size="20">　¥
-                                <input type="number" placeholder="620" style="width: 60px;" name="price1">
+                                <input type="text" placeholder="ビュッフェ" name="contents1" class="expense-text2">　¥
+                                <input type="number" placeholder="620" class="expense-number"  name="price1">
                             </div><br>
                             <div name="lunch">
                                 <span>昼食：</span>
-                                <input type="text" name="contents2">　¥
-                                <input type="number" style="width: 60px;" name="price2">
+                                <input type="text" name="contents2" class="expense-text2">　¥
+                                <input type="number" class="expense-number"  name="price2">
                             </div><br>
                             <div name="dinner">
                                 <span>夕食：</span>
-                                <input type="text" name="contents3">　¥
-                                <input type="number" style="width: 60px;" name="price3">
+                                <input type="text" name="contents3" class="expense-text2">　¥
+                                <input type="number" class="expense-number"  name="price3">
                             </div><br>
                             <div name="snack">
                                 <span>間食：</span>
-                                <input type="text" name="contents4">　¥
-                                <input type="number" style="width: 60px;" name="price4">
+                                <input type="text" name="contents4" class="expense-text2">　¥
+                                <input type="number" class="expense-number"  name="price4">
                             </div><br>
                             <div name="snack">
                                 <span>交通費：</span>
-                                <input type="text" name="contents5" size="18">　¥
-                                <input type="number" style="width: 60px;" name="price5">
+                                <input type="text" name="contents5" class="expense-text3">　¥
+                                <input type="number" class="expense-number"  name="price5">
                             </div><br>
                             <div name="fare">
                                 <span>宿泊費：</span>
-                                <input type="text" name="contents6" size="18">　¥
-                                <input type="number" style="width: 60px;" name="price6">
+                                <input type="text" name="contents6" class="expense-text3">　¥
+                                <input type="number" class="expense-number"  name="price6">
                             </div><br>
                             <div name="souvenir">
                                 <span>お土産：</span>
-                                <input type="text" name="contents7" size="18">　¥
-                                <input type="number" style="width: 60px;" name="price7">
+                                <input type="text" name="contents7" class="expense-text3">　¥
+                                <input type="number" class="expense-number"  name="price7">
                             </div><br>
                             <div name="leisure">
                                 <span>レジャー：</span>
-                                <input type="text" name="contents8" size="16">　¥
-                                <input type="number" style="width: 60px;" name="price8">
+                                <input type="text" name="contents8" class="expense-text4">　¥
+                                <input type="number" class="expense-number"  name="price8">
                             </div><br>
                             <div name="other-expense">
                                 <span>その他雑費：</span>
-                                <input type="text" name="contents9" size="14">　¥
-                                <input type="number" style="width: 60px;" name="price9">
+                                <input type="text" name="contents9" class="expense-text5">　¥
+                                <input type="number" class="expense-number"  name="price9">
                             </div>
                             <button type="submit" name="plan-register" class="btn btn-primary">登録</button>
-                            <input type="hidden" name="plan-id" value="{{ $editUrl }}">
+                            <textarea type="text" name="travel_plan_id" hidden>{{ $travelPlanId }}</textarea>
+                            <textarea type="text" name="travelDate" hidden>{{ $travelDate }}</textarea>
                         </div><br>
                     </form>
                     <a href="#" class="todo">予定を入力する</a><br>
-                    <form action="">
-                        <div class="time">
+                    <form action="{{ route('schedule.detailNR') }}" method="POST">
+                        <div class="times" style="display: none;">
                             <button type="button" name="add" class="btn btn-outline-success btn-sm">＋</button>
-                            <button type="button" name="delete" class="btn btn-outline-danger btn-sm">ー</button><br><br>
-                            <span name="num">12.</span>
-                            <input type="time" name="time-from" style="width: 62px;">〜
-                            <input type="time" name="time-to" style="width: 62px;">　
-                            <input type="text" name="going" size="15">
+                            <button type="button" name="delete" class="btn btn-outline-danger btn-sm">－</button><br><br>
+                                <div id="timeContainer" class="time">
+                                    <span name="num">1：</span>
+                                    <input type="time" name="time-from-1" style="width: 62px;">〜
+                                    <input type="time" name="time-to-1" style="width: 62px;">　
+                                    <input type="text" name="going-1" size="15">
+                                </div>
+                            <button name="todo-register">登録</button>
+                            <textarea type="text" name="travel_plan_id" hidden>{{ $travelPlanId }}</textarea>
+                            <textarea type="text" name="travelDate" hidden>{{ $travelDate }}</textarea>
                         </div>
                     </form>
                 </div>

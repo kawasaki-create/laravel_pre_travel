@@ -34,3 +34,5 @@ Route::get('/home/editedtweet/register/{id}', [App\Http\Controllers\HomeControll
 Route::get('/schedule/detail/{id}', [App\Http\Controllers\ScheduleController::class, 'detail'])->name('schedule.detail');
 Route::post('/schedule/detail/new/{travel_plan_id}/{date}', [App\Http\Controllers\ScheduleController::class, 'detailNew'])->name('schedule.detailNew');
 Route::post('/schedule/detail/edit/{travel_plan_id}/{date}', [App\Http\Controllers\ScheduleController::class, 'detailEdit'])->name('schedule.detailEdit');
+Route::post('/schedule/detail/new/register', [App\Http\Controllers\ScheduleController::class, 'detailNR'])->name('schedule.detailNR');
+Route::post('/schedule/detail/edit/register', [App\Http\Controllers\ScheduleController::class, 'detailER'])->name('schedule.detailER');

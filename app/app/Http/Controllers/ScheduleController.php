@@ -116,7 +116,7 @@ class ScheduleController extends Controller
         foreach ($period as $date) {
             $dateCount ++;
         }
-        
+
         $start = new DateTime($formatted_start);
         $end = new DateTime($formatted_end);
 
@@ -155,7 +155,7 @@ class ScheduleController extends Controller
         // $travelDetail->kubun = $request->input('kubun');
         // $travelDetail->price = $request->input('price');
         // $travelDetail->time = $request->input('time');
-        // $travel_plan->save();
+        // $travelDetail->save();
 
         return view('travel_detail_new',[
             'travelPlanId' => $travelPlanId,
@@ -176,12 +176,27 @@ class ScheduleController extends Controller
         // $travelDetail->kubun = $request->input('kubun');
         // $travelDetail->price = $request->input('price');
         // $travelDetail->time = $request->input('time');
-        // $travel_plan->save();
+        // $travelDetail->save();
 
         return view('travel_detail_edit',[
             'travelPlanId' => $travelPlanId,
             'travelDate' => $travelDate,
             'travelPlan' => $travelPlan
         ]);
+    }
+
+    public function detailNR(Request $request)
+    {
+        $travelDetail = new TravelDetail;
+
+        if($request->input('contents1')) $travelDetail->kubun = 1;
+
+        $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+        $travelDetail->date = $request->input('travelDate');
+        $travelDetail->contents = $request->input('contents');
+        $travelDetail->kubun = $request->input('kubun');
+        $travelDetail->price = $request->input('price');
+        $travelDetail->time = $request->input('time');
+        $travelDetail->save();
     }
 }

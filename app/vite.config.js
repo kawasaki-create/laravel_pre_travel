@@ -12,6 +12,7 @@ export default defineConfig({
                 'resources/js/scheduleDetail.js',
                 'resources/js/newDetail.js',
                 'resources/css/app.css', //これを追加
+                'resources/css/newSchedule.css',
             ],
             refresh: true,
         }),
