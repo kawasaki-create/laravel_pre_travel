@@ -163,25 +163,27 @@
                                 <td></td>
                                 @endif
                             </tr>
-                            <tr>
-                                <td>合計金額</td>
-                                <td></td>
-                                <td>
-                                    @if(
-                                        isset($contents10[$i]) && $displayDays[$i] === $contents10[$i]->date ||
-                                        isset($contents8[$i]) && $displayDays[$i] === $contents8[$i]->date ||
-                                        isset($contents7[$i]) && $displayDays[$i] === $contents7[$i]->date ||
-                                        isset($contents6[$i]) && $displayDays[$i] === $contents6[$i]->date ||
-                                        isset($contents5[$i]) && $displayDays[$i] === $contents5[$i]->date ||
-                                        isset($contents4[$i]) && $displayDays[$i] === $contents4[$i]->date ||
-                                        isset($contents3[$i]) && $displayDays[$i] === $contents3[$i]->date ||
-                                        isset($contents2[$i]) && $displayDays[$i] === $contents2[$i]->date ||
-                                        isset($contents1[$i]) && $displayDays[$i] === $contents1[$i]->date
-                                    )
-                                    ¥{{ $totalPrice }}
-                                    @endif
-                                </td>
-                            </tr>
+                            <tfoot class="table-danger">
+                                <tr>
+                                    <td>合計金額</td>
+                                    <td></td>
+                                    <td>
+                                        @if(
+                                            isset($contents10[$i]) && $displayDays[$i] === $contents10[$i]->date ||
+                                            isset($contents8[$i]) && $displayDays[$i] === $contents8[$i]->date ||
+                                            isset($contents7[$i]) && $displayDays[$i] === $contents7[$i]->date ||
+                                            isset($contents6[$i]) && $displayDays[$i] === $contents6[$i]->date ||
+                                            isset($contents5[$i]) && $displayDays[$i] === $contents5[$i]->date ||
+                                            isset($contents4[$i]) && $displayDays[$i] === $contents4[$i]->date ||
+                                            isset($contents3[$i]) && $displayDays[$i] === $contents3[$i]->date ||
+                                            isset($contents2[$i]) && $displayDays[$i] === $contents2[$i]->date ||
+                                            isset($contents1[$i]) && $displayDays[$i] === $contents1[$i]->date
+                                        )
+                                        ¥{{ $totalPrice }}
+                                        @endif
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </tbody>
                     </table>
                     <table name="todo" class="table table-bordered table-striped table-responsive" style="display: {{ $displayFlags[$displayDays[$i]] ? 'table' : 'none' }};">

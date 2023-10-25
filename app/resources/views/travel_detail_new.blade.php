@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">詳細スケジュール編集</div>
+                <div class="card-header">詳細スケジュール登録</div>
 
                 <div class="card-body">
                     @if (session('status'))

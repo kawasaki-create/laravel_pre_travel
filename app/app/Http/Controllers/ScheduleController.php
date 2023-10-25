@@ -239,19 +239,32 @@ class ScheduleController extends Controller
         $travelPlanId = $request->travel_plan_id;
         $travelDate = $request->travelDate;
         $travelPlan = TravelPlan::find($travelPlanId);
-        // $travelDetail = new TravelDetail;
-        // $travelDetail->travel_plan_id = $request->input('travel_plan_id');
-        // $travelDetail->date = $request->input('travelDate');
-        // $travelDetail->contents = $request->input('contents');
-        // $travelDetail->kubun = $request->input('kubun');
-        // $travelDetail->price = $request->input('price');
-        // $travelDetail->time = $request->input('time');
-        // $travelDetail->save();
+
+        $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->get();
+        $contents2 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 2)->get();
+        $contents3 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 3)->get();
+        $contents4 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 4)->get();
+        $contents5 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 5)->get();
+        $contents6 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 6)->get();
+        $contents7 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 7)->get();
+        $contents8 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 8)->get();
+        $contents9 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->get();
+        $contents10 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 10)->get();
 
         return view('travel_detail_edit',[
             'travelPlanId' => $travelPlanId,
             'travelDate' => $travelDate,
-            'travelPlan' => $travelPlan
+            'travelPlan' => $travelPlan,
+            'contents1' => $contents1,
+            'contents2' => $contents2,
+            'contents3' => $contents3,
+            'contents4' => $contents4,
+            'contents5' => $contents5,
+            'contents6' => $contents6,
+            'contents7' => $contents7,
+            'contents8' => $contents8,
+            'contents9' => $contents9,
+            'contents10' => $contents10,
         ]);
     }
 
