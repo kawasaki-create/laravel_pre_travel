@@ -104,6 +104,47 @@ class ScheduleController extends Controller
         $travelPlan = TravelPlan::find($id);
         $formatted_start = Carbon::parse($travelPlan->trip_start)->format('Y-m-d');
         $formatted_end = Carbon::parse($travelPlan->trip_end)->format('Y-m-d');
+        // dd($travelDetails->where('kubun', 1)->pluck('contents'));
+
+        $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->pluck('contents');
+        $contents2 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 2)->pluck('contents');
+        $contents3 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 3)->pluck('contents');
+        $contents4 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 4)->pluck('contents');
+        $contents5 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 5)->pluck('contents');
+        $contents6 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 6)->pluck('contents');
+        $contents7 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 7)->pluck('contents');
+        $contents8 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 8)->pluck('contents');
+        $contents9 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->pluck('contents');
+        $contents10 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 10)->pluck('contents');
+
+        $price1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->pluck('price');
+        $price2 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 2)->pluck('price');
+        $price3 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 3)->pluck('price');
+        $price4 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 4)->pluck('price');
+        $price5 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 5)->pluck('price');
+        $price6 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 6)->pluck('price');
+        $price7 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 7)->pluck('price');
+        $price8 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 8)->pluck('price');
+        $price9 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->pluck('price');
+        $price10 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 10)->pluck('price');
+
+        $timesCnt = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->count();
+        for($i = 0; $i < $timesCnt; $i++) {
+            $times = TravelDetail::where('travel_plan_id', $id)
+                ->where('kubun', 9)
+                ->orderBy('time_from', 'asc')
+                ->get();
+
+            $timeFrom = $times->pluck('time_from');
+            $timeToe = $times->pluck('time_to');
+            $timeContent = $times->pluck('contents');
+
+            // dd(substr($timeFrom, 13, 5));
+            $timeFroms[] = substr($timeFrom, 13, 5);
+            $timeToes[] = substr($timeToe, 13, 5);
+            $timeContents[] = $timeContent;
+        }
+        dd($timeFroms);
 
         $start = new DateTime($formatted_start);
         $end = new DateTime($formatted_end);
@@ -139,7 +180,33 @@ class ScheduleController extends Controller
             'formatted_end' => $formatted_end,
             'dateCount' => $dateCount,
             'displayDays' => $displayDays,
-            'displayFlags' => $displayFlags
+            'displayFlags' => $displayFlags,
+            // 'detailList' => $detailList,
+            'timesCnt' => $timesCnt,
+            'timeFroms' => $timeFroms,
+            'timeToes' => $timeToes,
+            'timeContents' => $timeContents,
+            // ここからは旅費
+            'contents1' => $contents1,
+            'contents2' => $contents2,
+            'contents3' => $contents3,
+            'contents4' => $contents4,
+            'contents5' => $contents5,
+            'contents6' => $contents6,
+            'contents7' => $contents7,
+            'contents8' => $contents8,
+            'contents9' => $contents9,
+            'contents10' => $contents10,
+            'price1' => $price1,
+            'price2' => $price2,
+            'price3' => $price3,
+            'price4' => $price4,
+            'price5' => $price5,
+            'price6' => $price6,
+            'price7' => $price7,
+            'price8' => $price8,
+            'price9' => $price9,
+            'price10' => $price10,
         ]);
     }
 
@@ -187,27 +254,209 @@ class ScheduleController extends Controller
 
     public function detailNR(Request $request)
     {
-        $travelDetail = new TravelDetail;
         $timeCnt = $request->input('timeCnt');
 
-        if($request->input('contents1') !== '') {
-            $travelDetail->kubun = 1;
-            $travelDetail->travel_plan_id = $request->input('travel_plan_id');
-            $travelDetail->date = $request->input('travelDate');
-            $travelDetail->contents = $request->input('contents1');
-            $travelDetail->price = $request->input('price1');
-            $travelDetail->save();
-        }
+        if($request->input('contents1') !== null) {
+            // 既に存在するデータを検索
+            $existingData = TravelDetail::where('kubun', 1)
+            ->where('travel_plan_id', $request->input('travel_plan_id'))
+            ->where('date', $request->input('travelDate'))
+            ->where('contents', $request->input('contents1'))
+            ->where('price', $request->input('price1'))
+            ->first();
 
-        if($request->input('going-1') !== '') {
-            for($i = 0; $i <= $timeCnt; $i ++){
-                $travelDetail->kubun = 9;
+            if(!$existingData) {
+                $travelDetail = new TravelDetail;
+                $travelDetail->kubun = 1;
                 $travelDetail->travel_plan_id = $request->input('travel_plan_id');
                 $travelDetail->date = $request->input('travelDate');
-                $travelDetail->contents = $request->input('going-' . strval($i + 1));
-                $travelDetail->time_from = $travelDetail->date .' '. $request->input('time-from-' . strval($i + 1)) . ':' . '00';
-                $travelDetail->time_to = $travelDetail->date .' '. $request->input('time-to-' . strval($i + 1)) . ':' . '00';
+                $travelDetail->contents = $request->input('contents1');
+                $travelDetail->price = $request->input('price1');
                 $travelDetail->save();
+            }
+        }
+
+        if($request->input('contents2') !== null) {
+            // 既に存在するデータを検索
+            $existingData = TravelDetail::where('kubun', 2)
+            ->where('travel_plan_id', $request->input('travel_plan_id'))
+            ->where('date', $request->input('travelDate'))
+            ->where('contents', $request->input('contents2'))
+            ->where('price', $request->input('price2'))
+            ->first();
+
+            if(!$existingData) {
+                $travelDetail = new TravelDetail;
+                $travelDetail->kubun = 2;
+                $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+                $travelDetail->date = $request->input('travelDate');
+                $travelDetail->contents = $request->input('contents2');
+                $travelDetail->price = $request->input('price2');
+                $travelDetail->save();
+            }
+        }
+
+        if($request->input('contents3') !== null) {
+            // 既に存在するデータを検索
+            $existingData = TravelDetail::where('kubun', 3)
+            ->where('travel_plan_id', $request->input('travel_plan_id'))
+            ->where('date', $request->input('travelDate'))
+            ->where('contents', $request->input('contents3'))
+            ->where('price', $request->input('price3'))
+            ->first();
+
+            if(!$existingData) {
+                $travelDetail = new TravelDetail;
+                $travelDetail->kubun = 3;
+                $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+                $travelDetail->date = $request->input('travelDate');
+                $travelDetail->contents = $request->input('contents3');
+                $travelDetail->price = $request->input('price3');
+                $travelDetail->save();
+            }
+        }
+
+        if($request->input('contents4') !== null) {
+            // 既に存在するデータを検索
+            $existingData = TravelDetail::where('kubun', 4)
+            ->where('travel_plan_id', $request->input('travel_plan_id'))
+            ->where('date', $request->input('travelDate'))
+            ->where('contents', $request->input('contents4'))
+            ->where('price', $request->input('price4'))
+            ->first();
+
+            if(!$existingData) {
+                $travelDetail = new TravelDetail;
+                $travelDetail->kubun = 4;
+                $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+                $travelDetail->date = $request->input('travelDate');
+                $travelDetail->contents = $request->input('contents4');
+                $travelDetail->price = $request->input('price4');
+                $travelDetail->save();
+            }
+        }
+
+        if($request->input('contents5') !== null) {
+            // 既に存在するデータを検索
+            $existingData = TravelDetail::where('kubun', 5)
+            ->where('travel_plan_id', $request->input('travel_plan_id'))
+            ->where('date', $request->input('travelDate'))
+            ->where('contents', $request->input('contents5'))
+            ->where('price', $request->input('price5'))
+            ->first();
+
+            if(!$existingData) {
+                $travelDetail = new TravelDetail;
+                $travelDetail->kubun = 5;
+                $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+                $travelDetail->date = $request->input('travelDate');
+                $travelDetail->contents = $request->input('contents5');
+                $travelDetail->price = $request->input('price5');
+                $travelDetail->save();
+            }
+        }
+
+        if($request->input('contents6') !== null) {
+            // 既に存在するデータを検索
+            $existingData = TravelDetail::where('kubun', 6)
+            ->where('travel_plan_id', $request->input('travel_plan_id'))
+            ->where('date', $request->input('travelDate'))
+            ->where('contents', $request->input('contents6'))
+            ->where('price', $request->input('price6'))
+            ->first();
+
+            if(!$existingData) {
+                $travelDetail = new TravelDetail;
+                $travelDetail->kubun = 6;
+                $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+                $travelDetail->date = $request->input('travelDate');
+                $travelDetail->contents = $request->input('contents6');
+                $travelDetail->price = $request->input('price6');
+                $travelDetail->save();
+            }
+        }
+
+        if($request->input('contents7') !== null) {
+            // 既に存在するデータを検索
+            $existingData = TravelDetail::where('kubun', 7)
+            ->where('travel_plan_id', $request->input('travel_plan_id'))
+            ->where('date', $request->input('travelDate'))
+            ->where('contents', $request->input('contents7'))
+            ->where('price', $request->input('price7'))
+            ->first();
+
+            if(!$existingData) {
+                $travelDetail = new TravelDetail;
+                $travelDetail->kubun = 7;
+                $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+                $travelDetail->date = $request->input('travelDate');
+                $travelDetail->contents = $request->input('contents7');
+                $travelDetail->price = $request->input('price7');
+                $travelDetail->save();
+            }
+        }
+
+        if($request->input('contents8') !== null) {
+            // 既に存在するデータを検索
+            $existingData = TravelDetail::where('kubun', 8)
+            ->where('travel_plan_id', $request->input('travel_plan_id'))
+            ->where('date', $request->input('travelDate'))
+            ->where('contents', $request->input('contents8'))
+            ->where('price', $request->input('price8'))
+            ->first();
+
+            if(!$existingData) {
+                $travelDetail = new TravelDetail;
+                $travelDetail->kubun = 8;
+                $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+                $travelDetail->date = $request->input('travelDate');
+                $travelDetail->contents = $request->input('contents8');
+                $travelDetail->price = $request->input('price8');
+                $travelDetail->save();
+            }
+        }
+
+        if($request->input('contents9') !== null) {
+            // 既に存在するデータを検索
+            $existingData = TravelDetail::where('kubun', 10)
+            ->where('travel_plan_id', $request->input('travel_plan_id'))
+            ->where('date', $request->input('travelDate'))
+            ->where('contents', $request->input('contents10'))
+            ->where('price', $request->input('price10'))
+            ->first();
+
+            if(!$existingData) {
+                $travelDetail = new TravelDetail;
+                $travelDetail->kubun = 10;
+                $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+                $travelDetail->date = $request->input('travelDate');
+                $travelDetail->contents = $request->input('contents10');
+                $travelDetail->price = $request->input('price10');
+                $travelDetail->save();
+            }
+        }
+
+        if($request->input('going-1') !== null) {
+            for($i = 0; $i < $timeCnt; $i ++){
+                $travelDetail = new TravelDetail;
+                // 既に存在するデータを検索
+                $existingData = TravelDetail::where('kubun', 9)
+                ->where('travel_plan_id', $request->input('travel_plan_id'))
+                ->where('date', $request->input('travelDate'))
+                ->where('contents', $request->input('going-' . strval($i + 1)))
+                ->where('time_from', $request->input('travelDate') .' '. $request->input('time-from-' . strval($i + 1)) . ':' . '00')
+                ->where('time_to', $request->input('travelDate') .' '. $request->input('time-to-' . strval($i + 1)) . ':' . '00')
+                ->first();
+
+                if(!$existingData) {
+                    $travelDetail->kubun = 9;
+                    $travelDetail->travel_plan_id = $request->input('travel_plan_id');
+                    $travelDetail->date = $request->input('travelDate');
+                    $travelDetail->contents = $request->input('going-' . strval($i + 1));
+                    $travelDetail->time_from = $travelDetail->date .' '. $request->input('time-from-' . strval($i + 1)) . ':' . '00';
+                    $travelDetail->time_to = $travelDetail->date .' '. $request->input('time-to-' . strval($i + 1)) . ':' . '00';
+                    $travelDetail->save();
+                }
             }
         }
         return redirect('/schedule/all_plan')->with('success', '旅行の詳細を追加しました！');

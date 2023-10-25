@@ -9,6 +9,11 @@ import './bootstrap';
     // timesのdiv要素を取得
     var timesDiv = document.querySelector('[name="times"]');
 
+    // todoのボタンを取得
+    var todoBtn = document.querySelector('[name="todo-register"]');
+
+
+
     // addボタンの取得
     var addButton  = document.querySelector('[name="add"]');
     var deleteButton  = document.querySelector('[name="delete"]');
@@ -27,6 +32,7 @@ import './bootstrap';
         } else {
             expensesDiv.style.display = 'none';
         }
+        timesDiv.style.display = 'none';
     });
 
     // リンクがクリックされたときの処理
@@ -39,6 +45,7 @@ import './bootstrap';
         } else {
             timesDiv.style.display = 'none';
         }
+        expensesDiv.style.display = 'none';
     });
 
     // addボタンを押した時の操作
@@ -61,7 +68,7 @@ import './bootstrap';
             // 最後に追加した時間入力フィールドを削除
             var lastTimeDiv = timeContainer.lastElementChild;
             timeContainer.removeChild(lastTimeDiv);
-            
+
             timeCnt.innerText = num;
         }
     });
@@ -102,3 +109,36 @@ import './bootstrap';
 
         return newTimeDiv;
     }
+
+    todoBtn.addEventListener('click', function() {
+        // timesのfrom1要素を取得
+        var timeFrom1 = document.querySelector('[name="time-from-1"]');
+        // timesのto1要素を取得
+        var timeTo1 = document.querySelector('[name="time-to-1"]');
+        // timesのgoing1要素を取得
+        var going1 = document.querySelector('[name="going-1"]');
+        var fromVal = timeFrom1.value;
+        var toVal = timeTo1.value;
+        if(fromVal === '' || toVal === ''){
+            // デフォルトのクリック動作をキャンセル
+            event.preventDefault();
+            alert("時間を入力してください🙃");
+            return;
+        }
+        if(fromVal > toVal){
+            // デフォルトのクリック動作をキャンセル
+            event.preventDefault();
+            alert("時間が不正です🙃");
+            return;
+        }
+        if(going1.value === ''){
+            // デフォルトのクリック動作をキャンセル
+            event.preventDefault();
+            alert("予定を入力してください🙃");
+            return;
+        }
+
+
+
+
+    });

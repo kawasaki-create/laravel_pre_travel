@@ -19,7 +19,7 @@
                 <br><br>
                 @for($i = 0; $i < $dateCount; $i ++)
                     <a href="" class="date" id="date{{$i}}">{{ $displayDays[$i] }}<span style="font-size: 10px; color: gray;" id="dateText{{$i}}">{{ $displayFlags[$displayDays[$i]] ? '(クリックで閉じる)' : '(クリックで表示)' }}</span></a>
-                    <span name="clickInline" style="display: {{ $displayFlags[$displayDays[$i]] ? '' : 'none' }};"><br><br></span>     
+                    <span name="clickInline" style="display: {{ $displayFlags[$displayDays[$i]] ? '' : 'none' }};"><br><br></span>
                         <form action="{{ route('schedule.detailNew', ['travel_plan_id' => $travelPlan->id, 'date' => $displayDays[$i]]) }}" method="POST">
                             @csrf
                             <div class="d-grid gap-2 d-md-block">
@@ -48,47 +48,47 @@
                         <tbody>
                             <tr>
                                 <td>朝食</td>
-                                <td></td>
+                                <td>{{ $contents1->implode(', ') }}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>昼食</td>
-                                <td></td>
+                                <td>{{ $contents2->implode(', ') }}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>夕食</td>
-                                <td></td>
+                                <td>{{ $contents3->implode(', ') }}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>間食</td>
-                                <td></td>
+                                <td>{{ $contents4->implode(', ') }}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>交通費</td>
-                                <td></td>
+                                <td>{{ $contents5->implode(', ') }}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>宿泊費</td>
-                                <td></td>
+                                <td>{{ $contents6->implode(', ') }}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>お土産</td>
-                                <td></td>
+                                <td>{{ $contents7->implode(', ') }}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>レジャー</td>
-                                <td></td>
+                                <td>{{ $contents8->implode(', ') }}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>その他雑費</td>
-                                <td></td>
+                                <td>{{ $contents10->implode(', ') }}</td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -101,14 +101,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>10:00~12:00</td>
-                                <td>家を出てしばらくするとそこには有名なコンビニエンスストアがありました</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            @php
+                                for($j = 0; $j < $timesCnt; $j++) {
+                                echo '<tr>';
+                                echo '<td>';
+                                echo '10:00~12:00';
+                                echo '</td>';
+                                echo '<td>';
+                                echo '家を出てしばらくするとそこには有名なコンビニエンスストアがありました';
+                                echo '</td>';
+                                echo '</tr>';
+                                }
+                            @endphp
                         </tbody>
                     </table>
                     <br>
