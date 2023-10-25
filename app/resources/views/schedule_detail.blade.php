@@ -42,54 +42,145 @@
                             <tr class="table-primary">
                                 <th>種目</th>
                                 <th>内容</th>
-                                <th>金額</th>
+                                <th>金額(小計)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>朝食</td>
-                                <td>{{ $contents1->implode(', ') }}</td>
+                                @if(isset($contents1[$i]) && $displayDays[$i] === $contents1[$i]->date)
+                                <td>{{ $contents1->pluck('contents')->implode(', ') }}</td>
+                                <td>¥{{ $price1 }}</td>
+                                @php
+                                    $totalPrice += $price1;
+                                @endphp
+                                @else
                                 <td></td>
+                                <td></td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>昼食</td>
-                                <td>{{ $contents2->implode(', ') }}</td>
+                                @if(isset($contents2[$i]) && $displayDays[$i] === $contents2[$i]->date)
+                                <td>{{ $contents2->pluck('contents')->implode(', ') }}</td>
+                                <td>¥{{ $price2 }}</td>
+                                @php
+                                    $totalPrice += $price2;
+                                @endphp
+                                @else
                                 <td></td>
+                                <td></td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>夕食</td>
-                                <td>{{ $contents3->implode(', ') }}</td>
+                                @if(isset($contents3[$i]) && $displayDays[$i] === $contents3[$i]->date)
+                                <td>{{ $contents3->pluck('contents')->implode(', ') }}</td>
+                                <td>¥{{ $price3 }}</td>
+                                @php
+                                    $totalPrice += $price3;
+                                @endphp
+                                @else
                                 <td></td>
+                                <td></td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>間食</td>
-                                <td>{{ $contents4->implode(', ') }}</td>
+                                @if(isset($contents4[$i]) && $displayDays[$i] === $contents4[$i]->date)
+                                <td>{{ $contents4->pluck('contents')->implode(', ') }}</td>
+                                <td>¥{{ $price4 }}</td>
+                                @php
+                                    $totalPrice += $price4;
+                                @endphp
+                                @else
                                 <td></td>
+                                <td></td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>交通費</td>
-                                <td>{{ $contents5->implode(', ') }}</td>
+                                @if(isset($contents5[$i]) && $displayDays[$i] === $contents5[$i]->date)
+                                <td>{{ $contents5->pluck('contents')->implode(', ') }}</td>
+                                <td>¥{{ $price5 }}</td>
+                                @php
+                                    $totalPrice += $price5;
+                                @endphp
+                                @else
                                 <td></td>
+                                <td></td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>宿泊費</td>
-                                <td>{{ $contents6->implode(', ') }}</td>
+                                @if(isset($contents6[$i]) && $displayDays[$i] === $contents6[$i]->date)
+                                <td>{{ $contents6->pluck('contents')->implode(', ') }}</td>
+                                <td>¥{{ $price6 }}</td>
+                                @php
+                                    $totalPrice += $price6;
+                                @endphp
+                                @else
                                 <td></td>
+                                <td></td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>お土産</td>
-                                <td>{{ $contents7->implode(', ') }}</td>
+                                @if(isset($contents7[$i]) && $displayDays[$i] === $contents7[$i]->date)
+                                <td>{{ $contents7->pluck('contents')->implode(', ') }}</td>
+                                <td>¥{{ $price7 }}</td>
+                                @php
+                                    $totalPrice += $price7;
+                                @endphp
+                                @else
                                 <td></td>
+                                <td></td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>レジャー</td>
-                                <td>{{ $contents8->implode(', ') }}</td>
+                                @if(isset($contents8[$i]) && $displayDays[$i] === $contents8[$i]->date)
+                                <td>{{ $contents8->pluck('contents')->implode(', ') }}</td>
+                                <td>¥{{ $price8 }}</td>
+                                @php
+                                    $totalPrice += $price8;
+                                @endphp
+                                @else
                                 <td></td>
+                                <td></td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>その他雑費</td>
-                                <td>{{ $contents10->implode(', ') }}</td>
+                                @if(isset($contents10[$i]) && $displayDays[$i] === $contents10[$i]->date)
+                                <td>{{ $contents10->pluck('contents')->implode(', ') }}</td>
+                                <td>¥{{ $price10 }}</td>
+                                @php
+                                    $totalPrice += $price10;
+                                @endphp
+                                @else
                                 <td></td>
+                                <td></td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>合計金額</td>
+                                <td></td>
+                                <td>
+                                    @if(
+                                        isset($contents10[$i]) && $displayDays[$i] === $contents10[$i]->date ||
+                                        isset($contents8[$i]) && $displayDays[$i] === $contents8[$i]->date ||
+                                        isset($contents7[$i]) && $displayDays[$i] === $contents7[$i]->date ||
+                                        isset($contents6[$i]) && $displayDays[$i] === $contents6[$i]->date ||
+                                        isset($contents5[$i]) && $displayDays[$i] === $contents5[$i]->date ||
+                                        isset($contents4[$i]) && $displayDays[$i] === $contents4[$i]->date ||
+                                        isset($contents3[$i]) && $displayDays[$i] === $contents3[$i]->date ||
+                                        isset($contents2[$i]) && $displayDays[$i] === $contents2[$i]->date ||
+                                        isset($contents1[$i]) && $displayDays[$i] === $contents1[$i]->date
+                                    )
+                                    ¥{{ $totalPrice }}
+                                    @endif
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -105,10 +196,10 @@
                                 for($j = 0; $j < $timesCnt; $j++) {
                                 echo '<tr>';
                                 echo '<td>';
-                                echo '10:00~12:00';
+                                echo $timeFroms[$j + 1] . '〜' . $timeToes[$j + 1];
                                 echo '</td>';
                                 echo '<td>';
-                                echo '家を出てしばらくするとそこには有名なコンビニエンスストアがありました';
+                                echo $timeContents[$j + 1];
                                 echo '</td>';
                                 echo '</tr>';
                                 }

@@ -88,7 +88,7 @@
                                     <input type="text" name="going-1" style="width: 34%;">
                                 </div>
                             <button name="todo-register" class="btn btn-primary">登録</button>
-                            <span id="timeCnt" name="timeCnt" hidden>1</span>
+                            <textarea id="timeCnt" name="timeCnt" hidden>1</textarea>
                             <textarea type="text" name="travel_plan_id" hidden>{{ $travelPlanId }}</textarea>
                             <textarea type="text" name="travelDate" hidden>{{ $travelDate }}</textarea>
                         </div>

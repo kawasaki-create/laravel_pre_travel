@@ -106,45 +106,47 @@ class ScheduleController extends Controller
         $formatted_end = Carbon::parse($travelPlan->trip_end)->format('Y-m-d');
         // dd($travelDetails->where('kubun', 1)->pluck('contents'));
 
-        $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->pluck('contents');
-        $contents2 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 2)->pluck('contents');
-        $contents3 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 3)->pluck('contents');
-        $contents4 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 4)->pluck('contents');
-        $contents5 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 5)->pluck('contents');
-        $contents6 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 6)->pluck('contents');
-        $contents7 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 7)->pluck('contents');
-        $contents8 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 8)->pluck('contents');
-        $contents9 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->pluck('contents');
-        $contents10 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 10)->pluck('contents');
+        $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->get();
+        // $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->pluck('contents');
+        $contents2 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 2)->get();
+        $contents3 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 3)->get();
+        $contents4 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 4)->get();
+        $contents5 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 5)->get();
+        $contents6 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 6)->get();
+        $contents7 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 7)->get();
+        $contents8 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 8)->get();
+        $contents9 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->get();
+        $contents10 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 10)->get();
 
-        $price1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->pluck('price');
-        $price2 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 2)->pluck('price');
-        $price3 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 3)->pluck('price');
-        $price4 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 4)->pluck('price');
-        $price5 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 5)->pluck('price');
-        $price6 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 6)->pluck('price');
-        $price7 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 7)->pluck('price');
-        $price8 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 8)->pluck('price');
-        $price9 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->pluck('price');
-        $price10 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 10)->pluck('price');
+        $price1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->sum('price');
+        $price2 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 2)->sum('price');
+        $price3 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 3)->sum('price');
+        $price4 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 4)->sum('price');
+        $price5 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 5)->sum('price');
+        $price6 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 6)->sum('price');
+        $price7 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 7)->sum('price');
+        $price8 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 8)->sum('price');
+        $price9 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->sum('price');
+        $price10 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 10)->sum('price');
+
+        $totalPrice = 0;
+        // dd($price4);
+        
 
         $timesCnt = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->count();
-        for($i = 0; $i < $timesCnt; $i++) {
-            $times = TravelDetail::where('travel_plan_id', $id)
-                ->where('kubun', 9)
-                ->orderBy('time_from', 'asc')
-                ->get();
-
-            $timeFrom = $times->pluck('time_from');
-            $timeToe = $times->pluck('time_to');
-            $timeContent = $times->pluck('contents');
-
-            // dd(substr($timeFrom, 13, 5));
-            $timeFroms[] = substr($timeFrom, 13, 5);
-            $timeToes[] = substr($timeToe, 13, 5);
-            $timeContents[] = $timeContent;
+        $timeFroms[] = [];
+        $timeToes[] = [];
+        $timeContents[] = [];
+        $times = TravelDetail::where('travel_plan_id', $id)
+            ->where('kubun', 9)
+            ->orderBy('time_from', 'asc')
+            ->get();
+        foreach ($times as $time) {
+            $timeFroms[] = substr($time->time_from, 11, 5);
+            $timeToes[] = substr($time->time_to, 11, 5);
+            $timeContents[] = $time->contents;
         }
-        dd($timeFroms);
+        // dd($timeFroms);
 
         $start = new DateTime($formatted_start);
         $end = new DateTime($formatted_end);
@@ -207,6 +209,7 @@ class ScheduleController extends Controller
             'price8' => $price8,
             'price9' => $price9,
             'price10' => $price10,
+            'totalPrice' => $totalPrice,
         ]);
     }
 
