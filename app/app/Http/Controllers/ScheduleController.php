@@ -245,8 +245,18 @@ class ScheduleController extends Controller
         $travelPlanId = $request->travel_plan_id;
         $travelDate = $request->travelDate;
         $travelPlan = TravelPlan::find($travelPlanId);
+        $id = $request->input('travel_plan_id');
 
-        // $idの修正が必要
+        $times = TravelDetail::where('travel_plan_id', $id)
+            ->where('kubun', 9)
+            ->orderBy('time_from', 'asc')
+            ->get();
+        foreach ($times as $time) {
+            $timeFroms[] = substr($time->time_from, 11, 5);
+            $timeToes[] = substr($time->time_to, 11, 5);
+            $timeContents[] = $time->contents;
+        }
+
         $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->get();
         $contents2 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 2)->get();
         $contents3 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 3)->get();
@@ -272,6 +282,9 @@ class ScheduleController extends Controller
             'contents8' => $contents8,
             'contents9' => $contents9,
             'contents10' => $contents10,
+            'timeFroms' => $timeFroms,
+            'timeToes' => $timeToes,
+            'timeContents' => $timeContents,
         ]);
     }
 

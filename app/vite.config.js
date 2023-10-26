@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/js/scheduleDelete.js',
                 'resources/js/scheduleDetail.js',
                 'resources/js/newDetail.js',
+                'resources/js/todoAddSelect.js',
                 'resources/css/app.css', //これを追加
                 'resources/css/newSchedule.css',
             ],

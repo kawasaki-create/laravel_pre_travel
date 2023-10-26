@@ -137,8 +137,34 @@ import './bootstrap';
             alert("予定を入力してください🙃");
             return;
         }
+    });
 
+    var selectBox = document.getElementById('selectBox');
+    var inputContainer = document.getElementById('inputContainer');
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('読み込んでる');
+    });
+    console.log('読み込んでmas');
+    selectBox.addEventListener('change', function() {
+        // 現在の選択値を取得
+        var selectedValue = selectBox.value;
 
+        // inputContainer内の要素を一旦クリア
+        inputContainer.innerHTML = '';
 
-
+        // 選択値が1から8, 10の場合はinput要素を追加
+        if (selectedValue >= 1 && selectedValue <= 8 || selectedValue == 10) {
+            var inputElement = document.createElement('input');
+            inputElement.type = 'text';
+            inputElement.name = 'dynamicInput';
+            inputElement.placeholder = 'Enter text...';
+            inputContainer.appendChild(inputElement);
+        }
+        // 選択値が9の場合はtextarea要素を追加
+        else if (selectedValue == 9) {
+            var textareaElement = document.createElement('textarea');
+            textareaElement.name = 'dynamicTextarea';
+            textareaElement.placeholder = 'Enter text...';
+            inputContainer.appendChild(textareaElement);
+        }
     });
