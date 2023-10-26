@@ -131,7 +131,7 @@ class ScheduleController extends Controller
 
         $totalPrice = 0;
         // dd($price4);
-        
+
 
         $timesCnt = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->count();
         $timeFroms[] = [];
@@ -146,6 +146,11 @@ class ScheduleController extends Controller
             $timeToes[] = substr($time->time_to, 11, 5);
             $timeContents[] = $time->contents;
         }
+
+        $travelDate = TravelDetail::where('travel_plan_id', $id)
+        ->where('kubun', 9)
+        ->orderBy('date', 'asc')
+        ->get();
         // dd($timeFroms);
 
         $start = new DateTime($formatted_start);
@@ -210,6 +215,7 @@ class ScheduleController extends Controller
             'price9' => $price9,
             'price10' => $price10,
             'totalPrice' => $totalPrice,
+            'travelDate' => $travelDate,
         ]);
     }
 
@@ -240,6 +246,7 @@ class ScheduleController extends Controller
         $travelDate = $request->travelDate;
         $travelPlan = TravelPlan::find($travelPlanId);
 
+        // $idの修正が必要
         $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->get();
         $contents2 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 2)->get();
         $contents3 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 3)->get();

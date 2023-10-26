@@ -195,15 +195,17 @@
                         </thead>
                         <tbody>
                             @php
-                                for($j = 0; $j < $timesCnt; $j++) {
-                                echo '<tr>';
-                                echo '<td>';
-                                echo $timeFroms[$j + 1] . '〜' . $timeToes[$j + 1];
-                                echo '</td>';
-                                echo '<td>';
-                                echo $timeContents[$j + 1];
-                                echo '</td>';
-                                echo '</tr>';
+                                if(isset($travelDate[$i]) && $displayDays[$i] === $travelDate[$i]->date) {
+                                    for($j = 0; $j < $timesCnt; $j++) {
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $timeFroms[$j + 1] . '〜' . $timeToes[$j + 1];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $timeContents[$j + 1];
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    }
                                 }
                             @endphp
                         </tbody>
