@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<script src="{{ asset('resources/js/app.js') }}"></script>
+@vite(['resources/js/app.js'])
 <link rel="stylesheet" src="{{ asset('resources/css/app.css') }}">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -18,7 +18,7 @@
             <li class="nav-item active">
             <a class="nav-link" href="/schedule/all_plan/">全ての旅行</a>
             <li class="nav-item">
-            <a class="nav-link" href="/all_tweet">全てのつぶやきを表示</a>
+            <a class="nav-link" href="/home/all_tweet">全てのつぶやきを表示</a>
             </li>
             <li class="nav-item">
             <a class="nav-link" href="account">アカウント設定</a>
@@ -50,7 +50,7 @@
                         </div>
                     @endif
 
-                    <p>ようこそ、{{Auth::user()->email;}}さん！</p>
+                    <p>ようこそ、{{Auth::user()->name;}}さん！</p>
                     <input type="button" class="btn btn-secondary" onclick="location.href='/schedule'" value="スケジュール作成">
                 </div>
             </div>
@@ -59,7 +59,7 @@
                 $displayCard = false;
             @endphp
             @foreach ($travelPlans as $travelPlan)
-                @if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end)
+                @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s') <= $travelPlan->trip_end)
                     @php
                         $displayCard = true;
                     @endphp
@@ -67,22 +67,30 @@
             @endforeach
             @if($displayCard)
                 <div class="card">
-                    <div class="card-header">つぶやき <span style="color:red; font-size:4px;">※旅行中のみ表示</span></div>
+                    <div class="card-header">つぶやき <span style="color:red; font-size:10px;">※旅行中のみ表示</span></div>
                     <div class="card-body">
                         <form action="{{ route('button.click') }}" method="POST">
                             @csrf
                             <textarea id="myTextarea" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
                             <div id="charCount"></div>
-                            <button type="submit" class="btn btn-primary" id="tweetButton">投稿</button>
+                            <button type="submit" class="btn btn-primary" id="tweetButton">投稿</button>　
+                            <select name="duplicatedTravel" id="duplicatedTravel" {{ $tripCnt >= 2 ? '' : 'hidden' }}>
+                            @for($i = 0; $i < $tripCnt; $i++)
+                                <option value="{{ $duplicatedIdList[$i] }}">{{ $duplicatedTitleList[$i] }}</option>
+                            @endfor
+                            </select>
                         </form>
                     </div>
                 </div>
                 <br><br>
                 <div class="card">
-                    <div class="card-header">旅行概要 <span style="color:red; font-size:4px;">※旅行中のみ表示</span></div>
+                    <div class="card-header">旅行概要 <span style="color:red; font-size:10px;">※旅行中のみ表示</span></div>
                     <div class="card-body">
                         @foreach ($travelPlans as $travelPlan)
-                            @if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end)
+                            @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s') <= $travelPlan->trip_end)
+                                @if($loop->iteration > 7)
+                                    <span name="clickInline" style="display: {{ $tripCnt >= 2 ? '' : 'none' }};"><br></span>
+                                @endif
                                 <p>旅行名: {{ $travelPlan->trip_title }}</p>
                                 <p>期間: {{ $travelPlan->trip_start }} 〜 {{ $travelPlan->trip_end }}</p>
                                 <p>出発時刻: {{ $travelPlan->departure_time }}</p>
@@ -91,7 +99,6 @@
                                     <p>予算: {{ $travelPlan->budget }}円</p>
                                 @endif
                             @endif
-                            <br>
                         @endforeach
                     </div>
                 </div>
@@ -113,18 +120,35 @@
                 <div class="card">
                     <form action="{{ route('tweets.delete') }}" method="POST">
                         @csrf
-                        <div class="card-header">今回の旅行中のつぶやき表示 <span style="color:red; font-size:4px;">※旅行中のつぶやきのみ表示</span></div>
+                        <div class="card-header">つぶやき表示 <span style="color:red; font-size:10px;">※旅行中限定</span></div>
                         <div class="card-body">
                         @foreach ($travelPlans as $travelPlan)
                             @foreach ($tweets as $tweet)
-                                @if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end && $tweet->created_at < $tweet->travelPlan->trip_end && $tweet->travelPlan->trip_start < $tweet->created_at)
+                                @if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end && $tweet->created_at < $travelPlan->trip_end && $travelPlan->trip_start < $tweet->created_at && $travelPlan->id == $tweet->travel_plan_id)
                                     @php
                                         $displayCard = true;
                                     @endphp
                                     <input type="checkbox" name="tweets[]" value="{{ $tweet->id }}">
-                                    <span>{{ $tweet->tweet }}</span><br>
-                                    <span style="font-size :4px; color: gray;">{{ $tweet->created_at }}</span><br>
-                                    <br>
+                                    <span name="{{ $tweet->id }}">{{ $tweet->tweet }}
+                                        @if($tweet->editFlg == 1)
+                                            <span name="edited" style="color:gray; font-size: 10px;">(編集済み)</span>
+                                        @endif
+                                    </span><br>
+                                    <span style="font-size :10px; color: gray;">{{ $tweet->updated_at }}</span>
+                                    <button type="button" class="editButton" id="modalOpen" data-tweet-id="{{ $tweet->id }}">編集</button>
+                                    <div id="easyModal" class="modal">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1>つぶやき編集🐦</h1>
+                                                <span class="modalClose">×</span>
+                                            </div>
+                                            <div class="modal-body">
+                                                <textarea id="myTweetEdit" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
+                                                <a href="#" class="btn editSaveBtn">保存</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
                                 @endif
                             @endforeach
                         @endforeach

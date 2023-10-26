@@ -44,12 +44,26 @@ class HomeController extends Controller
         $userId = Auth::id();
         $tweets = Tweet::where('user_id', $userId)
         ->get();
-    
+
+        $tripCnt = 0;
+        $duplicatedIdList = [];
+        $duplicatedTitleList = [];
+        foreach($travelPlans as $travelPlan) {
+            if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end) {
+                $tripCnt++;
+                $duplicatedIdList[] = $travelPlan->id;
+                $duplicatedTitleList[] = $travelPlan->trip_title;
+            }
+        }
+
         return view('home',[
             'hello' => $hello,
             'nya' => $nya,
             'travelPlans' => $travelPlans,
-            'tweets' => $tweets
+            'tweets' => $tweets,
+            'tripCnt' => $tripCnt,
+            'duplicatedIdList' => $duplicatedIdList,
+            'duplicatedTitleList' => $duplicatedTitleList
         ]);
     }
 
@@ -57,7 +71,8 @@ class HomeController extends Controller
     {
         $tweet = new Tweet;
         $tweet->tweet = $request->input('tweet');
-        $tweet->user_id = auth()->user()->id; 
+        $tweet->user_id = auth()->user()->id;
+        $tweet->travel_plan_id = $request->input('duplicatedTravel');
         $tweet->save();
 
         // 保存後のリダイレクトなどの処理を行う
@@ -73,6 +88,54 @@ class HomeController extends Controller
 
         // 削除後のリダイレクトなどの処理を行う
         return redirect('/home')->with('success', 'つぶやきを削除しました！');
+    }
+
+    public function allTweetDelete(Request $request)
+    {
+        $selectedTweets = $request->input('tweets');
+        if (!empty($selectedTweets)) {
+            Tweet::whereIn('id', $selectedTweets)->delete();
+        }
+
+        // 削除後のリダイレクトなどの処理を行う
+        return redirect('/home/all_tweet')->with('success', 'つぶやきを削除しました！');
+    }
+
+    public function allTweet()
+    {
+        $userId = Auth::id();
+        $tweets = Tweet::where('user_id', $userId)
+        ->get()
+        ->map(function ($tweet) {
+            $formatted_updated = Carbon::parse($tweet->updated_at)->format('Y-m-d');
+            $tweet->updated_at = $formatted_updated;
+            return $tweet;
+        });
+
+        return view('all_tweet',[
+            'tweets' => $tweets,
+        ]);
+    }
+
+    public function renewTweet()
+    {
+        $url = $_SERVER['REQUEST_URI'];
+        $cid = ltrim(strrchr("$url", "/"), '/');
+        $id = mb_substr( $cid , 0 , mb_strpos($cid, "?tweetContent=") );
+
+        $encodeNewTweet = ltrim(strrchr("$url", "="), '=');
+        $newTweet = urldecode($encodeNewTweet);
+
+        $tweet = Tweet::find($id);
+        $tweet->tweet = $newTweet;
+        $tweet->user_id = auth()->user()->id;
+        $tweet->editFlg = 1;
+        $tweet->save();
+
+        // 保存後のリダイレクトなどの処理を行う
+        return redirect()->back()->with([
+            'success'=> 'つぶやきを更新しました！',
+        ]);
     }
 
 }
