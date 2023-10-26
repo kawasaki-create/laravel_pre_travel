@@ -224,14 +224,6 @@ class ScheduleController extends Controller
         $travelPlanId = $request->travel_plan_id;
         $travelDate = $request->travelDate;
         $travelPlan = TravelPlan::find($travelPlanId);
-        // $travelDetail = new TravelDetail;
-        // $travelDetail->travel_plan_id = $request->input('travel_plan_id');
-        // $travelDetail->date = $request->input('travelDate');
-        // $travelDetail->contents = $request->input('contents');
-        // $travelDetail->kubun = $request->input('kubun');
-        // $travelDetail->price = $request->input('price');
-        // $travelDetail->time = $request->input('time');
-        // $travelDetail->save();
 
         return view('travel_detail_new',[
             'travelPlanId' => $travelPlanId,
@@ -291,6 +283,11 @@ class ScheduleController extends Controller
     public function detailNR(Request $request)
     {
         $timeCnt = $request->input('timeCnt');
+
+        $travelPlanIds = (array) $request->input('travel_plan_id');
+        
+        // 関連するTravelPlanレコードを取得
+        $travelPlan = TravelPlan::whereIn('id', $travelPlanIds)->get();
 
         if($request->input('contents1') !== null) {
             // 既に存在するデータを検索
@@ -495,6 +492,29 @@ class ScheduleController extends Controller
                 }
             }
         }
-        return redirect('/schedule/all_plan')->with('success', '旅行の詳細を追加しました！');
+        return redirect('/schedule/detail/' . $travelPlanIds[0])->with([
+            'success'=> '予定を追加しました🤗',
+            'travelPlan' => $travelPlan,
+        ]);
+    }
+
+    public function detailDelete(Request $request)
+    {
+        $selectedDetails = $request->input('deletes');
+        if (!empty($selectedDetails)) {
+            // 選択されたTravelDetailレコードのtravel_plan_idを取得
+            $travelPlanIds = TravelDetail::whereIn('id', $selectedDetails)->pluck('travel_plan_id')->toArray();
+        
+            // 関連するTravelPlanレコードを取得
+            $travelPlan = TravelPlan::whereIn('id', $travelPlanIds)->get();
+
+            // TravelDetailの削除
+            TravelDetail::whereIn('id', $selectedDetails)->delete();
+        }
+        // 削除後のリダイレクトなどの処理を行う
+        return redirect('/schedule/detail/' . $travelPlanIds[0])->with([
+            'success'=> '予定を削除しました😇',
+            'travelPlan' => $travelPlan,
+        ]);
     }
 }

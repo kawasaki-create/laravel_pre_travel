@@ -36,3 +36,4 @@ Route::post('/schedule/detail/new/{travel_plan_id}/{date}', [App\Http\Controller
 Route::post('/schedule/detail/edit/{travel_plan_id}/{date}', [App\Http\Controllers\ScheduleController::class, 'detailEdit'])->name('schedule.detailEdit');
 Route::post('/schedule/detail/new/register', [App\Http\Controllers\ScheduleController::class, 'detailNR'])->name('schedule.detailNR');
 Route::post('/schedule/detail/edit/register', [App\Http\Controllers\ScheduleController::class, 'detailER'])->name('schedule.detailER');
+Route::post('/schedule/detail/delete', [App\Http\Controllers\ScheduleController::class, 'detailDelete'])->name('schedule.detailDelete');
