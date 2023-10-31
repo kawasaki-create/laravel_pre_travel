@@ -109,7 +109,7 @@
                             <tr>
                                 <td>お土産</td>
                                 @if($contents7Data[$i]?? null )
-                                   <td>{{ $contents7Data[$i]->implode(', '); }}</td>
+                                    <td>{{ $contents7Data[$i]->implode(', '); }}</td>
                                     <td>{{ $price7Data[$i]->sum(); }}</td>
                                 @else
                                     <td></td>
