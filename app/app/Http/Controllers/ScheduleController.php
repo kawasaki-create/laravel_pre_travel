@@ -251,7 +251,7 @@ class ScheduleController extends Controller
                 ->where('kubun', 8)
                 ->where('date', $displayDays[$i])
                 ->pluck('contents');
-            $contents10Data[$i] = $data;
+            $contents8Data[$i] = $data;
         }
 
         $contents10Data = [];
@@ -443,6 +443,114 @@ class ScheduleController extends Controller
             $timeContents[] = $time->contents;
         }
 
+        $travelPlan = TravelPlan::find($id);
+        $formatted_start = Carbon::parse($travelPlan->trip_start)->format('Y-m-d');
+        $formatted_end = Carbon::parse($travelPlan->trip_end)->format('Y-m-d');
+        $start = new DateTime($formatted_start);
+        $end = new DateTime($formatted_end);
+
+        $interval = new DateInterval('P1D'); // 1日ごとに増加
+        $period = new DatePeriod($start, $interval, $end);
+        $dateCount = 1;
+
+        foreach ($period as $date) {
+            $dateCount ++;
+        }
+
+        $start = new DateTime($formatted_start);
+        $end = new DateTime($formatted_end);
+
+        $interval = new DateInterval('P1D'); // 1日ごとに増加
+        $period = new DatePeriod($start, $interval, $end->modify('+1 day'));
+
+        $dateCount = 1;
+        $displayDays = []; // 日付を格納する配列
+        foreach ($period as $date) {
+            $displayDays[] = $date->format('Y-m-d'); // 日付を配列に追加
+        }
+
+        $contents1Data = [];
+        for ($i = 0; $i < $dateCount; $i++) {
+            $data = TravelDetail::where('travel_plan_id', $id)
+                ->where('kubun', 1)
+                ->where('date', $displayDays[$i])
+                ->pluck('contents');
+            $contents1Data[$i] = $data;
+        }
+
+
+        $contents2Data = [];
+        for ($i = 0; $i < $dateCount; $i++) {
+            $data = TravelDetail::where('travel_plan_id', $id)
+                ->where('kubun', 2)
+                ->where('date', $displayDays[$i])
+                ->pluck('contents');
+            $contents2Data[$i] = $data;
+        }
+
+        $contents3Data = [];
+        for ($i = 0; $i < $dateCount; $i++) {
+            $data = TravelDetail::where('travel_plan_id', $id)
+                ->where('kubun', 3)
+                ->where('date', $displayDays[$i])
+                ->pluck('contents');
+            $contents3Data[$i] = $data;
+        }
+
+        $contents4Data = [];
+        for ($i = 0; $i < $dateCount; $i++) {
+            $data = TravelDetail::where('travel_plan_id', $id)
+                ->where('kubun', 4)
+                ->where('date', $displayDays[$i])
+                ->pluck('contents');
+            $contents4Data[$i] = $data;
+        }
+
+        $contents5Data = [];
+        for ($i = 0; $i < $dateCount; $i++) {
+            $data = TravelDetail::where('travel_plan_id', $id)
+                ->where('kubun', 5)
+                ->where('date', $displayDays[$i])
+                ->pluck('contents');
+            $contents5Data[$i] = $data;
+        }
+
+        $contents6Data = [];
+        for ($i = 0; $i < $dateCount; $i++) {
+            $data = TravelDetail::where('travel_plan_id', $id)
+                ->where('kubun', 6)
+                ->where('date', $displayDays[$i])
+                ->pluck('contents');
+            $contents6Data[$i] = $data;
+        }
+
+        $contents7Data = [];
+        for ($i = 0; $i < $dateCount; $i++) {
+            $data = TravelDetail::where('travel_plan_id', $id)
+                ->where('kubun', 7)
+                ->where('date', $displayDays[$i])
+                ->pluck('contents');
+            $contents7Data[$i] = $data;
+        }
+
+        $contents8Data = [];
+        for ($i = 0; $i < $dateCount; $i++) {
+            $data = TravelDetail::where('travel_plan_id', $id)
+                ->where('kubun', 8)
+                ->where('date', $displayDays[$i])
+                ->pluck('contents');
+            $contents8Data[$i] = $data;
+        }
+
+        $contents10Data = [];
+        for ($i = 0; $i < $dateCount; $i++) {
+            $data = TravelDetail::where('travel_plan_id', $id)
+                ->where('kubun', 10)
+                ->where('date', $displayDays[$i])
+                ->pluck('contents');
+            $contents10Data[$i] = $data;
+        }
+
         $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->get();
         $contents2 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 2)->get();
         $contents3 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 3)->get();
@@ -470,7 +578,18 @@ class ScheduleController extends Controller
             'contents10' => $contents10,
             'timeFroms' => $timeFroms,
             'timeToes' => $timeToes,
+            'dateCount' => $dateCount,
+            'displayDays' => $displayDays,
             'timeContents' => $timeContents,
+            'contents1Data' => $contents1Data,
+            'contents2Data' => $contents2Data,
+            'contents3Data' => $contents3Data,
+            'contents4Data' => $contents4Data,
+            'contents5Data' => $contents5Data,
+            'contents6Data' => $contents6Data,
+            'contents7Data' => $contents7Data,
+            'contents8Data' => $contents8Data,
+            'contents10Data' => $contents10Data,
         ]);
     }
 
