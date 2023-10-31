@@ -23,112 +23,122 @@
                         <span>{{ $travelDate }}</span><br><br>
 
                         @php
+                        $matchingContents = $contents1->where('date', $travelDate);
                             // ここにもし項目(旅費)がセットされてれば表示されるようにする
-                            if($contents1->pluck('contents') && in_array($travelDate, $contents1->pluck('date')->toArray())) {
+                            if ($matchingContents->isNotEmpty()) {
                                 $contentsCount = 0;
-                                foreach($contents1->pluck('contents') as $content) {
-                                    echo '<input type="checkbox" name="deletes[]" value="' . $contents1->pluck('id')[$contentsCount] . '"> ';
-                                    echo '<span>' . '朝食：'. $content . '</span></br>';
+                                foreach($matchingContents as $content) {
+                                    echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
+                                    echo '<span>' . '朝食：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
                             }
                         @endphp
                         @php
+                        $matchingContents = $contents2->where('date', $travelDate);
                             // ここにもし項目(旅費)がセットされてれば表示されるようにする
-                            if($contents2->pluck('contents') && in_array($travelDate, $contents2->pluck('date')->toArray())) {
+                            if ($matchingContents->isNotEmpty()) {
                                 $contentsCount = 0;
-                                foreach($contents2->pluck('contents') as $content) {
-                                    echo '<input type="checkbox" name="deletes[]" value="' . $contents2->pluck('id')[$contentsCount] . '"> ';
-                                    echo '<span>' . '昼食：'. $content . '</span></br>';
+                                foreach($matchingContents as $content) {
+                                    echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
+                                    echo '<span>' . '昼食：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
                             }
                         @endphp
                         @php
+                        $matchingContents = $contents3->where('date', $travelDate);
                             // ここにもし項目(旅費)がセットされてれば表示されるようにする
-                            if($contents3->pluck('contents') && in_array($travelDate, $contents3->pluck('date')->toArray())) {
+                            if ($matchingContents->isNotEmpty()) {
                                 $contentsCount = 0;
-                                foreach($contents3->pluck('contents') as $content) {
-                                    echo '<input type="checkbox" name="deletes[]" value="' . $contents3->pluck('id')[$contentsCount] . '"> ';
-                                    echo '<span>' . '夕食：'. $content . '</span></br>';
+                                foreach($matchingContents as $content) {
+                                    echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
+                                    echo '<span>' . '夕食：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
                             }
                         @endphp
                         @php
+                        $matchingContents = $contents4->where('date', $travelDate);
                             // ここにもし項目(旅費)がセットされてれば表示されるようにする
-                            if($contents4->pluck('contents') && in_array($travelDate, $contents4->pluck('date')->toArray())) {
+                            if ($matchingContents->isNotEmpty()) {
                                 $contentsCount = 0;
-                                foreach($contents4->pluck('contents') as $content) {
-                                    echo '<input type="checkbox" name="deletes[]" value="' . $contents4->pluck('id')[$contentsCount] . '"> ';
-                                    echo '<span>' . '間食：'. $content . '</span></br>';
+                                foreach($matchingContents as $content) {
+                                    echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
+                                    echo '<span>' . '間食：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
                             }
                         @endphp
                         @php
+                        $matchingContents = $contents5->where('date', $travelDate);
                             // ここにもし項目(旅費)がセットされてれば表示されるようにする
-                            if($contents5->pluck('contents') && in_array($travelDate, $contents5->pluck('date')->toArray())) {
+                            if ($matchingContents->isNotEmpty()) {
                                 $contentsCount = 0;
-                                foreach($contents5->pluck('contents') as $content) {
-                                    echo '<input type="checkbox" name="deletes[]" value="' . $contents5->pluck('id')[$contentsCount] . '"> ';
-                                    echo '<span>' . '交通費：'. $content . '</span></br>';
+                                foreach($matchingContents as $content) {
+                                    echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
+                                    echo '<span>' . '交通費：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
                             }
                         @endphp
                         @php
+                        $matchingContents = $contents6->where('date', $travelDate);
                             // ここにもし項目(旅費)がセットされてれば表示されるようにする
-                            if($contents6->pluck('contents') && in_array($travelDate, $contents6->pluck('date')->toArray())) {
+                            if ($matchingContents->isNotEmpty()) {
                                 $contentsCount = 0;
-                                foreach($contents6->pluck('contents') as $content) {
-                                    echo '<input type="checkbox" name="deletes[]" value="' . $contents6->pluck('id')[$contentsCount] . '"> ';
-                                    echo '<span>' . '宿泊費：'. $content . '</span></br>';
+                                foreach($matchingContents as $content) {
+                                    echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
+                                    echo '<span>' . '宿泊費：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
                             }
                         @endphp
                         @php
+                        $matchingContents = $contents7->where('date', $travelDate);
                             // ここにもし項目(旅費)がセットされてれば表示されるようにする
-                            if($contents7->pluck('contents') && in_array($travelDate, $contents7->pluck('date')->toArray())) {
+                            if ($matchingContents->isNotEmpty()) {
                                 $contentsCount = 0;
-                                foreach($contents7->pluck('contents') as $content) {
-                                    echo '<input type="checkbox" name="deletes[]" value="' . $contents7->pluck('id')[$contentsCount] . '"> ';
-                                    echo '<span>' . 'お土産：'. $content . '</span></br>';
+                                foreach($matchingContents as $content) {
+                                    echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
+                                    echo '<span>' . 'お土産：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
                             }
                         @endphp
                         @php
+                        $matchingContents = $contents8->where('date', $travelDate);
                             // ここにもし項目(旅費)がセットされてれば表示されるようにする
-                            if($contents8->pluck('contents') && in_array($travelDate, $contents8->pluck('date')->toArray())) {
+                            if ($matchingContents->isNotEmpty()) {
                                 $contentsCount = 0;
-                                foreach($contents8->pluck('contents') as $content) {
-                                    echo '<input type="checkbox" name="deletes[]" value="' . $contents8->pluck('id')[$contentsCount] . '"> ';
-                                    echo '<span>' . 'レジャー：'. $content . '</span></br>';
+                                foreach($matchingContents as $content) {
+                                    echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
+                                    echo '<span>' . 'レジャー：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
                             }
                         @endphp
                         @php
+                        $matchingContents = $contents10->where('date', $travelDate);
                             // ここにもし項目(旅費)がセットされてれば表示されるようにする
-                            if($contents10->pluck('contents') && in_array($travelDate, $contents10->pluck('date')->toArray())) {
+                            if ($matchingContents->isNotEmpty()) {
                                 $contentsCount = 0;
-                                foreach($contents10->pluck('contents') as $content) {
-                                    echo '<input type="checkbox" name="deletes[]" value="' . $contents10->pluck('id')[$contentsCount] . '"> ';
-                                    echo '<span>' . 'その他雑費：'. $content . '</span></br>';
+                                foreach($matchingContents as $content) {
+                                    echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
+                                    echo '<span>' . 'その他雑費：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
                             }
                         @endphp
                         @php
+                        $matchingContents = $contents9->where('date', $travelDate);
                             // ここにもし項目(予定)がセットされてれば表示されるようにする
-                            if($contents9->pluck('contents') && in_array($travelDate, $contents9->pluck('date')->toArray())) {
+                            if($matchingContents->isNotEmpty()) {
                                 echo '<br>';
                                 $contentsCount = 0;
-                                foreach($contents9->pluck('contents') as $content) {
-                                    echo '<input type="checkbox" name="deletes[]" value="' . $contents9->pluck('id')[$contentsCount] . '"> ';
-                                    echo '<span>' . $timeFroms[$contentsCount] . '～' . $timeToes[$contentsCount] . '　' . $timeContents[$contentsCount] . '</span></br>';
+                                foreach($matchingContents as $content) {
+                                    echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
+                                    echo '<span>' . substr($content->time_from, 11, 5) . '～' . substr($content->time_to, 11, 5) . '　' . $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
                             }

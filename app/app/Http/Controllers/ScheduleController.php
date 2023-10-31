@@ -437,6 +437,10 @@ class ScheduleController extends Controller
             ->where('kubun', 9)
             ->orderBy('time_from', 'asc')
             ->get();
+            
+        $timeFroms = [];
+        $timeToes = [];
+        $timeContents = [];
         foreach ($times as $time) {
             $timeFroms[] = substr($time->time_from, 11, 5);
             $timeToes[] = substr($time->time_to, 11, 5);
