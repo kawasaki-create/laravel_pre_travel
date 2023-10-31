@@ -131,7 +131,7 @@
                             }
                         @endphp
                         @php
-                        $matchingContents = $contents9->where('date', $travelDate);
+                        $matchingContents = $contents9->where('date', $travelDate)->sortBy('time_from');
                             // ここにもし項目(予定)がセットされてれば表示されるようにする
                             if($matchingContents->isNotEmpty()) {
                                 echo '<br>';

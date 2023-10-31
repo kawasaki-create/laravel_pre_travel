@@ -168,16 +168,16 @@
                         </thead>
                         <tbody>
                             @php
-                                if(isset($travelDate[$i]) && $displayDays[$i] === $travelDate[$i]->date) {
-                                    for($j = 0; $j < $timesCnt; $j++) {
-                                    echo '<tr>';
-                                    echo '<td>';
-                                    echo $timeFroms[$j + 1] . '〜' . $timeToes[$j + 1];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $timeContents[$j + 1];
-                                    echo '</td>';
-                                    echo '</tr>';
+                                $matchingContents = $contents9->where('date', $travelDate[$i]->date);
+                                // ここにもし項目(予定)がセットされてれば表示されるようにする
+                                if($matchingContents->isNotEmpty()) {
+                                    foreach($matchingContents as $content) {
+                                        if($travelDate[$i]->date == $content->date){
+                                            echo '<tr>';
+                                            echo '<td>' . substr($content->time_from, 11, 5) . '～' . substr($content->time_to, 11, 5);
+                                            echo '<td>' . $content->contents . '</td>';
+                                            echo '</tr>';
+                                        }
                                     }
                                 }
                             @endphp
