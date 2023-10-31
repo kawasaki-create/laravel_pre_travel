@@ -479,7 +479,7 @@ class ScheduleController extends Controller
         $timeCnt = $request->input('timeCnt');
 
         $travelPlanIds = (array) $request->input('travel_plan_id');
-        
+
         // 関連するTravelPlanレコードを取得
         $travelPlan = TravelPlan::whereIn('id', $travelPlanIds)->get();
 
@@ -643,7 +643,7 @@ class ScheduleController extends Controller
             }
         }
 
-        if($request->input('contents9') !== null) {
+        if($request->input('contents10') !== null) {
             // 既に存在するデータを検索
             $existingData = TravelDetail::where('kubun', 10)
             ->where('travel_plan_id', $request->input('travel_plan_id'))
@@ -698,7 +698,7 @@ class ScheduleController extends Controller
         if (!empty($selectedDetails)) {
             // 選択されたTravelDetailレコードのtravel_plan_idを取得
             $travelPlanIds = TravelDetail::whereIn('id', $selectedDetails)->pluck('travel_plan_id')->toArray();
-        
+
             // 関連するTravelPlanレコードを取得
             $travelPlan = TravelPlan::whereIn('id', $travelPlanIds)->get();
 
