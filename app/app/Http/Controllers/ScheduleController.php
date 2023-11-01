@@ -357,6 +357,49 @@ class ScheduleController extends Controller
 
         // dd($totalPrice);
 
+        $dateTimeAll = [];
+        $dateTimeFrom = [];
+        for($i = 0; $i < $dateCount; $i++) {
+            $dateTimeFrom[$i] = TravelDetail::where('travel_plan_id', $id)
+                ->where('date', $displayDays[$i])
+                ->where('kubun', 9)
+                ->orderBy('date', 'asc')
+                ->get();
+
+            // if($dateTimeFrom[$i]) {
+            //     $dateTimeAll[$i] = [
+            //         $dateTimeFrom[$i]->pluck('time_from'),
+            //         $dateTimeFrom[$i]->pluck('time_to'),
+            //         $dateTimeFrom[$i]->pluck('contents')
+            //     ];
+            // }
+
+            if ($dateTimeFrom[$i]->isNotEmpty()) {
+                $dateTimeAll[$i] = $dateTimeFrom[$i]->map(function ($item) {
+                    return [
+                        'time_from' => $item->time_from,
+                        'time_to' => $item->time_to,
+                        'contents' => $item->contents
+                    ];
+                })->toArray();
+            }
+
+        }
+
+        $dateTimeTo = [];
+        for($i = 0; $i < $dateCount; $i++) {
+            for($j = 0; $j < $timesCnt; $j++) {
+                $dateTimeTo[$i] = TravelDetail::where('travel_plan_id', $id)
+                    ->where('date', $displayDays[$i])
+                    ->where('kubun', 9)
+                    ->orderBy('date', 'asc')
+                    ->pluck('time_to');
+            }
+        }
+
+        // dd($dateTimeAll[0][1]);
+
+
         return view('schedule_detail', [
             'travelPlan' => $travelPlan,
             'formatted_start' => $formatted_start,
@@ -410,6 +453,8 @@ class ScheduleController extends Controller
             'price7Data' => $price7Data,
             'price8Data' => $price8Data,
             'price10Data' => $price10Data,
+            'dateTimeAll' => $dateTimeAll,
+            'dateTimeFrom' => $dateTimeFrom,
         ]);
     }
 
@@ -437,7 +482,7 @@ class ScheduleController extends Controller
             ->where('kubun', 9)
             ->orderBy('time_from', 'asc')
             ->get();
-            
+
         $timeFroms = [];
         $timeToes = [];
         $timeContents = [];

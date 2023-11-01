@@ -167,21 +167,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php
-                                $matchingContents = $contents9->where('date', $travelDate[$i]->date);
-                                // ここにもし項目(予定)がセットされてれば表示されるようにする
-                                if($matchingContents->isNotEmpty()) {
-                                    foreach($matchingContents as $content) {
-                                        if($travelDate[$i]->date == $content->date){
-                                            echo '<tr>';
-                                            echo '<td>' . substr($content->time_from, 11, 5) . '～' . substr($content->time_to, 11, 5);
-                                            echo '<td>' . $content->contents . '</td>';
-                                            echo '</tr>';
-                                        }
-                                    }
-                                }
-                            @endphp
-                        </tbody>
+                            @if(isset($travelDate[$i]) && $displayDays[$i] === $travelDate[$i]->date)
+                                @for($j = 0; $j < $displayDays; $j ++)
+                                    @foreach ($dateTimeAll[$i] as $row)
+                                        <tr>
+                                            <td>{{ $row['time_from'] }}～{{ $row['time_to'] }}</td>
+                                            <td>{{ $row['contents'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endfor
+                            @endif
                     </table>
                     <br>
                 @endfor
