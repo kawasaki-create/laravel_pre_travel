@@ -20,15 +20,16 @@
                 @for($i = 0; $i < $dateCount; $i ++)
                     <a href="" class="date" id="date{{$i}}">{{ $displayDays[$i] }}<span style="font-size: 10px; color: gray;" id="dateText{{$i}}">{{ $displayFlags[$displayDays[$i]] ? '(クリックで閉じる)' : '(クリックで表示)' }}</span></a>
                     <span name="clickInline" style="display: {{ $displayFlags[$displayDays[$i]] ? '' : 'none' }};"><br><br></span>
-                        <form action="{{ route('schedule.detailNew', ['travel_plan_id' => $travelPlan->id, 'date' => $displayDays[$i]]) }}" method="POST">
+                    <div class="d-flex">
+                        <form action="{{ route('schedule.detailNew', ['travel_plan_id' => $travelPlan->id, 'date' => $displayDays[$i]]) }}" method="POST" style="display: inline;" class="me-2">
                             @csrf
                             <div class="d-grid gap-2 d-md-block">
-                                <button class="btn btn-outline-primary" name="newDetail" style="display: {{ $displayFlags[$displayDays[$i]] ? 'inline' : 'none' }};">予定追加</button>　
+                                <button class="btn btn-outline-primary" name="newDetail" style="display: {{ $displayFlags[$displayDays[$i]] ? 'inline' : 'none' }};">予定追加</button>
                             </div>
                             <textarea type="text" name="travel_plan_id" hidden>{{ $travelPlan->id }}</textarea>
                             <textarea type="text" name="travelDate" hidden>{{ $displayDays[$i] }}</textarea>
                         </form>
-                        <form action="{{ route('schedule.detailEdit', ['travel_plan_id' => $travelPlan->id, 'date' => $displayDays[$i]]) }}" method="POST">
+                        <form action="{{ route('schedule.detailEdit', ['travel_plan_id' => $travelPlan->id, 'date' => $displayDays[$i]]) }}" method="POST" style="display: inline;">
                             @csrf
                             <div class="d-grid gap-2 d-md-block">
                                 <button class="btn btn-outline-secondary" name="editDetail" style="display: {{ $displayFlags[$displayDays[$i]] ? 'inline' : 'none' }};">予定編集</button>
@@ -36,6 +37,7 @@
                             <textarea type="text" name="travel_plan_id" hidden>{{ $travelPlan->id }}</textarea>
                             <textarea type="text" name="travelDate" hidden>{{ $displayDays[$i] }}</textarea>
                         </form>
+                    </div>
                     <span>　</span>
                     <table name="expense" class="table table-bordered table-striped table-responsive" style="display: {{ $displayFlags[$displayDays[$i]] ? 'table' : 'none' }};">
                         <thead>
@@ -50,7 +52,7 @@
                                 <td>朝食</td>
                                 @if($contents1Data[$i]?? null )
                                     <td>{{ $contents1Data[$i]->implode(', '); }}</td>
-                                    <td>{{ $price1Data[$i]->sum() }}</td>
+                                    <td>¥{{ $price1Data[$i]->sum() }}</td>
                                 @else
                                     <td></td>
                                     <td></td>
@@ -60,7 +62,7 @@
                                 <td>昼食</td>
                                 @if($contents2Data[$i]?? null )
                                     <td>{{ $contents2Data[$i]->implode(', '); }}</td>
-                                    <td>{{ $price2Data[$i]->sum(); }}</td>
+                                    <td>¥{{ $price2Data[$i]->sum(); }}</td>
                                 @else
                                     <td></td>
                                     <td></td>
@@ -70,7 +72,7 @@
                                 <td>夕食</td>
                                 @if($contents3Data[$i]?? null )
                                     <td>{{ $contents3Data[$i]->implode(', '); }}</td>
-                                    <td>{{ $price3Data[$i]->sum(); }}</td>
+                                    <td>¥{{ $price3Data[$i]->sum(); }}</td>
                                 @else
                                     <td></td>
                                     <td></td>
@@ -80,7 +82,7 @@
                                 <td>間食</td>
                                 @if($contents4Data[$i]?? null )
                                     <td>{{ $contents4Data[$i]->implode(', '); }}</td>
-                                    <td>{{ $price4Data[$i]->sum(); }}</td>
+                                    <td>¥{{ $price4Data[$i]->sum(); }}</td>
                                 @else
                                     <td></td>
                                     <td></td>
@@ -90,7 +92,7 @@
                                 <td>交通費</td>
                                 @if($contents5Data[$i]?? null )
                                     <td>{{ $contents5Data[$i]->implode(', '); }}</td>
-                                    <td>{{ $price5Data[$i]->sum(); }}</td>
+                                    <td>¥{{ $price5Data[$i]->sum(); }}</td>
                                 @else
                                     <td></td>
                                     <td></td>
@@ -100,7 +102,7 @@
                                 <td>宿泊費</td>
                                 @if($contents6Data[$i]?? null )
                                     <td>{{ $contents6Data[$i]->implode(', '); }}</td>
-                                    <td>{{ $price6Data[$i]->sum(); }}</td>
+                                    <td>¥{{ $price6Data[$i]->sum(); }}</td>
                                 @else
                                     <td></td>
                                     <td></td>
@@ -110,7 +112,7 @@
                                 <td>お土産</td>
                                 @if($contents7Data[$i]?? null )
                                     <td>{{ $contents7Data[$i]->implode(', '); }}</td>
-                                    <td>{{ $price7Data[$i]->sum(); }}</td>
+                                    <td>¥{{ $price7Data[$i]->sum(); }}</td>
                                 @else
                                     <td></td>
                                     <td></td>
@@ -120,7 +122,7 @@
                                 <td>レジャー</td>
                                 @if($contents8Data[$i]?? null )
                                     <td>{{ $contents8Data[$i]->implode(', '); }}</td>
-                                    <td>{{ $price8Data[$i]->sum(); }}</td>
+                                    <td>¥{{ $price8Data[$i]->sum(); }}</td>
                                 @else
                                     <td></td>
                                     <td></td>
@@ -130,7 +132,7 @@
                                 <td>その他雑費</td>
                                 @if($contents10Data[$i]?? null )
                                     <td>{{ $contents10Data[$i]->implode(', '); }}</td>
-                                    <td>{{ $price10Data[$i]->sum(); }}</td>
+                                    <td>¥{{ $price10Data[$i]->sum(); }}</td>
                                 @else
                                     <td></td>
                                     <td></td>
@@ -167,16 +169,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if(isset($travelDate[$i]) && $displayDays[$i] === $travelDate[$i]->date)
-                                @for($j = 0; $j < $displayDays; $j ++)
-                                    @foreach ($dateTimeAll[$i] as $row)
-                                        <tr>
-                                            <td>{{ $row['time_from'] }}～{{ $row['time_to'] }}</td>
-                                            <td>{{ $row['contents'] }}</td>
-                                        </tr>
-                                    @endforeach
-                                @endfor
-                            @endif
+                            @foreach ($contents9 as $row)
+                                @if(substr($row->time_from, 0, 10) == $displayDays[$i])
+                                    <tr>
+                                        <td>{{ substr($row->time_from, 11, 5) }}～{{ substr($row->time_to, 11, 5) }}</td>
+                                        <td>{{ $row->contents }}</td>
+                                    </tr>
+                                @endif
+                            @endforeach
                     </table>
                     <br>
                 @endfor

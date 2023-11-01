@@ -32,6 +32,7 @@
                                     echo '<span>' . '朝食：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
+                                $deleteFlg = true;
                             }
                         @endphp
                         @php
@@ -44,6 +45,7 @@
                                     echo '<span>' . '昼食：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
+                                $deleteFlg = true;
                             }
                         @endphp
                         @php
@@ -56,6 +58,7 @@
                                     echo '<span>' . '夕食：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
+                                $deleteFlg = true;
                             }
                         @endphp
                         @php
@@ -68,6 +71,7 @@
                                     echo '<span>' . '間食：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
+                                $deleteFlg = true;
                             }
                         @endphp
                         @php
@@ -80,6 +84,7 @@
                                     echo '<span>' . '交通費：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
+                                $deleteFlg = true;
                             }
                         @endphp
                         @php
@@ -92,6 +97,7 @@
                                     echo '<span>' . '宿泊費：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
+                                $deleteFlg = true;
                             }
                         @endphp
                         @php
@@ -104,6 +110,7 @@
                                     echo '<span>' . 'お土産：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
+                                $deleteFlg = true;
                             }
                         @endphp
                         @php
@@ -116,6 +123,7 @@
                                     echo '<span>' . 'レジャー：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
+                                $deleteFlg = true;
                             }
                         @endphp
                         @php
@@ -128,6 +136,7 @@
                                     echo '<span>' . 'その他雑費：'. $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
+                                $deleteFlg = true;
                             }
                         @endphp
                         @php
@@ -141,10 +150,12 @@
                                     echo '<span>' . substr($content->time_from, 11, 5) . '～' . substr($content->time_to, 11, 5) . '　' . $content->contents . '</span></br>';
                                     $contentsCount++;
                                 }
+                                $deleteFlg = true;
                             }
                         @endphp
-                        <br>
-                        <button type="submit" class="btn btn-danger" id="detail-delete">削除</button><br>
+                        @if($deleteFlg)
+                            <br><button type="submit" class="btn btn-danger" id="detail-delete">削除</button><br>
+                        @endif
                         <!-- <button type="submit" name="plan-register" class="btn btn-primary">登録</button> -->
                         <input type="hidden" name="plan-id" value="{{ $editUrl }}">
                     </form>

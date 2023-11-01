@@ -115,7 +115,7 @@ class ScheduleController extends Controller
         $contents6 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 6);
         $contents7 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 7);
         $contents8 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 8);
-        $contents9 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->get();
+        $contents9 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->orderBy('time_from', 'asc')->get();
         $contents10 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 10);
 
         // $price1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->sum('price');
@@ -398,6 +398,7 @@ class ScheduleController extends Controller
         }
 
         // dd($dateTimeAll[0][1]);
+        // dd($contents9);
 
 
         return view('schedule_detail', [
@@ -611,6 +612,8 @@ class ScheduleController extends Controller
         $contents9 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 9)->get();
         $contents10 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 10)->get();
 
+        $deleteFlg = false;
+
         return view('travel_detail_edit',[
             'travelPlanId' => $travelPlanId,
             'travelDate' => $travelDate,
@@ -639,6 +642,7 @@ class ScheduleController extends Controller
             'contents7Data' => $contents7Data,
             'contents8Data' => $contents8Data,
             'contents10Data' => $contents10Data,
+            'deleteFlg' => $deleteFlg,
         ]);
     }
 
