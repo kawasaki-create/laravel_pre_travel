@@ -17,11 +17,11 @@ textarea.addEventListener('input', function() {
     var currentLength = textarea.value.length;
     txtLength = currentLength;
 
-  // 最大文字数を取得します
-  var maxLength = parseInt(textarea.getAttribute('maxlength'));
+    // 最大文字数を取得します
+    var maxLength = parseInt(textarea.getAttribute('maxlength'));
 
   // 文字数表示用のテキストを更新します
-  charCount.textContent = currentLength + '/' + maxLength;
+    charCount.textContent = currentLength + '/' + maxLength;
 });
 
 myTweetEdit.addEventListener('input', function() {
@@ -29,11 +29,11 @@ myTweetEdit.addEventListener('input', function() {
     var currentLength = myTweetEdit.value.length;
     txtLength = currentLength;
 
-  // 最大文字数を取得します
-  var maxLength = parseInt(myTweetEdit.getAttribute('maxlength'));
+    // 最大文字数を取得します
+    var maxLength = parseInt(myTweetEdit.getAttribute('maxlength'));
 
-  // 文字数表示用のテキストを更新します
-  charCount.textContent = currentLength + '/' + maxLength;
+    // 文字数表示用のテキストを更新します
+    charCount.textContent = currentLength + '/' + maxLength;
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -88,15 +88,11 @@ function showPopup(button) {
     // ポップアップの内容やスタイルを設定します
     modal.style.display = 'block';
     var tweetId = button.getAttribute('data-tweet-id');
-    var tweetIdSpan = modal.querySelector('.tweet-id'); // モーダル内の適切な場所を指定
-    // モーダル内の特定の場所にtweetIdを表示する
-    tweetIdSpan.textContent = tweetId;
 
      // 保存ボタンのリンクに tweetId を追加する
     var saveButton = modal.querySelector('.editSaveBtn');
     // 保存ボタンをクリックしたときの処理
-　		
-   saveButton.addEventListener('click', function(e) {
+    saveButton.addEventListener('click', function(e) {
 	   e.preventDefault(); // ページのリロードを防ぐ
         var tweetContent = document.getElementById('myTweetEdit').value;
         var tweetId = button.getAttribute('data-tweet-id');
