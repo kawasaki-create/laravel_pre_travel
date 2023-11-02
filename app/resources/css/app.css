@@ -94,3 +94,12 @@
     right: 11px;
     top: 16px;
 }
+
+/* ナビゲーションメニューがデフォルトで展開した状態にする */
+.navbar-collapse {
+    display: block;
+}
+
+.card-header {
+    color:yellow;
+}
