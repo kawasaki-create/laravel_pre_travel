@@ -86,9 +86,19 @@ class ScheduleController extends Controller
     {
         // 予定のIDを取得して編集画面に渡す例
         $travelPlan = TravelPlan::find($id);
+        $formatted_start = Carbon::parse($travelPlan->trip_start)->format('Y-m-d');
+        $formatted_end = Carbon::parse($travelPlan->trip_end)->format('Y-m-d');
+        //dd($travelPlan);
+
+        $departure = substr($travelPlan->departure_time, 11, 5);
 
         // 編集画面のビューにデータを渡す
-        return view('schedule_edit', compact('travelPlan'));
+        return view('schedule_edit', [
+            'travelPlan' => $travelPlan,
+            'formatted_start' => $formatted_start,
+            'formatted_end' => $formatted_end,
+            'departure' => $departure,
+        ]);
 
     }
 
