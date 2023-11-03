@@ -137,5 +137,8 @@ class HomeController extends Controller
             'success'=> 'つぶやきを更新しました！',
         ]);
     }
-
+    public function email()
+    {
+        return view('auth.passwords.email');
+    }
 }

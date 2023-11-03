@@ -201,7 +201,7 @@
                             <textarea id="timeCnt" name="timeCnt" hidden>1</textarea>
                             <textarea type="text" name="travel_plan_id" hidden>{{ $travelPlanId }}</textarea>
                             <textarea type="text" name="travelDate" hidden>{{ $travelDate }}</textarea>
-                            <button type="submit" id="detail-add" class="btn btn-primary">登録</button>
+                            <button type="submit" id="detail-add" class="btn btn-primary" name="todo-register">登録</button>
                             <span id="inputContainer"></span>
                         @endif
                     </form>

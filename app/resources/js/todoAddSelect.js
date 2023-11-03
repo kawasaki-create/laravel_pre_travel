@@ -4,6 +4,7 @@ var selectBox = document.getElementById('selectBox');
 var inputContainer = document.getElementById('inputContainer');
 var lineBreak = document.createElement('br');
 var timeCnt = document.getElementById('timeCnt').value; // timeCntの値を取得
+var addButton = document.getElementById('detail-add');
 
 // セレクトボックスの変更時に呼ばれる関数
 function updateInputNames() {
@@ -21,7 +22,7 @@ function updateInputNames() {
         inputPrice.type = 'number';
 
         // クラスを追加する
-        inputElement.classList.add('expense-text2');
+        inputElement.setAttribute('id', 'expense-text2');
         inputPrice.classList.add('expense-number');
 
         // 名前属性に選択値を含めて設定
@@ -41,7 +42,7 @@ function updateInputNames() {
             var timeFrom = document.createElement('input');
             var timeTo = document.createElement('input');
             var timeContent = document.createElement('input');
-    
+
             timeFrom.type = 'time';
             timeTo.type = 'time';
             timeContent.type = 'text';
@@ -92,4 +93,44 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+    addButton.addEventListener('click', gotoAdd);
+    function gotoAdd() {
+        var selectedValue = selectBox.value;
+        if(selectedValue == 9) {
+            // 予定にして登録ボタンを押し時の挙動
+            // timesのfrom1要素を取得
+            var timeFrom1 = document.querySelector('[name="time-from-1"]');
+            // timesのto1要素を取得
+            var timeTo1 = document.querySelector('[name="time-to-1"]');
+            // timesのgoing1要素を取得
+            var going1 = document.querySelector('[name="going-1"]');
+            var fromVal = timeFrom1.value;
+            var toVal = timeTo1.value;
+            if(fromVal === '' || toVal === ''){
+                // デフォルトのクリック動作をキャンセル
+                event.preventDefault();
+                alert("時間を入力してください🙃");
+                return;
+            }
+            if(fromVal > toVal){
+                // デフォルトのクリック動作をキャンセル
+                event.preventDefault();
+                alert("時間が不正です🙃");
+                return;
+            }
+            if(going1.value === ''){
+                // デフォルトのクリック動作をキャンセル
+                event.preventDefault();
+                alert("予定を入力してください🙃");
+                return;
+            }
+        } else {
+            var getContent = document.getElementById('expense-text2');
+            if(getContent.value === '') {
+                alert("内容を入力してください");
+                event.preventDefault();
+            }
+        }
+    }
 });
+

@@ -87,16 +87,27 @@
                     <div class="card-header">旅行概要 <span style="color:red; font-size:10px;">※旅行中のみ表示</span></div>
                     <div class="card-body">
                         @foreach ($travelPlans as $travelPlan)
-                            @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s') <= $travelPlan->trip_end)
+                            @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end)
                                 @if($loop->iteration > 7)
                                     <span name="clickInline" style="display: {{ $tripCnt >= 2 ? '' : 'none' }};"><br></span>
                                 @endif
-                                <p>旅行名: {{ $travelPlan->trip_title }}</p>
-                                <p>期間: {{ $travelPlan->trip_start }} 〜 {{ $travelPlan->trip_end }}</p>
-                                <p>出発時刻: {{ $travelPlan->departure_time }}</p>
-                                <p>集合場所: {{ $travelPlan->meet_place }}</p>
+                                <p>旅行名： {{ $travelPlan->trip_title }}</p>
+                                <p>期間： {{ $travelPlan->trip_start }} 〜 {{ $travelPlan->trip_end }}</p>
+                                <p>出発時刻： {{ $travelPlan->departure_time }}</p>
+                                @if($travelPlan->meet_place)
+                                    <p>集合場所： {{ $travelPlan->meet_place }}</p>
+                                @endif
                                 @if($travelPlan->budget)
-                                    <p>予算: {{ $travelPlan->budget }}円</p>
+                                    <p>予算： {{ $travelPlan->budget }}円</p>
+                                @endif
+                                <input type="hidden" value="{{ $travelPlan->id }}">
+                                <a href="{{ route('schedule.detail', ['id' => $travelPlan->id]) }}" class="btn btn-outline-success">旅行詳細設定</a>
+                                @php
+                                //dd($loop->iteration, $tripCnt);
+                                @endphp
+                                @if($loop->iteration >= 7)
+                                <br>
+                                    <!-- <span name="clickInline" style="display: {{ $tripCnt >= 2 ? '' : 'none' }};"><br></span> -->
                                 @endif
                             @endif
                         @endforeach
