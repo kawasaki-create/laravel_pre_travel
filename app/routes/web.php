@@ -17,9 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//Auth::routes();
+// メール認証を使うため引数を増やす
+Auth::routes(['verify' => true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');;
 Route::get('/schedule', [App\Http\Controllers\ScheduleController::class, 'index']);
 Route::post('/home/post', [App\Http\Controllers\HomeController::class, 'handleClick'])->name('button.click');
 Route::post('/schedule/register', [App\Http\Controllers\ScheduleController::class, 'addPlan'])->name('travel.click');

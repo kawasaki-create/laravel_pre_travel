@@ -5,6 +5,9 @@ services:
     build: ./php-fpm
     volumes:
       - ./app:/var/www/app
+    environment:
+      - MAIL_HOST=mail-server
+      - MAIL_PORT=587
   nginx:
     image: nginx
     container_name: nginx
@@ -40,5 +43,15 @@ services:
       PMA_USER: ${DB_USERNAME}
       PMA_PASSWORD: ${DB_PASSWORD}
 
+  mail-server:
+    image: catatnight/postfix
+    platform: linux/amd64
+    ports:
+      - 587:587
+    environment:
+      - MAIL_DOMAIN=example.com
+      - MAIL_HOSTNAME=mail.example.com
+    volumes:
+          - ./mail/main.cf:/etc/postfix/main.cf
 volumes:
   data-volume:
