@@ -40,3 +40,5 @@ Route::post('/schedule/detail/new/register', [App\Http\Controllers\ScheduleContr
 Route::post('/schedule/detail/edit/register', [App\Http\Controllers\ScheduleController::class, 'detailER'])->name('schedule.detailER');
 Route::post('/schedule/detail/delete', [App\Http\Controllers\ScheduleController::class, 'detailDelete'])->name('schedule.detailDelete');
 Route::get('/email', [App\Http\Controllers\HomeController::class, 'email']);
+Route::get('/home/account_delete', [App\Http\Controllers\HomeController::class, 'accountDelete']);
+Route::get('/register_send', [App\Http\Controllers\MailSendController::class, 'registerSend']);

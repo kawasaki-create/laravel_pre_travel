@@ -141,4 +141,13 @@ class HomeController extends Controller
     {
         return view('auth.passwords.email');
     }
+
+    public function accountDelete()
+    {
+        $id = Auth::user()->id;
+        // TravelDetail::where('travel_plan_id', $id)->delete();
+        // TravelPlan::where('id', $id)->delete();
+
+        return redirect('/')->with('danger', 'アカウントを削除しました');
+    }
 }

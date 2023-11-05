@@ -21,7 +21,7 @@
             <a class="nav-link" href="/home/all_tweet">全てのつぶやきを表示</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="account">アカウント設定</a>
+            <a class="nav-link" href="/home/account_delete" type="button" id="accountDelete">アカウント削除</a>
             </li>
         </ul>
         </div>

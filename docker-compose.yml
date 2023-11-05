@@ -5,9 +5,6 @@ services:
     build: ./php-fpm
     volumes:
       - ./app:/var/www/app
-    environment:
-      - MAIL_HOST=mail-server
-      - MAIL_PORT=587
   nginx:
     image: nginx
     container_name: nginx
