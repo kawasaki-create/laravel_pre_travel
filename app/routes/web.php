@@ -43,3 +43,5 @@ Route::get('/email', [App\Http\Controllers\HomeController::class, 'email']);
 Route::get('/home/account_delete', [App\Http\Controllers\MailSendController::class, 'AccountDeleteSend']);
 Route::get('/register_send', [App\Http\Controllers\MailSendController::class, 'registerSend']);
 Route::get('/deleted/{id}', [App\Http\Controllers\HomeController::class, 'AccountDeleted'])->name('deleted');
+Route::get('/home/change_mail', [App\Http\Controllers\HomeController::class, 'changeAddress']);
+Route::post('/home/change_mail/ok', [App\Http\Controllers\HomeController::class, 'changeAddressOK'])->name('mail.change');

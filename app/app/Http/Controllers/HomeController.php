@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\TravelDetail;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MailChangeSendMail;
 
 class HomeController extends Controller
 {
@@ -157,5 +159,22 @@ class HomeController extends Controller
         User::where('id', $id)->delete();
 
         return redirect('/')->with('success', 'アカウント削除が完了しました👋');
+    }
+
+    public function changeAddress()
+    {
+        return view('address_change');
+    }
+
+    public function changeAddressOk(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->save();
+
+        Mail::send(new MailChangeSendMail($request));
+
+        return redirect('/home')->with('success', '名前/メールアドレスを変更しました🤗');
     }
 }

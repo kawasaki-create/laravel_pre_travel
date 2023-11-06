@@ -24,6 +24,9 @@
             <li class="nav-item">
             <a class="nav-link" href="/home/account_delete" type="button" id="accountDelete">アカウント削除</a>
             </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/home/change_mail">メールアドレス変更</a>
+            </li>
         </ul>
         </div>
     </nav>
