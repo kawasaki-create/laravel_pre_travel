@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Tweet;
 use App\Models\TravelPlan;
+use App\Models\User;
+use App\Models\TravelDetail;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,7 +51,7 @@ class HomeController extends Controller
         $duplicatedIdList = [];
         $duplicatedTitleList = [];
         foreach($travelPlans as $travelPlan) {
-            if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end) {
+            if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end) {
                 $tripCnt++;
                 $duplicatedIdList[] = $travelPlan->id;
                 $duplicatedTitleList[] = $travelPlan->trip_title;
@@ -142,12 +144,18 @@ class HomeController extends Controller
         return view('auth.passwords.email');
     }
 
-    public function accountDelete()
+    public function AccountDeleted(Request $request, $id)
     {
-        $id = Auth::user()->id;
-        // TravelDetail::where('travel_plan_id', $id)->delete();
-        // TravelPlan::where('id', $id)->delete();
+        // リンクの検証
+        if (!$request->hasValidSignature()) {
+            return redirect('/home')->with('danger', 'URLの有効期限が切れています😇');
+        }
+        // ユーザーに関連するデータの削除
+        TravelDetail::where('travel_plan_id', $id)->delete();
+        TravelPlan::where('user_id', $id)->delete();
+        Tweet::where('user_id', $id)->delete();
+        User::where('id', $id)->delete();
 
-        return redirect('/')->with('danger', 'アカウントを削除しました');
+        return redirect('/')->with('success', 'アカウント削除が完了しました👋');
     }
 }

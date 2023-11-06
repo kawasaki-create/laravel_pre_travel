@@ -4,12 +4,14 @@ import './bootstrap';
 var textarea = document.getElementById('myTextarea');
 var myTweetEdit = document.getElementById('myTweetEdit');
 var charCount = document.getElementById('charCount');
+var modalCharCount = document.getElementById('modalCharCount');
 var deleteButton = document.getElementById('tweetDeleteButton');
 var tweetButton = document.getElementById('tweetButton');
 var planDeleteButton = document.getElementById('planDeleteButton');
 var editButtons = document.getElementsByClassName('editButton');
 
 var txtLength = 0;
+var modalTxtLength = 0;
 
 // textareaの入力内容が変更されたときのイベントを設定します
 textarea.addEventListener('input', function() {
@@ -27,13 +29,13 @@ textarea.addEventListener('input', function() {
 myTweetEdit.addEventListener('input', function() {
     // 入力された文字数を取得します
     var currentLength = myTweetEdit.value.length;
-    txtLength = currentLength;
+    modalTxtLength = currentLength;
 
     // 最大文字数を取得します
     var maxLength = parseInt(myTweetEdit.getAttribute('maxlength'));
 
     // 文字数表示用のテキストを更新します
-    charCount.textContent = currentLength + '/' + maxLength;
+    modalCharCount.textContent = currentLength + '/' + maxLength;
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -94,6 +96,11 @@ function showPopup(button) {
     // 保存ボタンをクリックしたときの処理
     saveButton.addEventListener('click', function(e) {
 	   e.preventDefault(); // ページのリロードを防ぐ
+        if(modalTxtLength === 0){
+            event.preventDefault(); // フォームの送信をキャンセル
+            alert("何も入力されていません🙃");
+            return;
+    }
         var tweetContent = document.getElementById('myTweetEdit').value;
         var tweetId = button.getAttribute('data-tweet-id');
         window.location.href = "/home/editedtweet/register/" + tweetId + "?tweetContent=" + decodeURIComponent(tweetContent);
@@ -114,9 +121,3 @@ function outsideClose(e) {
     }
 }
 
-var accountDeleteButton = document.getElementById('accountDelete');
-accountDeleteButton.addEventListener('click', function() {
-    if(!confirm("アカウントを削除しますか？(これまでのつぶやき、旅行プランなどが全て削除されます。)")){
-        event.preventDefault(); // フォームの送信をキャンセル
-    }
-});

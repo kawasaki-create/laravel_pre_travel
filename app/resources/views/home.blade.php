@@ -2,6 +2,7 @@
 
 @section('content')
 @vite(['resources/js/app.js'])
+@vite(['resources/js/accountDelete.js'])
 @vite(['resources/css/homeNav.css'])
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -36,6 +37,11 @@
         {{ session('warning') }}
     </div>
 @endif
+@if (session('danger'))
+    <div class="alert alert-danger">
+        {{ session('danger') }}
+    </div>
+@endif
 
 <div class="container">
     <div class="row justify-content-center">
@@ -59,7 +65,7 @@
                 $displayCard = false;
             @endphp
             @foreach ($travelPlans as $travelPlan)
-                @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s') <= $travelPlan->trip_end)
+                @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end)
                     @php
                         $displayCard = true;
                     @endphp
@@ -120,7 +126,7 @@
             @endphp
             @foreach ($travelPlans as $travelPlan)
                 @foreach ($tweets as $tweet)
-                    @if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end)
+                    @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end)
                         @php
                             $displayCard = true;
                         @endphp
@@ -135,7 +141,10 @@
                         <div class="card-body">
                         @foreach ($travelPlans as $travelPlan)
                             @foreach ($tweets as $tweet)
-                                @if($travelPlan->trip_start < date('Y-m-d H:i:s') && date('Y-m-d H:i:s') < $travelPlan->trip_end && $tweet->created_at < $travelPlan->trip_end && $travelPlan->trip_start < $tweet->created_at && $travelPlan->id == $tweet->travel_plan_id)
+                                @php
+                                    $nextDay = date('Y-m-d H:i:s', strtotime($travelPlan->trip_end . ' +1 day'));
+                                @endphp
+                                @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end && $tweet->created_at <= $nextDay && $travelPlan->trip_start <= $tweet->created_at && $travelPlan->id == $tweet->travel_plan_id)
                                     @php
                                         $displayCard = true;
                                     @endphp
@@ -155,6 +164,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <textarea id="myTweetEdit" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
+                                                <span id="modalCharCount"></span>　
                                                 <a href="#" class="btn editSaveBtn">保存</a>
                                             </div>
                                         </div>
