@@ -177,6 +177,30 @@
                                     </tr>
                                 @endif
                             @endforeach
+                        </tbody>
+                    </table>
+                    <table name="tweet" class="table table-bordered table-striped table-responsive" style="display: {{ $displayFlags[$displayDays[$i]] ? 'table' : 'none' }};">
+                    <thead>
+                            <tr class="table-warning">
+                                <th>内容</th>
+                                <th>日時</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($tweets as $tweet)
+                                @php
+                                if($tweet->editFlg == 1) {
+                                    $editContent = '　(編集済み)';
+                                } else {
+                                    $editContent = '';
+                                }
+                                @endphp
+                                <tr>
+                                    <td>{{ $tweet->tweet }}  <span name="edited" style="color:gray; font-size: 10px;">{{ $editContent }}</span></td>
+                                    <td>{{ $tweet->created_at }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                     <br>
                 @endfor

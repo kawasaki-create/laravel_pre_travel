@@ -97,7 +97,7 @@
                     <div class="card-body">
                         @foreach ($travelPlans as $travelPlan)
                             @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end)
-                                @if($loop->iteration > 7)
+                                @if($loop->iteration > 1)
                                     <span name="clickInline" style="display: {{ $tripCnt >= 2 ? '' : 'none' }};"><br></span>
                                 @endif
                                 <p>旅行名： {{ $travelPlan->trip_title }}</p>
@@ -109,13 +109,14 @@
                                 @if($travelPlan->budget)
                                     <p>予算： {{ $travelPlan->budget }}円</p>
                                 @endif
-                                <input type="hidden" value="{{ $travelPlan->id }}">
-                                <a href="{{ route('schedule.detail', ['id' => $travelPlan->id]) }}" class="btn btn-outline-success">旅行詳細設定</a>
-                                @php
-                                //dd($loop->iteration, $tripCnt);
-                                @endphp
+                                <div>
+                                    <input type="hidden" value="{{ $travelPlan->id }}">
+                                    <a href="{{ route('schedule.edit', ['id' => $travelPlan->id]) }}" class="btn btn-outline-primary">旅行編集</a>　
+                                    <input type="hidden" value="{{ $travelPlan->id }}">
+                                    <a href="{{ route('schedule.detail', ['id' => $travelPlan->id]) }}" class="btn btn-outline-success">旅行詳細設定</a>
+                                </div>
                                 @if($loop->iteration >= 7)
-                                <br>
+                                <br><br>
                                     <!-- <span name="clickInline" style="display: {{ $tripCnt >= 2 ? '' : 'none' }};"><br></span> -->
                                 @endif
                             @endif
@@ -129,7 +130,10 @@
             @endphp
             @foreach ($travelPlans as $travelPlan)
                 @foreach ($tweets as $tweet)
-                    @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end)
+                    @php
+                        $nextDay = date('Y-m-d H:i:s', strtotime($travelPlan->trip_end . ' +1 day'));
+                    @endphp
+                    @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end && $tweet->created_at <= $nextDay && $travelPlan->trip_start <= $tweet->created_at && $travelPlan->id == $tweet->travel_plan_id)
                         @php
                             $displayCard = true;
                         @endphp
@@ -145,6 +149,7 @@
                         @foreach ($travelPlans as $travelPlan)
                             @foreach ($tweets as $tweet)
                                 @php
+                                    $displayCard = false;
                                     $nextDay = date('Y-m-d H:i:s', strtotime($travelPlan->trip_end . ' +1 day'));
                                 @endphp
                                 @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end && $tweet->created_at <= $nextDay && $travelPlan->trip_start <= $tweet->created_at && $travelPlan->id == $tweet->travel_plan_id)
@@ -152,7 +157,7 @@
                                         $displayCard = true;
                                     @endphp
                                     <input type="checkbox" name="tweets[]" value="{{ $tweet->id }}">
-                                    <span name="{{ $tweet->id }}">{{ $tweet->tweet }}
+                                    <span name="{{ $tweet->id }}">{!! nl2br(e($tweet->tweet)) !!}
                                         @if($tweet->editFlg == 1)
                                             <span name="edited" style="color:gray; font-size: 10px;">(編集済み)</span>
                                         @endif

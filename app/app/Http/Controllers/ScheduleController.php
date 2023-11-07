@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\TravelPlan;
 use App\Models\TravelDetail;
+use App\Models\Tweet;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
@@ -84,6 +85,11 @@ class ScheduleController extends Controller
 
     public function edit($id)
     {
+        $userId = Auth::id();
+        $travelPlans = TravelPlan::find($id);
+        if($userId != $travelPlans->user_id) {
+            return redirect('/home')->with('danger', '不正な操作が行われました😠');
+        }
         // 予定のIDを取得して編集画面に渡す例
         $travelPlan = TravelPlan::find($id);
         $formatted_start = Carbon::parse($travelPlan->trip_start)->format('Y-m-d');
@@ -116,6 +122,22 @@ class ScheduleController extends Controller
         $formatted_start = Carbon::parse($travelPlan->trip_start)->format('Y-m-d');
         $formatted_end = Carbon::parse($travelPlan->trip_end)->format('Y-m-d');
         // dd($travelDetails->where('kubun', 1)->pluck('contents'));
+
+        $userId = Auth::id();
+        if($userId != $travelPlan->user_id) {
+            return redirect('/home')->with('danger', '不正な操作が行われました😠');
+        }
+
+        $tweets = Tweet::where('travel_plan_id', $id)->orderBy('created_at', 'asc')->get();
+        $editContent = '';
+        foreach ($tweets as $tweet) {
+            if($tweet->editFlg == 1) {
+                $editContent = '　(編集済み)';
+            }
+            $tweetContents[] = $tweet->tweet;
+            $tweetDatetime[] = $tweet->created_at;
+            $editContent = '';
+        }
 
         // $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->get();
         $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1);
@@ -467,6 +489,10 @@ class ScheduleController extends Controller
             'price10Data' => $price10Data,
             'dateTimeAll' => $dateTimeAll,
             'dateTimeFrom' => $dateTimeFrom,
+            'editContent' => $editContent,
+            'tweetContents' => $tweetContents,
+            'tweetDatetime' => $tweetDatetime,
+            'tweets' => $tweets,
         ]);
     }
 

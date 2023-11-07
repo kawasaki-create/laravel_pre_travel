@@ -1,30 +1,15 @@
 import './bootstrap';
 
 // textarea要素と文字数表示用の要素を取得します
-var textarea = document.getElementById('myTextarea');
 var myTweetEdit = document.getElementById('myTweetEdit');
-var charCount = document.getElementById('charCount');
 var modalCharCount = document.getElementById('modalCharCount');
 var deleteButton = document.getElementById('tweetDeleteButton');
-var tweetButton = document.getElementById('tweetButton');
 var planDeleteButton = document.getElementById('planDeleteButton');
 var editButtons = document.getElementsByClassName('editButton');
 
-var txtLength = 0;
 var modalTxtLength = 0;
 
-// textareaの入力内容が変更されたときのイベントを設定します
-textarea.addEventListener('input', function() {
-    // 入力された文字数を取得します
-    var currentLength = textarea.value.length;
-    txtLength = currentLength;
 
-    // 最大文字数を取得します
-    var maxLength = parseInt(textarea.getAttribute('maxlength'));
-
-  // 文字数表示用のテキストを更新します
-    charCount.textContent = currentLength + '/' + maxLength;
-});
 
 myTweetEdit.addEventListener('input', function() {
     // 入力された文字数を取得します
@@ -40,7 +25,6 @@ myTweetEdit.addEventListener('input', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     deleteButton.addEventListener('click', deleteSelected);
-    tweetButton.addEventListener('click', tweetValid);
     planDeleteButton.addEventListener('click', planDeleteValid);
 
     function deleteSelected() {
@@ -55,13 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if(!confirm("選択したつぶやきを削除しますがよろしいですか？(この動作はもどせません)")){
                 event.preventDefault(); // フォームの送信をキャンセル
             }
-        }
-    }
-
-    function tweetValid(){
-        if(txtLength === 0){
-            event.preventDefault(); // フォームの送信をキャンセル
-            alert("何も入力されていません🙃");
         }
     }
 
