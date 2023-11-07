@@ -182,7 +182,7 @@
                     <table name="tweet" class="table table-bordered table-striped table-responsive" style="display: {{ $displayFlags[$displayDays[$i]] ? 'table' : 'none' }};">
                     <thead>
                             <tr class="table-warning">
-                                <th>内容</th>
+                                <th>つぶやき内容</th>
                                 <th>日時</th>
                             </tr>
                         </thead>

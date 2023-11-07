@@ -29,7 +29,8 @@
                                 $contentsCount = 0;
                                 foreach($matchingContents as $content) {
                                     echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
-                                    echo '<span>' . '朝食：'. $content->contents . '</span></br>';
+                                    echo '<span>' . '朝食：'. $content->contents . '</span>　';
+                                    echo '<span>' . '¥' . $content->price . '</span><br>';
                                     $contentsCount++;
                                 }
                                 $deleteFlg = true;
