@@ -133,7 +133,7 @@
                     @php
                         $nextDay = date('Y-m-d H:i:s', strtotime($travelPlan->trip_end . ' +1 day'));
                     @endphp
-                    @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end && $tweet->created_at <= $nextDay && $travelPlan->trip_start <= $tweet->created_at && $travelPlan->id == $tweet->travel_plan_id)
+                    @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end && $travelPlan->id == $tweet->travel_plan_id)
                         @php
                             $displayCard = true;
                         @endphp
@@ -152,7 +152,7 @@
                                     $displayCard = false;
                                     $nextDay = date('Y-m-d H:i:s', strtotime($travelPlan->trip_end . ' +1 day'));
                                 @endphp
-                                @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end && $tweet->created_at <= $nextDay && $travelPlan->trip_start <= $tweet->created_at && $travelPlan->id == $tweet->travel_plan_id)
+                                @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end && $travelPlan->id == $tweet->travel_plan_id)
                                     @php
                                         $displayCard = true;
                                     @endphp

@@ -130,14 +130,6 @@ class ScheduleController extends Controller
 
         $tweets = Tweet::where('travel_plan_id', $id)->orderBy('created_at', 'asc')->get();
         $editContent = '';
-        foreach ($tweets as $tweet) {
-            if($tweet->editFlg == 1) {
-                $editContent = '　(編集済み)';
-            }
-            $tweetContents[] = $tweet->tweet;
-            $tweetDatetime[] = $tweet->created_at;
-            $editContent = '';
-        }
 
         // $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->get();
         $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1);
@@ -490,8 +482,6 @@ class ScheduleController extends Controller
             'dateTimeAll' => $dateTimeAll,
             'dateTimeFrom' => $dateTimeFrom,
             'editContent' => $editContent,
-            'tweetContents' => $tweetContents,
-            'tweetDatetime' => $tweetDatetime,
             'tweets' => $tweets,
         ]);
     }

@@ -1,11 +1,12 @@
 @extends('layouts.app')
 @section('content')
+@vite(['resources/js/planEdit.js'])
 <script src="{{ asset('resources/js/app.js') }}"></script>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">旅行スケジュール登録</div>
+                <div class="card-header">旅行スケジュール修正</div>
 
                 <div class="card-body">
                     @if (session('status'))

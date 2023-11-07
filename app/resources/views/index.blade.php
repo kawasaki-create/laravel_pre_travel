@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+@vite(['resources/js/planEdit.js'])
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
