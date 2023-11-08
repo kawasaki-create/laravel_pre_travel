@@ -12,6 +12,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailChangeSendMail;
+use App\Mail\AccountDeleteCompleteSendMail;
 
 class HomeController extends Controller
 {
@@ -152,11 +153,14 @@ class HomeController extends Controller
         if (!$request->hasValidSignature()) {
             return redirect('/home')->with('danger', 'URLの有効期限が切れています😇');
         }
+
         // ユーザーに関連するデータの削除
         TravelDetail::where('travel_plan_id', $id)->delete();
-        TravelPlan::where('user_id', $id)->delete();
         Tweet::where('user_id', $id)->delete();
+        TravelPlan::where('user_id', $id)->delete();
         User::where('id', $id)->delete();
+
+        Mail::send(new AccountDeleteCompleteSendMail($request));
 
         return redirect('/')->with('success', 'アカウント削除が完了しました👋');
     }

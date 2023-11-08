@@ -17,6 +17,9 @@
                 <span>期間：{{ $formatted_start }}〜{{ $formatted_end }}</span>
                 <p>{{ $dateCount }}日間</p>
                 <br><br>
+                @php
+                    $balance = $travelPlan->budget;
+                @endphp
                 @for($i = 0; $i < $dateCount; $i ++)
                     <a href="" class="date" id="date{{$i}}">{{ $displayDays[$i] }}<span style="font-size: 10px; color: gray;" id="dateText{{$i}}">{{ $displayFlags[$displayDays[$i]] ? '(クリックで閉じる)' : '(クリックで表示)' }}</span></a>
                     <span name="clickInline" style="display: {{ $displayFlags[$displayDays[$i]] ? '' : 'none' }};"><br><br></span>
@@ -154,7 +157,18 @@
                                             $price1Data[$i] ?? null ||
                                             $price10Data[$i] ?? null
                                         )
-                                        ¥{{ $totalPrice[$i]}}
+                                            @php
+                                                if(isset($balance) && $balance <= 0 && $totalPrice[$i] != 0) {
+                                                    $balance =  $balance - $totalPrice[$i];
+                                                    echo '¥' . $totalPrice[$i] . '<span name="edited" style="color:red; font-weight: bold;">' . ' (¥' . ltrim($balance, "-") . 'オーバー)' . '</span>';
+                                                } else if(isset($balance) && $balance > 0 && $totalPrice[$i] != 0) {
+                                                    $balance = $balance - $totalPrice[$i];
+                                                    echo '¥' . $totalPrice[$i] . ' @¥' . $balance;
+                                                } else {
+                                                    $balance = $balance - $totalPrice[$i];
+                                                    echo '¥' . $totalPrice[$i];
+                                                }
+                                            @endphp
                                         @endif
                                     </td>
                                 </tr>
@@ -196,8 +210,8 @@
                                 }
                                 @endphp
                                 <tr>
-                                    <td>{{ $tweet->tweet }}  <span name="edited" style="color:gray; font-size: 10px;">{{ $editContent }}</span></td>
-                                    <td>{{ $tweet->created_at }}</td>
+                                    <td>{!! nl2br(e($tweet->tweet)) !!}  <span name="edited" style="color:gray; font-size: 10px;">{{ $editContent }}</span></td>
+                                    <td>{{ $tweet->updated_at }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -128,7 +128,7 @@ class ScheduleController extends Controller
             return redirect('/home')->with('danger', '不正な操作が行われました😠');
         }
 
-        $tweets = Tweet::where('travel_plan_id', $id)->orderBy('created_at', 'asc')->get();
+        $tweets = Tweet::where('travel_plan_id', $id)->orderBy('updated_at', 'asc')->get();
         $editContent = '';
 
         // $contents1 = TravelDetail::where('travel_plan_id', $id)->where('kubun', 1)->get();
@@ -372,6 +372,7 @@ class ScheduleController extends Controller
         }
 
         $totalPrice = [];
+        $balance = 0;
         for ($i = 0; $i < $dateCount; $i++) {
             $data = TravelDetail::where('travel_plan_id', $id)
                 ->where('date', $displayDays[$i])
@@ -379,6 +380,7 @@ class ScheduleController extends Controller
                 ->sum();
             $totalPrice[$i] = $data; // 合計金額に加算
         }
+
 
         // dd($totalPrice);
 
@@ -483,6 +485,7 @@ class ScheduleController extends Controller
             'dateTimeFrom' => $dateTimeFrom,
             'editContent' => $editContent,
             'tweets' => $tweets,
+            'balance' => $balance,
         ]);
     }
 

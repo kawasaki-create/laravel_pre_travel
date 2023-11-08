@@ -43,7 +43,8 @@
                                 $contentsCount = 0;
                                 foreach($matchingContents as $content) {
                                     echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
-                                    echo '<span>' . '昼食：'. $content->contents . '</span></br>';
+                                    echo '<span>' . '昼食：'. $content->contents . '</span>　';
+                                    echo '<span>' . '¥' . $content->price . '</span><br>';
                                     $contentsCount++;
                                 }
                                 $deleteFlg = true;
@@ -56,7 +57,8 @@
                                 $contentsCount = 0;
                                 foreach($matchingContents as $content) {
                                     echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
-                                    echo '<span>' . '夕食：'. $content->contents . '</span></br>';
+                                    echo '<span>' . '夕食：'. $content->contents . '</span>　';
+                                    echo '<span>' . '¥' . $content->price . '</span><br>';
                                     $contentsCount++;
                                 }
                                 $deleteFlg = true;
@@ -69,7 +71,8 @@
                                 $contentsCount = 0;
                                 foreach($matchingContents as $content) {
                                     echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
-                                    echo '<span>' . '間食：'. $content->contents . '</span></br>';
+                                    echo '<span>' . '間食：'. $content->contents . '</span>　';
+                                    echo '<span>' . '¥' . $content->price . '</span><br>';
                                     $contentsCount++;
                                 }
                                 $deleteFlg = true;
@@ -82,7 +85,8 @@
                                 $contentsCount = 0;
                                 foreach($matchingContents as $content) {
                                     echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
-                                    echo '<span>' . '交通費：'. $content->contents . '</span></br>';
+                                    echo '<span>' . '交通費：'. $content->contents . '</span>　';
+                                    echo '<span>' . '¥' . $content->price . '</span><br>';
                                     $contentsCount++;
                                 }
                                 $deleteFlg = true;
@@ -95,7 +99,8 @@
                                 $contentsCount = 0;
                                 foreach($matchingContents as $content) {
                                     echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
-                                    echo '<span>' . '宿泊費：'. $content->contents . '</span></br>';
+                                    echo '<span>' . '宿泊費：'. $content->contents . '</span>　';
+                                    echo '<span>' . '¥' . $content->price . '</span><br>';
                                     $contentsCount++;
                                 }
                                 $deleteFlg = true;
@@ -108,7 +113,8 @@
                                 $contentsCount = 0;
                                 foreach($matchingContents as $content) {
                                     echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
-                                    echo '<span>' . 'お土産：'. $content->contents . '</span></br>';
+                                    echo '<span>' . 'お土産：'. $content->contents . '</span>　';
+                                    echo '<span>' . '¥' . $content->price . '</span><br>';
                                     $contentsCount++;
                                 }
                                 $deleteFlg = true;
@@ -121,7 +127,8 @@
                                 $contentsCount = 0;
                                 foreach($matchingContents as $content) {
                                     echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
-                                    echo '<span>' . 'レジャー：'. $content->contents . '</span></br>';
+                                    echo '<span>' . 'レジャー：'. $content->contents . '</span>　';
+                                    echo '<span>' . '¥' . $content->price . '</span><br>';
                                     $contentsCount++;
                                 }
                                 $deleteFlg = true;
@@ -134,7 +141,8 @@
                                 $contentsCount = 0;
                                 foreach($matchingContents as $content) {
                                     echo '<input type="checkbox" name="deletes[]" value="' . $content->id . '"> ';
-                                    echo '<span>' . 'その他雑費：'. $content->contents . '</span></br>';
+                                    echo '<span>' . 'その他雑費：'. $content->contents . '</span>　';
+                                    echo '<span>' . '¥' . $content->price . '</span><br>';
                                     $contentsCount++;
                                 }
                                 $deleteFlg = true;
