@@ -372,7 +372,6 @@ class ScheduleController extends Controller
         }
 
         $totalPrice = [];
-        $balance = 0;
         for ($i = 0; $i < $dateCount; $i++) {
             $data = TravelDetail::where('travel_plan_id', $id)
                 ->where('date', $displayDays[$i])
@@ -485,7 +484,6 @@ class ScheduleController extends Controller
             'dateTimeFrom' => $dateTimeFrom,
             'editContent' => $editContent,
             'tweets' => $tweets,
-            'balance' => $balance,
         ]);
     }
 

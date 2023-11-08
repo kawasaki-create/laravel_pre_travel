@@ -158,10 +158,10 @@
                                             $price10Data[$i] ?? null
                                         )
                                             @php
-                                                if(isset($balance) && $balance <= 0 && $totalPrice[$i] != 0) {
+                                                if($balance != null && $balance - $totalPrice[$i] < 0 && $totalPrice[$i] != 0) {
                                                     $balance =  $balance - $totalPrice[$i];
                                                     echo '¥' . $totalPrice[$i] . '<span name="edited" style="color:red; font-weight: bold;">' . ' (¥' . ltrim($balance, "-") . 'オーバー)' . '</span>';
-                                                } else if(isset($balance) && $balance > 0 && $totalPrice[$i] != 0) {
+                                                } else if($balance != null && $balance - $totalPrice[$i] > 0 && $totalPrice[$i] != 0) {
                                                     $balance = $balance - $totalPrice[$i];
                                                     echo '¥' . $totalPrice[$i] . ' @¥' . $balance;
                                                 } else {
