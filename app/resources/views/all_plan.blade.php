@@ -31,13 +31,24 @@
                             </form>
                         </div>
                         <div class="card-body">
-                            <p>旅行名: {{ $travelPlan->trip_title }}</p>
-                            <p>期間: {{ $travelPlan->trip_start }} 〜 {{ $travelPlan->trip_end }}</p>
-                            <p>出発時刻: {{ $travelPlan->departure_time }}</p>
-                            <p>集合場所: {{ $travelPlan->meet_place }}</p>
-                            @if($travelPlan->budget)
-                                <p>予算: {{ $travelPlan->budget }}円</p>
+                            @php
+                                $time = substr($travelPlan->departure_time, 11, 8);
+                                $ftime = substr($time, 0, 5);
+                            @endphp
+                            <p>旅行名： {{ $travelPlan->trip_title }}</p>
+                            <p>期間： {{ $travelPlan->trip_start }} 〜 {{ $travelPlan->trip_end }}</p>
+                            @if($time != '00:00:00')
+                            <p>出発時刻： {{ $travelPlan->trip_start . ' ' . $ftime }}</p>
                             @endif
+                            @if($travelPlan->meet_place)
+                                <p>集合場所： {{ $travelPlan->meet_place }}</p>
+                            @endif
+                            @if($travelPlan->budget)
+                                <p>予算： {{ $travelPlan->budget }}円</p>
+                            @endif
+                            <div>
+                                <a href="{{ route('schedule.belongings') }}">旅行の持ち物の確認・編集</a>
+                            </div>
                         </div>
                     </div>
                     <br>

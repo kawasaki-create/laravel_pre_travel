@@ -911,4 +911,12 @@ class ScheduleController extends Controller
             'travelPlan' => $travelPlan,
         ]);
     }
+
+    public function belongings()
+    {
+        return view('belongings_edit', [
+
+        ]);
+    }
+    
 }
