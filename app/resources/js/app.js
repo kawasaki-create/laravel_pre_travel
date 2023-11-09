@@ -97,4 +97,3 @@ function outsideClose(e) {
         modal.style.display = 'none';
     }
 }
-
