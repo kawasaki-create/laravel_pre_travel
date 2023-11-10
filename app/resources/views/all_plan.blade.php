@@ -47,7 +47,7 @@
                                 <p>予算： {{ $travelPlan->budget }}円</p>
                             @endif
                             <div>
-                                <a href="{{ route('schedule.belongings') }}">旅行の持ち物の確認・編集</a>
+                                <a href="{{ route('schedule.belongings', ['id' => $travelPlan->id]) }}">旅行の持ち物の確認・編集</a>
                             </div>
                         </div>
                     </div>

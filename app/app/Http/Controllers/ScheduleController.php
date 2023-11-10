@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TravelPlan;
 use App\Models\TravelDetail;
 use App\Models\Tweet;
+use App\Models\Belonging;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
@@ -912,11 +913,50 @@ class ScheduleController extends Controller
         ]);
     }
 
-    public function belongings()
+    public function belongings($id)
     {
-        return view('belongings_edit', [
+        $travelPlans = TravelPlan::where('user_id', Auth::id())->get();
+        $belongings = Belonging::where('travel_plan_id', $id)->get();
+        // dd($travelPlans);
 
+        return view('belongings_edit', [
+            'travelPlans' => $travelPlans,
+            'id' => $id,
+            'belongings' => $belongings,
         ]);
     }
-    
+
+    public function belongings_register(Request $request)
+    {
+        $belonging = new Belonging;
+        $tpid = $request->input('travel_plan_id');
+        $belonginsCnt = $request->input('belonginsCnt');
+        // dd($belonginsCnt);
+
+        if($request->input('belongings-1') !== null) {
+            for($i = 0; $i < $belonginsCnt; $i ++){
+                $belonging = new Belonging;
+                // 既に存在するデータを検索
+                $existingData = Belonging::where('travel_plan_id', $tpid)
+                ->where('travel_plan_id', $request->input('travel_plan_id'))
+                ->where('contents', $request->input('belongings-' . strval($i + 1)))
+                ->first();
+
+                if(!$request->input('belongings-' . strval($i + 1))) continue;
+
+                if(!$existingData) {
+                    $belonging->travel_plan_id = $request->input('travel_plan_id');
+                    $belonging->contents = $request->input('belongings-' . strval($i + 1));
+                    $belonging->save();
+                }
+            }
+        }
+
+        $belongings = Belonging::where('travel_plan_id', $tpid)->get();
+
+        return redirect('/schedule/belongings/' . $tpid)->with([
+            'success'=> '旅行に持っていくものを追加しました🤗',
+        ]);
+    }
+
 }

@@ -14,6 +14,7 @@ export default defineConfig({
                 'resources/js/todoAddSelect.js',
                 'resources/js/accountDelete.js',
                 'resources/js/planEdit.js',
+                'resources/js/belongingsEdit.js',
                 'resources/css/app.css', //これを追加
                 'resources/css/newSchedule.css',
                 'resources/css/homeNav.css',
