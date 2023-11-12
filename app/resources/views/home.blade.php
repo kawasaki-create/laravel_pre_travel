@@ -63,7 +63,7 @@
                     <input type="button" class="btn btn-secondary" onclick="location.href='/schedule'" value="スケジュール作成">
                 </div>
             </div>
-            <br>
+            <br><br>
             @php
                 $displayCard = false;
             @endphp
@@ -74,6 +74,7 @@
                     @endphp
                 @endif
             @endforeach
+            @if($displayCard)
             <div class="card">
                 <div class="card-header">持っていくものリスト確認 <span style="color:red; font-size:10px;">※旅行前日から表示</span></div>
                 <div class="card-body">
@@ -83,10 +84,10 @@
                         <span class="belonging-item" data-id="{{ $row->id }}">{{ $row->contents }}</span><br>
                     @endif
                 @endforeach
-
                 </div>
             </div>
             <br><br>
+            @endif
             @php
                 $displayCard = false;
             @endphp
