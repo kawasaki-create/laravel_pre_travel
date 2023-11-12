@@ -31,3 +31,20 @@ tweetButton.addEventListener('click', function() {
         alert("何も入力されていません🙃");
     }
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    // チェックボックスの変更を監視
+    var checkboxes = document.querySelectorAll('.checkbox');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            // 関連する要素の背景色を変更
+            var id = this.getAttribute('data-id');
+            var belongingItem = document.querySelector('.belonging-item[data-id="' + id + '"]');
+            if (this.checked) {
+                belongingItem.style.backgroundColor = 'silver';
+            } else {
+                belongingItem.style.backgroundColor = 'white';
+            }
+        });
+    });
+});
