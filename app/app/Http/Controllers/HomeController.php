@@ -8,6 +8,7 @@ use App\Models\Tweet;
 use App\Models\TravelPlan;
 use App\Models\User;
 use App\Models\TravelDetail;
+use App\Models\Belonging;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -45,7 +46,7 @@ class HomeController extends Controller
             $travelPlan->trip_start = $formatted_start;
             $travelPlan->trip_end = $formatted_end;
             return $travelPlan;
-    });
+        });
         $userId = Auth::id();
         $tweets = Tweet::where('user_id', $userId)
         ->get();
@@ -61,6 +62,8 @@ class HomeController extends Controller
             }
         }
 
+        $belongings = Belonging::all();
+
         return view('home',[
             'hello' => $hello,
             'nya' => $nya,
@@ -68,7 +71,8 @@ class HomeController extends Controller
             'tweets' => $tweets,
             'tripCnt' => $tripCnt,
             'duplicatedIdList' => $duplicatedIdList,
-            'duplicatedTitleList' => $duplicatedTitleList
+            'duplicatedTitleList' => $duplicatedTitleList,
+            'belongings' => $belongings
         ]);
     }
 

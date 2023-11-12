@@ -68,6 +68,29 @@
                 $displayCard = false;
             @endphp
             @foreach ($travelPlans as $travelPlan)
+                @if($travelPlan->trip_start <= date('Y-m-d H:i:s', strtotime('+1 day')) && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end)
+                    @php
+                        $displayCard = true;
+                    @endphp
+                @endif
+            @endforeach
+            <div class="card">
+                <div class="card-header">持っていくものリスト確認</div>
+                <div class="card-body">
+                    @foreach($belongings as $row)
+                        @if($travelPlan->trip_start <= date('Y-m-d H:i:s', strtotime('+1 day')) && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end)
+                            <span>{{ $row->TravelPlan->trip_title }}</span>
+                            <input type="checkbox">
+                            <span>{{ $row->contents }} </span><br>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+            <br><br>
+            @php
+                $displayCard = false;
+            @endphp
+            @foreach ($travelPlans as $travelPlan)
                 @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end)
                     @php
                         $displayCard = true;
