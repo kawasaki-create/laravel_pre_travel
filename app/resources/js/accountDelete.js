@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (this.checked) {
                 belongingItem.style.backgroundColor = 'silver';
             } else {
-                belongingItem.style.backgroundColor = 'white';
+                belongingItem.style.backgroundColor = '';
             }
         });
     });

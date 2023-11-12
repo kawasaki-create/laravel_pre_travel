@@ -918,11 +918,32 @@ class ScheduleController extends Controller
         $travelPlans = TravelPlan::where('user_id', Auth::id())->get();
         $belongings = Belonging::where('travel_plan_id', $id)->get();
         // dd($travelPlans);
+        $travelPlan = TravelPlan::find($id);
+
+        $formatted_start = Carbon::parse($travelPlan->trip_start)->format('Y-m-d');
+        $formatted_end = Carbon::parse($travelPlan->trip_end)->format('Y-m-d');
+
+        $start = new DateTime($formatted_start);
+        $end = new DateTime($formatted_end);
+
+        $interval = new DateInterval('P1D'); // 1日ごとに増加
+        $period = new DatePeriod($start, $interval, $end);
+        $dateCount = 1;
+
+
+        foreach ($period as $date) {
+            $dateCount ++;
+        }
 
         return view('belongings_edit', [
             'travelPlans' => $travelPlans,
             'id' => $id,
             'belongings' => $belongings,
+            'formatted_start' => $formatted_start,
+            'formatted_end' => $formatted_end,
+            'dateCount' => $dateCount,
+            'travelPlan' => $travelPlan,
+
         ]);
     }
 
@@ -957,6 +978,18 @@ class ScheduleController extends Controller
         return redirect('/schedule/belongings/' . $tpid)->with([
             'success'=> '旅行に持っていくものを追加しました🤗',
         ]);
+    }
+
+    public function belongingsDelete(Request $request)
+    {
+        $selectedBelongings = $request->input('belongings');
+        $travelPlanId = $request->input('travel_plan_id');
+        if (!empty($selectedBelongings)) {
+            Belonging::whereIn('id', $selectedBelongings)->delete();
+        }
+
+        // 削除後のリダイレクトなどの処理を行う
+        return redirect('/schedule/belongings/' . $travelPlanId)->with('danger', '旅行に持っていくものを削除しました😇');
     }
 
 }

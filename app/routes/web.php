@@ -47,3 +47,4 @@ Route::get('/home/change_mail', [App\Http\Controllers\HomeController::class, 'ch
 Route::post('/home/change_mail/ok', [App\Http\Controllers\HomeController::class, 'changeAddressOK'])->name('mail.change');
 Route::get('/schedule/belongings/{id}', [App\Http\Controllers\ScheduleController::class, 'belongings'])->name('schedule.belongings');
 Route::post('/schedule/belongings_register', [App\Http\Controllers\ScheduleController::class, 'belongings_register'])->name('schedule.belongings_register');
+Route::post('/schedule/belongings_delete', [App\Http\Controllers\ScheduleController::class, 'belongingsDelete'])->name('schedule.belongings_delete');

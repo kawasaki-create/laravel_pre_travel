@@ -71,6 +71,7 @@
                 @if($travelPlan->trip_start <= date('Y-m-d H:i:s', strtotime('+1 day')) && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end)
                     @php
                         $displayCard = true;
+                        $currentId = $travelPlan->id;
                     @endphp
                 @endif
             @endforeach
@@ -84,6 +85,8 @@
                         <span class="belonging-item" data-id="{{ $row->id }}">{{ $row->contents }}</span><br>
                     @endif
                 @endforeach
+                <br>
+                <a href="/schedule/belongings/{{ $currentId }}">持ち物リスト編集</a>
                 </div>
             </div>
             <br><br>

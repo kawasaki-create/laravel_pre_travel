@@ -35,7 +35,15 @@
                         <form action="{{ route('schedule.detailEdit', ['travel_plan_id' => $travelPlan->id, 'date' => $displayDays[$i]]) }}" method="POST" style="display: inline;">
                             @csrf
                             <div class="d-grid gap-2 d-md-block">
-                                <button class="btn btn-outline-secondary" name="editDetail" style="display: {{ $displayFlags[$displayDays[$i]] ? 'inline' : 'none' }};">予定編集</button>
+                                <button class="btn btn-outline-secondary" name="editDetail" style="display: {{ $displayFlags[$displayDays[$i]] ? 'inline' : 'none' }};">予定編集</button>　
+                            </div>
+                            <textarea type="text" name="travel_plan_id" hidden>{{ $travelPlan->id }}</textarea>
+                            <textarea type="text" name="travelDate" hidden>{{ $displayDays[$i] }}</textarea>
+                        </form>
+                        <form action="{{ route('schedule.belongings', ['id' => $travelPlan->id]) }}" method="GET" style="display: inline;">
+                            @csrf
+                            <div class="d-grid gap-2 d-md-block">
+                                <button class="btn btn-outline-success" name="belongingsDetail" style="display: {{ $displayFlags[$displayDays[$i]] ? 'inline' : 'none' }};">持ち物編集</button>
                             </div>
                             <textarea type="text" name="travel_plan_id" hidden>{{ $travelPlan->id }}</textarea>
                             <textarea type="text" name="travelDate" hidden>{{ $displayDays[$i] }}</textarea>

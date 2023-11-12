@@ -10,6 +10,7 @@ import './bootstrap';
             var tweetTable = document.querySelectorAll('[name="tweet"]')[index];
             var newDetailButton = document.querySelectorAll('[name="newDetail"]')[index];
             var editDetailButton = document.querySelectorAll('[name="editDetail"]')[index];
+            var belongingsDetailButton = document.querySelectorAll('[name="belongingsDetail"]')[index];
             var clickInline = document.querySelectorAll('[name="clickInline"]')[index];
             var dateText = document.getElementById('dateText' + [index]);
 
@@ -22,6 +23,7 @@ import './bootstrap';
                 tweetTable.style.display = 'table';
                 newDetailButton.style.display = 'inline';
                 editDetailButton.style.display = 'inline';
+                belongingsDetailButton.style.display = 'inline';
                 clickInline.style.display = '';
                 dateText.innerText = "(クリックで閉じる)"
             } else {
@@ -30,6 +32,7 @@ import './bootstrap';
                 tweetTable.style.display = 'none';
                 newDetailButton.style.display = 'none';
                 editDetailButton.style.display = 'none';
+                belongingsDetailButton.style.display = 'none';
                 clickInline.style.display = 'none';
                 dateText.innerText = "(クリックで表示)"
             }
