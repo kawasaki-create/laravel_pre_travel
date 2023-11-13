@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 @vite(['resources/js/newDetail.js'])
+@vite(['resources/js/newDetailRegister.js'])
 @vite(['resources/css/newSchedule.css'])
 <div class="container">
     <div class="row justify-content-center">
@@ -67,10 +68,10 @@
                             </div><br>
                             <div name="other-expense">
                                 <span>その他雑費：</span>
-                                <input type="text" name="contents9" class="expense-text5">　¥
+                                <input type="text" name="contents10" class="expense-text5">　¥
                                 <input type="number" class="expense-number"  name="price9">
                             </div>
-                            <button type="submit" name="plan-register" class="btn btn-primary">登録</button>
+                            <button type="submit" name="plan-register" class="btn btn-primary" id="plan-register">登録</button>
                             <textarea type="text" name="travel_plan_id" hidden>{{ $travelPlanId }}</textarea>
                             <textarea type="text" name="travelDate" hidden>{{ $travelDate }}</textarea>
                         </div><br>
