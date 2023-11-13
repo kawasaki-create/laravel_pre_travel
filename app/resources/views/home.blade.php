@@ -79,14 +79,14 @@
             <div class="card">
                 <div class="card-header">持っていくものリスト確認 <span style="color:red; font-size:10px;">※旅行前日から表示</span></div>
                 <div class="card-body">
-                @foreach($belongings as $row)
-                    @if($row->TravelPlan->trip_start <= date('Y-m-d H:i:s', strtotime('+1 day')) && date('Y-m-d H:i:s', strtotime('-1 day')) <= $row->TravelPlan->trip_end)
-                        <input type="checkbox" class="checkbox" data-id="{{ $row->id }}">
-                        <span class="belonging-item" data-id="{{ $row->id }}">{{ $row->contents }}</span><br>
-                    @endif
-                @endforeach
-                <br>
-                <a href="/schedule/belongings/{{ $currentId }}">持ち物リスト編集</a>
+                    @foreach($belongings as $row)
+                        @if($row->TravelPlan->trip_start <= date('Y-m-d H:i:s', strtotime('+1 day')) && date('Y-m-d H:i:s', strtotime('-1 day')) <= $row->TravelPlan->trip_end)
+                            <input type="checkbox" class="checkbox" data-id="{{ $row->id }}">
+                            <span class="belonging-item" data-id="{{ $row->id }}">{{ $row->contents }}</span><br>
+                        @endif
+                    @endforeach
+                    <br>
+                    <a href="/schedule/belongings/{{ $currentId }}">持ち物リスト編集</a>
                 </div>
             </div>
             <br><br>

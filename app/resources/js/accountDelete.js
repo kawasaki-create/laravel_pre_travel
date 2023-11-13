@@ -47,4 +47,21 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
+
+    // テキストをクリックしてもチェックボックスの状態を切り替え
+    var belongingItems = document.querySelectorAll('.belonging-item');
+    belongingItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+            var id = this.getAttribute('data-id');
+            var checkbox = document.querySelector('.checkbox[data-id="' + id + '"]');
+            checkbox.checked = !checkbox.checked;
+
+            // 関連する要素の背景色を変更
+            if (checkbox.checked) {
+                this.style.backgroundColor = 'silver';
+            } else {
+                this.style.backgroundColor = '';
+            }
+        });
+    });
 });
