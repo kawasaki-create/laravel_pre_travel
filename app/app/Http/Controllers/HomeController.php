@@ -62,7 +62,12 @@ class HomeController extends Controller
             }
         }
 
-        $belongings = Belonging::all();
+        // $belongings = Belonging::all();
+        // Belongingモデルのインスタンスを取得
+        $belongings = Belonging::whereHas('travelPlan', function ($query) use ($userId) {
+            // TravelPlanに紐づくUserのidが現在のログインユーザーのIDと一致する条件を追加
+            $query->where('user_id', $userId);
+        })->get();
 
         return view('home',[
             'hello' => $hello,

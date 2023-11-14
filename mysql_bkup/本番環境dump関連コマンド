@@ -1,0 +1,8 @@
+// mysqlでバックアップ
+mysqldump -h localhost -u rin -pP@ssw0rd --databases pt > 2023-11-14.sql
+
+// リストア
+mysql -u root -p pt < db.dump
+
+// mysqlコンテナからローカルにコピー
+docker cp mysql:/2023-11-14.sql ~/Developer/laravel_pre_travel/mysql_bkup/2023-11-14.sql

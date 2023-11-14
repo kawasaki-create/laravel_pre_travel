@@ -34,6 +34,6 @@ class RegisterSendMail extends Mailable
         return $this->view('email.register')
                 ->to(Auth::user()->email, Auth::user()->name)
                 ->from(env('MAIL_USERNAME'),env('APP_NAME'))
-                ->subject('テストメールです。');
+                ->subject('PreTravelにご登録ありがとうございます。');
     }
 }
