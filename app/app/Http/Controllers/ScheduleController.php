@@ -915,36 +915,42 @@ class ScheduleController extends Controller
 
     public function belongings($id)
     {
-        $travelPlans = TravelPlan::where('user_id', Auth::id())->get();
-        $belongings = Belonging::where('travel_plan_id', $id)->get();
-        // dd($travelPlans);
-        $travelPlan = TravelPlan::find($id);
+        $uid = auth()->user()->id;
+        $tp = TravelPlan::find($id);
+        if($tp->user_id == $uid) {
+            $travelPlans = TravelPlan::where('user_id', Auth::id())->get();
+            $belongings = Belonging::where('travel_plan_id', $id)->get();
+            // dd($travelPlans);
+            $travelPlan = TravelPlan::find($id);
 
-        $formatted_start = Carbon::parse($travelPlan->trip_start)->format('Y-m-d');
-        $formatted_end = Carbon::parse($travelPlan->trip_end)->format('Y-m-d');
+            $formatted_start = Carbon::parse($travelPlan->trip_start)->format('Y-m-d');
+            $formatted_end = Carbon::parse($travelPlan->trip_end)->format('Y-m-d');
 
-        $start = new DateTime($formatted_start);
-        $end = new DateTime($formatted_end);
+            $start = new DateTime($formatted_start);
+            $end = new DateTime($formatted_end);
 
-        $interval = new DateInterval('P1D'); // 1日ごとに増加
-        $period = new DatePeriod($start, $interval, $end);
-        $dateCount = 1;
+            $interval = new DateInterval('P1D'); // 1日ごとに増加
+            $period = new DatePeriod($start, $interval, $end);
+            $dateCount = 1;
 
 
-        foreach ($period as $date) {
-            $dateCount ++;
+            foreach ($period as $date) {
+                $dateCount ++;
+            }
+
+            return view('belongings_edit', [
+                'travelPlans' => $travelPlans,
+                'id' => $id,
+                'belongings' => $belongings,
+                'formatted_start' => $formatted_start,
+                'formatted_end' => $formatted_end,
+                'dateCount' => $dateCount,
+                'travelPlan' => $travelPlan,
+
+            ]);
+        } else {
+            return redirect('/home')->with('danger', '不正な操作が行われました😠');
         }
-
-        return view('belongings_edit', [
-            'travelPlans' => $travelPlans,
-            'id' => $id,
-            'belongings' => $belongings,
-            'formatted_start' => $formatted_start,
-            'formatted_end' => $formatted_end,
-            'dateCount' => $dateCount,
-            'travelPlan' => $travelPlan,
-
-        ]);
     }
 
     public function belongings_register(Request $request)

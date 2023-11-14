@@ -1,4 +1,5 @@
 // mysqlでバックアップ
+cd /home/rin/mysql_bkup 
 mysqldump -h localhost -u rin -pP@ssw0rd --databases pt > 2023-11-14.sql
 
 // リストア
