@@ -45,6 +45,9 @@ document.addEventListener("DOMContentLoaded", function() {
             } else {
                 belongingItem.style.backgroundColor = '';
             }
+
+            // チェックの状態をローカルストレージに保存
+            localStorage.setItem('checkbox_' + id, this.checked);
         });
     });
 
@@ -54,6 +57,8 @@ document.addEventListener("DOMContentLoaded", function() {
         item.addEventListener('click', function() {
             var id = this.getAttribute('data-id');
             var checkbox = document.querySelector('.checkbox[data-id="' + id + '"]');
+
+            // チェックボックスの状態を切り替え
             checkbox.checked = !checkbox.checked;
 
             // 関連する要素の背景色を変更
@@ -62,6 +67,23 @@ document.addEventListener("DOMContentLoaded", function() {
             } else {
                 this.style.backgroundColor = '';
             }
+
+            // チェックの状態をローカルストレージに保存
+            localStorage.setItem('checkbox_' + id, checkbox.checked);
         });
+    });
+
+    // ページ読み込み時に保存された状態を復元
+    checkboxes.forEach(function(checkbox) {
+        var id = checkbox.getAttribute('data-id');
+        var belongingItem = document.querySelector('.belonging-item[data-id="' + id + '"]');
+        var checked = localStorage.getItem('checkbox_' + id) === 'true';
+
+        checkbox.checked = checked;
+        if (checked) {
+            belongingItem.style.backgroundColor = 'silver';
+        } else {
+            belongingItem.style.backgroundColor = '';
+        }
     });
 });
