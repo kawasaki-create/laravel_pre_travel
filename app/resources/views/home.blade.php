@@ -48,6 +48,12 @@
 
 <div class="container">
     <div class="row justify-content-center">
+        <div class="col-md-4">
+            PCの場合、ここにサイドバーを表示<br>
+            PCの場合、ここにサイドバーを表示<br>
+            PCの場合、ここにサイドバーを表示<br>
+            PCの場合、ここにサイドバーを表示<br>
+        </div>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
