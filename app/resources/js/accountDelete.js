@@ -1,7 +1,38 @@
 import './bootstrap';
 
+
+// 動的に画面サイズ変更した際にサイドバーを非表示にする
+function checkWidth() {
+    var windowWidth = window.innerWidth;
+    var sidebar = document.querySelector('.col-md-4');
+    var hamburger = document.querySelector('.hamnav');
+
+    if (windowWidth <= 800) {
+        sidebar.classList.add('hide-on-small-screen');
+        hamburger.classList.remove('hide-on-small-screen');
+    } else {
+        sidebar.classList.remove('hide-on-small-screen');
+        hamburger.classList.add('hide-on-small-screen');
+    }
+}
+
+window.addEventListener('resize', function() {
+    checkWidth();
+});
+
+// ページ読み込み時にもチェック
+window.addEventListener('load', function() {
+    checkWidth();
+});
+
 var accountDeleteButton = document.getElementById('accountDelete');
+var accountDeleteSideBarButton = document.getElementById('accountDeleteSideBar');
 accountDeleteButton.addEventListener('click', function() {
+    if(!confirm("アカウントを削除しますか？(これまでのつぶやき、旅行プランなどが全て削除されます。)")){
+        event.preventDefault(); // フォームの送信をキャンセル
+    }
+});
+accountDeleteSideBarButton.addEventListener('click', function() {
     if(!confirm("アカウントを削除しますか？(これまでのつぶやき、旅行プランなどが全て削除されます。)")){
         event.preventDefault(); // フォームの送信をキャンセル
     }

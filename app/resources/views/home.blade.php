@@ -7,29 +7,45 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    <!-- ナビゲーションバー -->
-    <nav class="navbar navbar-light bg-light">
-        <!-- ハンバーガーメニュー -->
-        <button class="navbar-toggler topm" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- ナビゲーションメニュー -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-            <a class="nav-link" href="/schedule/all_plan/">全ての旅行</a>
-            <li class="nav-item">
-            <a class="nav-link" href="/home/all_tweet">全てのつぶやきを表示</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/home/account_delete" type="button" id="accountDelete">アカウント削除</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/home/change_mail">メールアドレス変更</a>
-            </li>
-        </ul>
-        </div>
-    </nav>
+<!-- ナビゲーションバー -->
+<nav class="navbar navbar-light bg-light hamnav">
+    <!-- ハンバーガーメニュー -->
+    <button class="navbar-toggler topm" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- ナビゲーションメニュー -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+        <a class="nav-link" href="/schedule/all_plan/">全ての旅行</a>
+        <li class="nav-item">
+        <a class="nav-link" href="/home/all_tweet">全てのつぶやきを表示</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="/home/account_delete" type="button" id="accountDelete">アカウント削除</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="/home/change_mail">メールアドレス変更</a>
+        </li>
+    </ul>
+    </div>
+</nav>
+
+<!-- <div class="cp_cont hamnav">
+	<div class="cp_offcm04">
+		<input type="checkbox" id="cp_toggle04">
+		<label for="cp_toggle04"><span></span></label>
+		<div class="cp_menu">
+		<ul>
+		<li><a href="/schedule/all_plan/">全ての旅行</a></li>
+		<li><a href="/home/all_tweet">全てのつぶやきを表示</a></li>
+		<li><a href="/home/account_delete" type="button" id="accountDelete">アカウント削除</a></li>
+		<li><a href="/home/change_mail">メールアドレス変更</a></li>
+		</ul>
+		</div>
+	</div>
+</div> -->
+
 @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
@@ -48,6 +64,21 @@
 
 <div class="container">
     <div class="row justify-content-center">
+        <div class="col-md-4">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                <a class="nav-link" href="/schedule/all_plan/">全ての旅行</a>
+                <li class="nav-item">
+                <a class="nav-link" href="/home/all_tweet">全てのつぶやきを表示</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/home/account_delete" type="button" id="accountDeleteSideBar">アカウント削除</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/home/change_mail">メールアドレス変更</a>
+                </li>
+            </ul>
+        </div>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>

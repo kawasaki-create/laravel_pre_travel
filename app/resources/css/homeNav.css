@@ -1,0 +1,18 @@
+.col-md-4 {
+    display: block; /* デフォルトでは表示 */
+}
+.hamnav {
+    display: block; /* デフォルトでは非表示 */
+}
+
+@media screen and (max-width: 800px) {
+    .col-md-4.hide-on-small-screen {
+        display: none; /* ウィンドウの幅が800px以下の場合は非表示 */
+    }
+}
+@media screen and (min-width: 801px) {
+    .navbar.hide-on-small-screen {
+        display: none; /* ウィンドウの幅が801px以上の場合は表示 */
+    }
+}
+
