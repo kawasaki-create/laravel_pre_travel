@@ -48,3 +48,6 @@ Route::post('/home/change_mail/ok', [App\Http\Controllers\HomeController::class,
 Route::get('/schedule/belongings/{id}', [App\Http\Controllers\ScheduleController::class, 'belongings'])->name('schedule.belongings');
 Route::post('/schedule/belongings_register', [App\Http\Controllers\ScheduleController::class, 'belongings_register'])->name('schedule.belongings_register');
 Route::post('/schedule/belongings_delete', [App\Http\Controllers\ScheduleController::class, 'belongingsDelete'])->name('schedule.belongings_delete');
+Route::get('/home/contact', [App\Http\Controllers\HomeController::class, 'contact']);
+Route::post('/home/contact_send', [App\Http\Controllers\HomeController::class, 'contactSend'])->name('contact.send');
+Route::post('/home/contact_confirm', [App\Http\Controllers\HomeController::class, 'contactConfirm'])->name('contact.comfirm');

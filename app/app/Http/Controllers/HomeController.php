@@ -190,4 +190,27 @@ class HomeController extends Controller
 
         return redirect('/home')->with('success', '名前/メールアドレスを変更しました🤗');
     }
+
+    public function contact()
+    {
+        return view('contact');
+    }
+
+    public function contactConfirm(Request $request)
+    {
+        $name = $request->input('sender-name');
+        $email = $request->input('sender-emailaddress');
+        $message = $request->input('sender-message');
+
+        return view('contact_confirm', [
+            'name' => $name,
+            'email' => $email,
+            'message' => $message,
+        ]);
+    }
+
+    public function contactSend(Request $request)
+    {
+
+    }
 }

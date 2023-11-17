@@ -27,6 +27,9 @@
         <li class="nav-item">
         <a class="nav-link" href="/home/change_mail">メールアドレス変更</a>
         </li>
+        <li class="nav-item">
+        <a class="nav-link" href="/home/contact">お問い合わせ/質問・要望</a>
+        </li>
     </ul>
     </div>
 </nav>
@@ -76,6 +79,9 @@
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="/home/change_mail">メールアドレス変更</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/home/contact">お問い合わせ/質問・要望</a>
                 </li>
             </ul>
         </div>
