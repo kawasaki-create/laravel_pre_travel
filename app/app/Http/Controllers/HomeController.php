@@ -4,16 +4,11 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\Tweet;
-use App\Models\TravelPlan;
-use App\Models\User;
-use App\Models\TravelDetail;
-use App\Models\Belonging;
+use App\Models\{Tweet, TravelPlan, User, TravelDetail, Belonging, Contact};
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\MailChangeSendMail;
-use App\Mail\AccountDeleteCompleteSendMail;
+use App\Mail\{MailChangeSendMail, AccountDeleteCompleteSendMail, ContactToAdminSendMail, ContactToUserSendMail};
 
 class HomeController extends Controller
 {
@@ -193,6 +188,13 @@ class HomeController extends Controller
 
     public function contact()
     {
+        $contact = contact::where('user_id', Auth::id())->orderBy('created_at')->first();
+        if(!$contact) return view('contact');
+        $today = date('Y-m-d');
+        $formatted_date = Carbon::parse($contact->created_at)->format('Y-m-d');
+        if($today == $formatted_date) {
+            return redirect('/home')->with('danger', 'お問い合わせは1日1回までです。');
+        }
         return view('contact');
     }
 
@@ -209,8 +211,18 @@ class HomeController extends Controller
         ]);
     }
 
-    public function contactSend(Request $request)
+    public function contactSend($name, $email, $message)
     {
+        $contact = new Contact;
+        $contact->name = $name;
+        $contact->email = $email;
+        $contact->message = $message;
+        $contact->user_id = Auth::id();
+        $contact->save();
 
+        Mail::send(new ContactToAdminSendMail($name, $email, $message));
+        Mail::send(new ContactToUserSendMail($name, $email, $message));
+
+        return redirect('/home')->with('success', 'お問い合わせありがとうございます🙏');
     }
 }

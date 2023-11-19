@@ -11,14 +11,14 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <form action="{{ route('contact.send') }}" method="POST">
+                    <form action="{{ route('contact.send', ['name' => $name, 'email' => $email, 'message'=> $message]) }}" method="POST">
                         @csrf
                         <span>お名前：</span><br>
-                        <input type="text" name="sender-name" readonly value="{{ $name }}"><br><br>
+                        <span name="sender-name">{{ $name }}</span><br><br>
                         <span>メールアドレス：</span><br>
-                        <input type="text" name="sender-emailaddress" readonly value="{{ $email }}"><br><br>
+                        <span name="sender-emailaddress">{{ $email }}</span><br><br>
                         <span>お問い合わせ内容：</span><br>
-                        <textarea name="sender-message" readonly>{{ $message }}</textarea><br><br>
+                        <div name="sender-message" style="border: solid;">{!! nl2br(e($message)) !!}</div><br>
                         <a href="javascript:history.back()" type="button" class="btn btn-secondary">戻って修正する</a>　
                         <button name="contact-submit" class="btn btn-primary">お問い合わせ送信</button>
                     </form>

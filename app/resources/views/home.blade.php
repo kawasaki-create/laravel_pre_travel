@@ -22,32 +22,17 @@
         <a class="nav-link" href="/home/all_tweet">全てのつぶやきを表示</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="/home/account_delete" type="button" id="accountDelete">アカウント削除</a>
-        </li>
-        <li class="nav-item">
         <a class="nav-link" href="/home/change_mail">メールアドレス変更</a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="/home/contact">お問い合わせ/質問・要望</a>
         </li>
+        <li class="nav-item">
+        <a class="nav-link" href="/home/account_delete" type="button" id="accountDelete">アカウント削除</a>
+        </li>
     </ul>
     </div>
 </nav>
-
-<!-- <div class="cp_cont hamnav">
-	<div class="cp_offcm04">
-		<input type="checkbox" id="cp_toggle04">
-		<label for="cp_toggle04"><span></span></label>
-		<div class="cp_menu">
-		<ul>
-		<li><a href="/schedule/all_plan/">全ての旅行</a></li>
-		<li><a href="/home/all_tweet">全てのつぶやきを表示</a></li>
-		<li><a href="/home/account_delete" type="button" id="accountDelete">アカウント削除</a></li>
-		<li><a href="/home/change_mail">メールアドレス変更</a></li>
-		</ul>
-		</div>
-	</div>
-</div> -->
 
 @if (session('success'))
     <div class="alert alert-success">
@@ -75,13 +60,13 @@
                 <a class="nav-link" href="/home/all_tweet">全てのつぶやきを表示</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/home/account_delete" type="button" id="accountDeleteSideBar">アカウント削除</a>
-                </li>
-                <li class="nav-item">
                 <a class="nav-link" href="/home/change_mail">メールアドレス変更</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="/home/contact">お問い合わせ/質問・要望</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/home/account_delete" type="button" id="accountDeleteSideBar">アカウント削除</a>
                 </li>
             </ul>
         </div>
