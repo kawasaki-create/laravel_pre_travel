@@ -16,6 +16,7 @@ export default defineConfig({
                 'resources/js/planEdit.js',
                 'resources/js/belongingsEdit.js',
                 'resources/js/newDetailRegister.js',
+                'resources/js/belongingsHome.js',
                 'resources/css/app.css', //これを追加
                 'resources/css/newSchedule.css',
                 'resources/css/homeNav.css',
