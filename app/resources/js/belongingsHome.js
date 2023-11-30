@@ -1,4 +1,3 @@
-document.addEventListener("DOMContentLoaded", function() {
     // チェックボックスの変更を監視
     var checkboxes = document.querySelectorAll('.checkbox');
     checkboxes.forEach(function(checkbox) {
@@ -52,4 +51,3 @@ document.addEventListener("DOMContentLoaded", function() {
             belongingItem.style.backgroundColor = '';
         }
     });
-});
