@@ -1,14 +1,14 @@
 // mysqlでバックアップ
-mysqldump -h localhost -u root -ppassword --databases pt > 2023-11-14.sql
+mysqldump -h localhost -u root -ppassword --databases pt > 2023-12-07.sql
 
 // リストア
-mysql -u root -ppassword pt < 2023-11-14.sql
+mysql -u root -ppassword pt < 2023-12-07.sql
 
 // mysqlコンテナからローカルにコピー(mac)
-docker cp mysql:/2023-11-14.sql ~/Developer/laravel_pre_travel/mysql_bkup/2023-11-14.sql
+docker cp mysql:/2023-12-07.sql ~/Developer/laravel_pre_travel/mysql_bkup/2023-12-07.sql
 
 // mysqlコンテナからローカルにコピー(win)
-docker cp mysql:/2023-11-14.sql "C:\Users\r.kawasaki\Documents\自作\自作アプリ\PreTravel\laravel_pre_travel\mysql_bkup/2023-11-14.sql"
+docker cp mysql:/2023-12-07.sql "C:\Users\r.kawasaki\Documents\自作\自作アプリ\PreTravel\laravel_pre_travel\mysql_bkup/2023-12-07.sql"
 
 // ローカルからmysqlコンテナにコピー(win)
-docker cp "C:\Users\r.kawasaki\Documents\自作\自作アプリ\PreTravel\laravel_pre_travel\mysql_bkup/2023-11-14.sql" mysql:/2023-11-14.sql 
+docker cp "\\172.16.32.41\share1\研究開発部\川﨑/2023-12-07.sql" mysql:/2023-12-07.sql 
