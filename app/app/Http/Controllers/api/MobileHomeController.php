@@ -12,13 +12,11 @@ class MobileHomeController extends Controller
     //
     public function index()
     {
-        $userId = Auth::id();
-        $mail = User::where('id', $userId)->value('email');
-        dd($userId);
+        $accessToken = Auth::user()->createToken('TokenName')->accessToken;
+
         return response()->json([
             'message' => 'Welcome to the API',
-            'user_id' => $userId,
-            'email' => $mail,
+            'access_token' => $accessToken,
         ]);
     }
 }
