@@ -9,22 +9,15 @@ use App\Models\User;
 
 class MobileHomeController extends Controller
 {
-    public function index(Request $request)
+    //
+    public function index()
     {
-        // トークンを取得
-        $accessToken = $request->bearerToken();
-
-        // トークンがない場合やユーザーが見つからない場合はエラーレスポンスを返す
-        if (!$accessToken || !$user = Auth::guard('api')->user()) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        // ここで必要な処理を実行する（例えば、他のデータを返したり、処理を実行したり）
-
+        $userId = Auth::id();
+        $mail = User::where('id', $userId)->value('email');
         return response()->json([
             'message' => 'Welcome to the API',
-            'user_id' => $user->id,
-            'email' => $user->email,
+            'user_id' => $userId,
+            'email' => $mail,
         ]);
     }
 }
