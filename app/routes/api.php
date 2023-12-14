@@ -25,5 +25,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
+// 試し書き。ログインしているユーザーの情報を返す。あとで消す
+Route::middleware('auth:api')->get('/uuu', [App\Http\Controllers\api\MobileHomeController::class, 'uuu']);
+
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
 Route::get('/test-user', [App\Http\Controllers\api\MobileHomeController::class, 'index'])->name('index');
