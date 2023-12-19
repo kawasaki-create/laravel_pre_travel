@@ -25,8 +25,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// 試し書き。ログインしているユーザーの情報を返す。あとで消す
-Route::middleware('auth:api')->get('/uuu', [App\Http\Controllers\api\MobileHomeController::class, 'uuu']);
+// ログインしているユーザーの情報を返す
+Route::middleware('auth:api')->get('/travel-plan', [App\Http\Controllers\api\MobileHomeController::class, 'travelPlan']);
+Route::middleware('auth:api')->get('/belongings', [App\Http\Controllers\api\MobileHomeController::class, 'belongings']);
 
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');

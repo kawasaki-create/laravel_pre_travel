@@ -23,13 +23,24 @@ class MobileHomeController extends Controller
         ]);
     }
 
-    // 試し書き。後で消す
-    public function uuu(Request $request) {
+    // 旅行プラン一覧返す
+    public function travelPlan(Request $request)
+    {
         $user_id = $request->user()->id;
 
         $travelPlan = TravelPlan::where('user_id', $user_id)->get();
 
         return $travelPlan;
+    }
+
+    // 持っていくもの一覧返す
+    public function belongings(Request $request)
+    {
+        $user_id = $request->user()->id;
+
+        $travelPlanId = TravelPlan::where('user_id', $user_id)->pluck('id');
+
+        return Belonging::where('travel_plan_id', $travelPlanId);
     }
 
 }
