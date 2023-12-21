@@ -39,8 +39,9 @@ class MobileHomeController extends Controller
         $user_id = $request->user()->id;
 
         $travelPlanId = TravelPlan::where('user_id', $user_id)->pluck('id');
+        $belongings = Belonging::whereIn('travel_plan_id', $travelPlanId)->get();
 
-        return Belonging::where('travel_plan_id', $travelPlanId);
+        return $belongings;
     }
 
 }
