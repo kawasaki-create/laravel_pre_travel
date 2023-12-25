@@ -40,29 +40,31 @@ class MobileHomeController extends Controller
 
         $travelPlanId = TravelPlan::where('user_id', $user_id)->pluck('id');
         $belongings = Belonging::whereIn('travel_plan_id', $travelPlanId)->get();
-        
+
         // $bl_tp = Belonging::where(
         //             'travel_plan_id', $travelPlanId
         //         )->get();
-        // dd($belongings->id);exit;
-        // foreach($belongings as $row) {
-        //     $belongings_id[] = $row->id;
-        //     $contents[] = $row->contents;
-        // }
+        // dd($belongings);exit;
+        foreach($belongings as $row) {
+            $belongingsId[] = $row->id;
+            $travelPlanIds[] = $row->travel_plan_id;
+            $contents[] = $row->contents;
+            $tripStart[] = $row->travelPlan->trip_start;
+            $tripEnd[] = $row->travelPlan->trip_end;
+        }
+        // dd($travelPlanIds);exit;
 
-
-
-        $travelPlans = TravelPlan::where('user_id', $user_id);
         // $travelPlan_trip_start = $travelPlans->pluck('trip_start');
         // $travelPlan_trip_end = $travelPlans->pluck('trip_end');
 
-        return $belongings;
+        // return $belongings;
 
-        // return response()->json([
-        //     'belongings' => $belongings,
-        //     'travelPlan_trip_start' => $travelPlan_trip_start,
-        //     'travelPlan_trip_end' => $travelPlan_trip_end,
-        // ]);
+        return response()->json([
+            'belongingsId' => $belongingsId,
+            'travelPlanId' => $travelPlanIds,
+            'contents' => $contents,
+            'tripStart' => $tripStart,
+            'tripEnd' => $tripEnd,
+        ]);
     }
-
 }
