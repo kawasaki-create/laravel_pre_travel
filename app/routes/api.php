@@ -28,6 +28,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // ログインしているユーザーの情報を返す
 Route::middleware('auth:api')->get('/travel-plan', [App\Http\Controllers\api\MobileHomeController::class, 'travelPlan']);
 Route::middleware('auth:api')->get('/belongings', [App\Http\Controllers\api\MobileHomeController::class, 'belongings']);
+Route::middleware('auth:api')->get('/tweet', [App\Http\Controllers\api\MobileHomeController::class, 'tweet']);
 
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');

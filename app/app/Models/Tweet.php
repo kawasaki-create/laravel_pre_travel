@@ -11,7 +11,7 @@ class Tweet extends Model
 
     public function travelPlan()
     {
-        return $this->belongsTo(TravelPlan::class, 'user_id');
+        return $this->belongsTo(TravelPlan::class, 'travel_plan_id');
     }
 }
 
