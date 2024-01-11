@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Belonging;
+use App\Models\TravelDetail;
 use App\Models\TravelPlan;
 use App\Models\Tweet;
 
@@ -59,32 +60,44 @@ class MobileHomeController extends Controller
         ]);
     }
 
-     // つぶやき一覧返す
-     public function tweet(Request $request)
-     {
-         $user_id = $request->user()->id;
- 
-         $travelPlanId = TravelPlan::where('user_id', $user_id)->pluck('id');
-         $tweets = Tweet::whereIn('travel_plan_id', $travelPlanId)->get();
- 
-         foreach($tweets as $row) {
-             $tweetId[] = $row->id;
-             $travelPlanIds[] = $row->travel_plan_id;
-             $tweet[] = $row->tweet;
-             $tripStart[] = $row->travelPlan->trip_start;
-             $tripEnd[] = $row->travelPlan->trip_end;
-             $createdAt[] = $row->created_at;
-             $editFlg[] = $row->editFlg;
-         }
- 
-         return response()->json([
-             'tweetId' => $tweetId,
-             'travelPlanId' => $travelPlanIds,
-             'tweet' => $tweet,
-             'tripStart' => $tripStart,
-             'tripEnd' => $tripEnd,
-             'created_at' => $createdAt,
-             'editFlg' => $editFlg
-         ]);
-     }
+    // つぶやき一覧返す
+    public function tweet(Request $request)
+    {
+        $user_id = $request->user()->id;
+
+        $travelPlanId = TravelPlan::where('user_id', $user_id)->pluck('id');
+        $tweets = Tweet::whereIn('travel_plan_id', $travelPlanId)->get();
+
+        foreach($tweets as $row) {
+            $tweetId[] = $row->id;
+            $travelPlanIds[] = $row->travel_plan_id;
+            $tweet[] = $row->tweet;
+            $tripStart[] = $row->travelPlan->trip_start;
+            $tripEnd[] = $row->travelPlan->trip_end;
+            $createdAt[] = $row->created_at;
+            $editFlg[] = $row->editFlg;
+        }
+
+        return response()->json([
+            'tweetId' => $tweetId,
+            'travelPlanId' => $travelPlanIds,
+            'tweet' => $tweet,
+            'tripStart' => $tripStart,
+            'tripEnd' => $tripEnd,
+            'created_at' => $createdAt,
+            'editFlg' => $editFlg
+        ]);
+    }
+
+    // 旅行詳細返す
+    public function travelDetail(Request $request)
+    {
+        $user_id = $request->user()->id;
+
+        $travelPlanId = TravelPlan::where('user_id', $user_id)->pluck('id');
+
+        $travelDetail = TravelDetail::whereIn('travel_plan_id', $travelPlanId)->get();
+
+        return $travelDetail;
+    }
 }

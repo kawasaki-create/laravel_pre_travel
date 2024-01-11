@@ -29,6 +29,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->get('/travel-plan', [App\Http\Controllers\api\MobileHomeController::class, 'travelPlan']);
 Route::middleware('auth:api')->get('/belongings', [App\Http\Controllers\api\MobileHomeController::class, 'belongings']);
 Route::middleware('auth:api')->get('/tweet', [App\Http\Controllers\api\MobileHomeController::class, 'tweet']);
+Route::middleware('auth:api')->get('/travel-detail', [App\Http\Controllers\api\MobileHomeController::class, 'travelDetail']);
 
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
