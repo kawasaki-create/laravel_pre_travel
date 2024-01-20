@@ -100,4 +100,15 @@ class MobileHomeController extends Controller
 
         return $travelDetail;
     }
+
+    // つぶやき一覧(旅行詳細用)
+    public function tweetDetail(Request $request)
+    {
+        $user_id = $request->user()->id;
+
+        $travelPlanId = TravelPlan::where('user_id', $user_id)->pluck('id');
+        $tweets = Tweet::whereIn('travel_plan_id', $travelPlanId)->get();
+
+        return $tweets;
+    }
 }
