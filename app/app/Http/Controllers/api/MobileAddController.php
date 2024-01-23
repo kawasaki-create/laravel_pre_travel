@@ -18,6 +18,11 @@ class MobileAddController extends Controller
     // 旅行プラン一覧返す
     public function addTravelPlan(Request $request)
     {
-        Mail::send(new ApiTestSendMail($request));
+        // リクエストデータをログに記録
+        \Log::info('Received request data:', ['data' => $request->all()]);
+
+        // データベースへの保存など、他の処理をここで実行
+
+        return response()->json(['message' => 'Travel plan added successfully']);
     }
 }
