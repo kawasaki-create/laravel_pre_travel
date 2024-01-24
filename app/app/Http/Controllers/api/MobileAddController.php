@@ -10,8 +10,6 @@ use App\Models\Belonging;
 use App\Models\TravelDetail;
 use App\Models\TravelPlan;
 use App\Models\Tweet;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ApiTestSendMail;
 
 class MobileAddController extends Controller
 {
