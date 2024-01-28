@@ -45,7 +45,12 @@ class MobileAddController extends Controller
             Log::info($e);
             return response()->json(['message' => 'Travel plan added failed']);
         }
-
         return response()->json(['message' => 'Travel plan added successfully']);
+    }
+
+    // つぶやきを追加する
+    public function addTweet(Request $request)
+    {
+        Log::info($request);
     }
 }
