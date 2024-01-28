@@ -52,5 +52,15 @@ class MobileAddController extends Controller
     public function addTweet(Request $request)
     {
         Log::info($request);
+        try {
+            $tweet = new Tweet;
+            $tweet->travel_plan_id = $request->travelPlanId;
+            $tweet->tweet = $request->tweet;
+            $tweet->user_id = $request->user_id;
+            $tweet->save();
+        } catch(\Exception $e) {
+            Log::info($e);
+            return response()->json(['message' => 'Travel plan added failed']);
+        }
     }
 }
