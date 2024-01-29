@@ -13,10 +13,10 @@ use App\Models\Tweet;
 use DateTime;
 use Illuminate\Support\Facades\Log;
 
-class MobileAddController extends Controller
+class MobileDeleteController extends Controller
 {
     // 旅行プラン一覧返す
-    public function addTravelPlan(Request $request)
+    public function deleteTravelPlan(Request $request)
     {
         // リクエストデータの整形
         $startDate = substr((string)$request->tripStart,0,10). ' ' . substr((string)$request->tripStart,11,8);
@@ -49,7 +49,7 @@ class MobileAddController extends Controller
     }
 
     // つぶやきを追加する
-    public function addTweet(Request $request)
+    public function deleteTweet(Request $request)
     {
         Log::info($request);
         try {
@@ -65,7 +65,7 @@ class MobileAddController extends Controller
     }
 
     // つぶやきを追加する
-    public function addBelongings(Request $request)
+    public function deleteBelongings(Request $request)
     {
         Log::info($request);
         try {
