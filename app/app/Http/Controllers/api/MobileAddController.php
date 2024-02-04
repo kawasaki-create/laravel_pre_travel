@@ -64,7 +64,7 @@ class MobileAddController extends Controller
         }
     }
 
-    // つぶやきを追加する
+    // 持ち物を追加する
     public function addBelongings(Request $request)
     {
         Log::info($request);
@@ -76,6 +76,28 @@ class MobileAddController extends Controller
         } catch(\Exception $e) {
             Log::error($e);
             return response()->json(['message' => 'Belongings added failed']);
+        }
+    }
+
+    // 旅行詳細を追加する
+    public function addDetail(Request $request)
+    {
+        $tf = (string)$request->date . ' ' . $request->time_from . ':00';
+        $tt = (string)$request->date . ' ' . $request->time_to . ':00';
+        Log::info($request);
+        try {
+            $details = new TravelDetail();
+            $details->travel_plan_id = $request->travelPlanId;
+            $details->contents = $request->contents;
+            $details->price = $request->price;
+            $details->date = $request->date;
+            $details->kubun = $request->kubun;
+            $details->time_from = $tf;
+            $details->time_to = $tt;
+            $details->save();
+        } catch(\Exception $e) {
+            Log::error($e);
+            return response()->json(['message' => 'TravelDetail added failed']);
         }
     }
 }
