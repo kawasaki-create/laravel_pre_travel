@@ -79,7 +79,7 @@ class MobileAddController extends Controller
         }
     }
 
-    // 旅行詳細を追加する
+    // 旅行詳細を追加する(いくとこ)
     public function addDetail(Request $request)
     {
         $tf = (string)$request->date . ' ' . $request->time_from . ':00';
@@ -89,11 +89,31 @@ class MobileAddController extends Controller
             $details = new TravelDetail();
             $details->travel_plan_id = $request->travelPlanId;
             $details->contents = $request->contents;
-            $details->price = $request->price;
+            $details->price = null;
             $details->date = $request->date;
             $details->kubun = $request->kubun;
             $details->time_from = $tf;
             $details->time_to = $tt;
+            $details->save();
+        } catch(\Exception $e) {
+            Log::error($e);
+            return response()->json(['message' => 'TravelDetail added failed']);
+        }
+    }
+
+    // 旅行詳細を追加する(いくとこ以外)
+    public function addDetail18(Request $request)
+    {
+        Log::info($request);
+        try {
+            $details = new TravelDetail();
+            $details->travel_plan_id = $request->travelPlanId;
+            $details->contents = $request->contents;
+            $details->price = $request->price;
+            $details->date = $request->date;
+            $details->kubun = $request->kubun;
+            $details->time_from = null;
+            $details->time_to = null;
             $details->save();
         } catch(\Exception $e) {
             Log::error($e);

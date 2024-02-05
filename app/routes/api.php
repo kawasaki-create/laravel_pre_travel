@@ -35,6 +35,7 @@ Route::middleware('auth:api')->post('/add-travel-plan', [App\Http\Controllers\ap
 Route::middleware('auth:api')->post('/add-tweet', [App\Http\Controllers\api\MobileAddController::class, 'addTweet']);
 Route::middleware('auth:api')->post('/add-belongings', [App\Http\Controllers\api\MobileAddController::class, 'addBelongings']);
 Route::middleware('auth:api')->post('/add-detail', [App\Http\Controllers\api\MobileAddController::class, 'addDetail']);
+Route::middleware('auth:api')->post('/add-detail18', [App\Http\Controllers\api\MobileAddController::class, 'addDetail18']);
 
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
