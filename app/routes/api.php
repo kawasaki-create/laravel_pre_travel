@@ -36,6 +36,7 @@ Route::middleware('auth:api')->post('/add-tweet', [App\Http\Controllers\api\Mobi
 Route::middleware('auth:api')->post('/add-belongings', [App\Http\Controllers\api\MobileAddController::class, 'addBelongings']);
 Route::middleware('auth:api')->post('/add-detail', [App\Http\Controllers\api\MobileAddController::class, 'addDetail']);
 Route::middleware('auth:api')->post('/add-detail18', [App\Http\Controllers\api\MobileAddController::class, 'addDetail18']);
+Route::middleware('auth:api')->post('/delete-detail', [App\Http\Controllers\api\MobileDeleteController::class, 'deleteDetail']);
 
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
