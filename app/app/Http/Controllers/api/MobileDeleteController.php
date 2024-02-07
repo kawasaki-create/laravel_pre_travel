@@ -20,7 +20,8 @@ class MobileDeleteController extends Controller
     {
         Log::info($request);
         try {
-            TravelDetail::where('id', $request->id)->delete();
+            TravelPlan::where('id', $request->id)->delete();
+            Log::info('旅行プランID：' . $request->id . 'を削除しました');
         } catch(\Exception $e) {
             Log::error($e);
             return response()->json(['message' => 'TravelPlan deleted failed']);
