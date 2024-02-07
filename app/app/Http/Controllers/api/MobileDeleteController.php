@@ -15,37 +15,16 @@ use Illuminate\Support\Facades\Log;
 
 class MobileDeleteController extends Controller
 {
-    // 旅行プラン一覧返す
+    // 旅行プラン削除
     public function deleteTravelPlan(Request $request)
     {
-        // リクエストデータの整形
-        $startDate = substr((string)$request->tripStart,0,10). ' ' . substr((string)$request->tripStart,11,8);
-        $endDate = substr((string)$request->tripEnd,0,10). ' ' . substr((string)$request->tripEnd,11,8);
-        $departureTime = substr((string)$request->tripStart,0,10). ' ' . substr((string)$request->departureTime,0,5). ':00';
-
-        // リクエストデータをログに記録
-        // Log::info($request);
-        // $s = DateTime::createFromFormat('Y-m-d H:i:s', $startDate);
-        // Log::info($s);
-        // Log::info($endDate);
-        // Log::info($departureTime);
-
-        // データベースへの保存など、他の処理をここで実行
+        Log::info($request);
         try {
-            $travelPlan = new TravelPlan;
-            $travelPlan->trip_title = $request->tripTitle;
-            $travelPlan->trip_start = DateTime::createFromFormat('Y-m-d H:i:s', $startDate);
-            $travelPlan->trip_end = DateTime::createFromFormat('Y-m-d H:i:s', $endDate);
-            $travelPlan->meet_place = $request->meetPlace;
-            $travelPlan->departure_time = DateTime::createFromFormat('Y-m-d H:i:s', $departureTime);
-            $travelPlan->budget = $request->budget;
-            $travelPlan->user_id = $request->user_id;
-            $travelPlan->save();
+            TravelDetail::where('id', $request->id)->delete();
         } catch(\Exception $e) {
-            Log::info($e);
-            return response()->json(['message' => 'Travel plan added failed']);
+            Log::error($e);
+            return response()->json(['message' => 'TravelPlan deleted failed']);
         }
-        return response()->json(['message' => 'Travel plan added successfully']);
     }
 
     // つぶやきを追加する
