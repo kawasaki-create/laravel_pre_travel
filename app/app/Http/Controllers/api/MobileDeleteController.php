@@ -82,11 +82,9 @@ class MobileDeleteController extends Controller
     // 旅行詳細を削除する
     public function deleteDetail(Request $request)
     {
-        Log::info($request);exit;
+        Log::info($request);
         try {
-            $details = new TravelDetail();
-            $details->id = $request->travelPlanId;
-            // $details->save();
+            TravelDetail::where('id', $request->id)->delete();
         } catch(\Exception $e) {
             Log::error($e);
             return response()->json(['message' => 'Belongings added failed']);
