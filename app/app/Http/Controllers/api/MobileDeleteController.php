@@ -49,13 +49,11 @@ class MobileDeleteController extends Controller
     {
         Log::info($request);
         try {
-            $belongings = new Belonging();
-            $belongings->travel_plan_id = $request->travelPlanId;
-            $belongings->contents = $request->contents;
-            $belongings->save();
+            Belonging::where('id', $request->id)->delete();
+            Log::info('持ち物ID：' . $request->id . 'を削除しました');
         } catch(\Exception $e) {
             Log::error($e);
-            return response()->json(['message' => 'Belongings added failed']);
+            return response()->json(['message' => 'TravelPlan deleted failed']);
         }
     }
 
