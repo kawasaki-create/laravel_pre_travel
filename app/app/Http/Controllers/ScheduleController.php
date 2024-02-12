@@ -112,6 +112,8 @@ class ScheduleController extends Controller
     public function delete($id)
     {
         TravelDetail::where('travel_plan_id', $id)->delete();
+        Tweet::where('travel_plan_id', $id)->delete();
+        Belonging::where('travel_plan_id', $id)->delete();
         TravelPlan::where('id', $id)->delete();
 
         return redirect('/schedule/all_plan')->with('success', '予定を削除しました！');
