@@ -33,14 +33,11 @@ class MobileDeleteController extends Controller
     {
         Log::info($request);
         try {
-            $tweet = new Tweet;
-            $tweet->travel_plan_id = $request->travelPlanId;
-            $tweet->tweet = $request->tweet;
-            $tweet->user_id = $request->user_id;
-            $tweet->save();
+            Tweet::where('id', $request->id)->delete();
+            Log::info('つぶやきID：' . $request->id . 'を削除しました');
         } catch(\Exception $e) {
             Log::error($e);
-            return response()->json(['message' => 'Tweet added failed']);
+            return response()->json(['message' => 'Tweet deleted failed']);
         }
     }
 

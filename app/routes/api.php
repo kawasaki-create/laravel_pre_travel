@@ -40,6 +40,7 @@ Route::middleware('auth:api')->post('/add-detail18', [App\Http\Controllers\api\M
 Route::middleware('auth:api')->post('/delete-detail', [App\Http\Controllers\api\MobileDeleteController::class, 'deleteDetail']);
 Route::middleware('auth:api')->post('/delete-plan', [App\Http\Controllers\api\MobileDeleteController::class, 'deleteTravelPlan']);
 Route::middleware('auth:api')->post('/delete-belongings', [App\Http\Controllers\api\MobileDeleteController::class, 'deleteBelongings']);
+Route::middleware('auth:api')->post('/delete-tweet', [App\Http\Controllers\api\MobileDeleteController::class, 'deleteTweet']);
 Route::middleware('auth:api')->post('/edit-travel-plan', [App\Http\Controllers\api\MobileEditController::class, 'editTravelPlan']);
 
 
