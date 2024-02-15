@@ -43,15 +43,17 @@ class MobileEditController extends Controller
     }
 
     // つぶやきを追加する
-    public function addTweet(Request $request)
+    public function editTweet(Request $request)
     {
         Log::info($request);
         try {
-            $tweet = new Tweet;
+            $tweet = Tweet::find($request->id);
             $tweet->travel_plan_id = $request->travelPlanId;
             $tweet->tweet = $request->tweet;
             $tweet->user_id = $request->user_id;
+            $tweet->editFlg = $request->editFlg;
             $tweet->save();
+            Log::info('つぶやきID：' . $request->id . 'を編集しました');
         } catch(\Exception $e) {
             Log::error($e);
             return response()->json(['message' => 'Tweet added failed']);
