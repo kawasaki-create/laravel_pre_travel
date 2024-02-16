@@ -122,4 +122,16 @@ class MobileHomeController extends Controller
 
         return $tweets;
     }
+
+    // メール認証済みかチェックする
+    public function checkVerified(Request $request)
+    {
+        $user_id = $request->user()->id;
+
+        $verified = User::where('id', $user_id)->value('email_verified_at');
+
+        return response()->json([
+            'verified' => $verified
+        ]);
+    }
 }

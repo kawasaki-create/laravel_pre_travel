@@ -30,6 +30,7 @@ Route::middleware('auth:api')->get('/travel-plan', [App\Http\Controllers\api\Mob
 Route::middleware('auth:api')->get('/belongings', [App\Http\Controllers\api\MobileHomeController::class, 'belongings']);
 Route::middleware('auth:api')->get('/belongings-wos', [App\Http\Controllers\api\MobileHomeController::class, 'belongingsWoStart']);
 Route::middleware('auth:api')->get('/tweet', [App\Http\Controllers\api\MobileHomeController::class, 'tweet']);
+Route::middleware('auth:api')->get('/check-verified', [App\Http\Controllers\api\MobileHomeController::class, 'checkVerified']);
 Route::middleware('auth:api')->get('/tweet-detail', [App\Http\Controllers\api\MobileHomeController::class, 'tweetDetail']);
 Route::middleware('auth:api')->get('/travel-detail', [App\Http\Controllers\api\MobileHomeController::class, 'travelDetail']);
 Route::middleware('auth:api')->post('/add-travel-plan', [App\Http\Controllers\api\MobileAddController::class, 'addTravelPlan']);
