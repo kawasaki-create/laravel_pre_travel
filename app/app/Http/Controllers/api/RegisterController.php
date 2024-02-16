@@ -30,6 +30,8 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        // 確認メールを送信
+        $user->sendEmailVerificationNotification();
 
         return response()->json('User registration completed', Response::HTTP_OK);
     }
