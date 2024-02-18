@@ -13,7 +13,7 @@ class MailSendController extends Controller
 {
     public function registerSend(){
         Mail::send(new RegisterSendMail());
-        return redirect('/home')->with('success', 'アカウントの登録が完了しました');
+        return redirect('/home')->with('success', 'アカウントの登録が完了しました。アプリ版はそちらを開いてログインしてください。');
     }
 
     public function AccountDeleteSend(Request $request)

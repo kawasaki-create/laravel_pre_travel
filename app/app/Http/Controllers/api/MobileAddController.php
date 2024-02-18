@@ -57,6 +57,7 @@ class MobileAddController extends Controller
             $tweet->travel_plan_id = $request->travelPlanId;
             $tweet->tweet = $request->tweet;
             $tweet->user_id = $request->user_id;
+            $tweet->editFlg = $request->editFlg;
             $tweet->save();
         } catch(\Exception $e) {
             Log::error($e);

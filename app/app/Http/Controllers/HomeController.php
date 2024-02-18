@@ -80,6 +80,7 @@ class HomeController extends Controller
     {
         $tweet = new Tweet;
         $tweet->tweet = $request->input('tweet');
+        $tweet->editFlg = 0;
         $tweet->user_id = auth()->user()->id;
         $tweet->travel_plan_id = $request->input('duplicatedTravel');
         $tweet->save();
