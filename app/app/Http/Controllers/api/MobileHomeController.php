@@ -25,6 +25,12 @@ class MobileHomeController extends Controller
         ]);
     }
 
+    // ユーザーID取得
+    public function getUid(Request $request)
+    {
+        return $request->user()->id;
+    }
+
     // 旅行プラン一覧返す
     public function travelPlan(Request $request)
     {
