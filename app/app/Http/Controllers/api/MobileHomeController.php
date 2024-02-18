@@ -28,7 +28,9 @@ class MobileHomeController extends Controller
     // ユーザーID取得
     public function getUid(Request $request)
     {
-        return $request->user()->id;
+        return response()->json([
+            'id' => $request->user()->id
+        ]);
     }
 
     // 旅行プラン一覧返す

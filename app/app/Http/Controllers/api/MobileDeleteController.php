@@ -12,6 +12,7 @@ use App\Models\TravelPlan;
 use App\Models\Tweet;
 use DateTime;
 use Illuminate\Support\Facades\Log;
+use App\Mail\AccountDeleteSendMail;
 
 class MobileDeleteController extends Controller
 {
@@ -64,5 +65,20 @@ class MobileDeleteController extends Controller
             Log::error($e);
             return response()->json(['message' => 'Belongings added failed']);
         }
+    }
+
+    // アカウントを削除する
+    public function deleteAccount(Request $request)
+    {
+        $id = auth()->user()->id;
+        $urls = [
+            'hi' => URL::temporarySignedRoute(
+                'deleted',
+                now()->addMinutes(5),  // 5分間だけ有効
+                ['id' => $id]
+            ),
+        ];
+        Mail::send(new AccountDeleteSendMail($request, $urls));
+        return response()->json(['message' => 'アカウント削除の確認用メールを送信しました。(5分以内にURLをクリックしてください。)']);
     }
 }
