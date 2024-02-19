@@ -13,6 +13,8 @@ use App\Models\Tweet;
 use DateTime;
 use Illuminate\Support\Facades\Log;
 use App\Mail\AccountDeleteSendMail;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Mail;
 
 class MobileDeleteController extends Controller
 {
@@ -70,15 +72,21 @@ class MobileDeleteController extends Controller
     // アカウントを削除する
     public function deleteAccount(Request $request)
     {
-        $id = auth()->user()->id;
-        $urls = [
-            'hi' => URL::temporarySignedRoute(
-                'deleted',
-                now()->addMinutes(5),  // 5分間だけ有効
-                ['id' => $id]
-            ),
-        ];
-        Mail::send(new AccountDeleteSendMail($request, $urls));
-        return response()->json(['message' => 'アカウント削除の確認用メールを送信しました。(5分以内にURLをクリックしてください。)']);
+        try {
+            $id = auth()->user()->id;
+            $urls = [
+                'hi' => URL::temporarySignedRoute(
+                    'deleted',
+                    now()->addMinutes(5),  // 5分間だけ有効
+                    ['id' => $id]
+                ),
+            ];
+            Mail::send(new AccountDeleteSendMail($request, $urls));
+            return response()->json(['message' => 'アカウント削除の確認用メールを送信しました。(5分以内にURLをクリックしてください。)']);
+        } catch(\Exception $e) {
+            Log::error($e);
+            return response()->json(['message' => 'Account deleted failed']);
+        }
+
     }
 }
