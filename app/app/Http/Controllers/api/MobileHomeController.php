@@ -29,7 +29,8 @@ class MobileHomeController extends Controller
     public function getUid(Request $request)
     {
         return response()->json([
-            'id' => $request->user()->id
+            'id' => $request->user()->id,
+            'name' => $request->user()->name,
         ]);
     }
 
