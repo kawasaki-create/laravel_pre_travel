@@ -116,4 +116,18 @@ class MobileEditController extends Controller
             return response()->json(['message' => 'TravelDetail added failed']);
         }
     }
+
+    // 名前とメアドの修正
+    public function editNameAndMail(Request $request)
+    {
+        Log::info($request);
+        try{
+            $user = User::find($request->user()->id);
+            $user->name = $request->name;
+            $user->email = $request->mail;
+            $user->save();
+        } catch(\Exception $e) {
+            Log::error($e);
+        }
+    }
 }
