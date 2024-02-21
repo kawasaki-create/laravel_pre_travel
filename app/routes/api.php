@@ -20,6 +20,7 @@ use App\Models\User;
 
 Route::post('/register', [RegisterController::class, 'register']); // ユーザー登録
 Route::post('/login', [LoginController::class, 'login']); // ログイン
+Route::post('/forgot', [LoginController::class, 'forgot']); // ログイン
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

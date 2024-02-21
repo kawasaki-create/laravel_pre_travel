@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use \Symfony\Component\HttpFoundation\Response;
+use SendsPasswordResetEmails;
 
 class LoginController extends Controller
 {
@@ -26,5 +27,17 @@ class LoginController extends Controller
             'message' => 'Unauthenticated.'
         ], 401);
 
+    }
+
+    public function forgot(Request $request)
+    {
+        // パスワードリセットメールを送信するための処理
+        try{
+            $response = $this->sendResetLinkEmail($request);
+            Log::info($response);
+        } catch(\Exception $e) {
+            Log::error($e);
+        }
+        return $response;
     }
 }
