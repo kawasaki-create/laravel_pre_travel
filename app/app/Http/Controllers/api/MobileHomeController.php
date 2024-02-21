@@ -31,6 +31,7 @@ class MobileHomeController extends Controller
         return response()->json([
             'id' => $request->user()->id,
             'name' => $request->user()->name,
+            'mail' => $request->user()->email,
         ]);
     }
 
