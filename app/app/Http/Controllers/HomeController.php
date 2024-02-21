@@ -178,11 +178,13 @@ class HomeController extends Controller
     public function changeAddressOk(Request $request)
     {
         $user = User::find(Auth::user()->id);
+        $preUser = $user->name;
+        $preEmail = $user->email;
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->save();
 
-        Mail::send(new MailChangeSendMail($request));
+        Mail::send(new MailChangeSendMail($request, $preUser, $preEmail));
 
         return redirect('/home')->with('success', '名前/メールアドレスを変更しました🤗');
     }

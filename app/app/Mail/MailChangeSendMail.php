@@ -19,11 +19,13 @@ class MailChangeSendMail extends Mailable
      *
      * @return void
      */
-    public function __construct($request)
+    public function __construct($request, $preUser, $preEmail)
     {
         $this->data = [
             'name' => $request->name,
             'email' => $request->email,
+            'preUser' => $preUser,
+            'preEmail' => $preEmail,
         ];
     }
 
@@ -36,7 +38,9 @@ class MailChangeSendMail extends Mailable
     {
         return $this->view('email.mailChange')
                 ->with($this->data)
-                ->to(Auth::user()->email, Auth::user()->name)
+                // ->to(Auth::user()->email, Auth::user()->name)
+                ->to([$this->data['email']], [$this->data['name']])
+                ->cc([$this->data['preEmail']], [$this->data['preUser']])
                 ->from(env('MAIL_USERNAME'),env('APP_NAME'))
                 ->subject('名前/メールアドレス変更のお知らせ');
     }

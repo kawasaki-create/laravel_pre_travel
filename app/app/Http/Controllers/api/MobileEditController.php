@@ -12,6 +12,9 @@ use App\Models\TravelPlan;
 use App\Models\Tweet;
 use DateTime;
 use Illuminate\Support\Facades\Log;
+use App\Mail\MailChangeSendMail;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Mail;
 
 class MobileEditController extends Controller
 {
@@ -39,7 +42,7 @@ class MobileEditController extends Controller
             Log::info($e);
             return response()->json(['message' => 'Travel plan added failed']);
         }
-        return response()->json(['message' => 'Travel plan added successfully']);        
+        return response()->json(['message' => 'Travel plan added successfully']);
     }
 
     // つぶやきを追加する
@@ -121,13 +124,19 @@ class MobileEditController extends Controller
     public function editNameAndMail(Request $request)
     {
         Log::info($request);
-        try{
-            $user = User::find($request->user()->id);
+        try {
+            $user = User::find(Auth::user()->id);
+            $preUser = $user->name;
+            $preEmail = $user->email;
             $user->name = $request->name;
             $user->email = $request->mail;
             $user->save();
+
+            Mail::send(new MailChangeSendMail($request, $preUser, $preEmail));
+            return response()->json(['message' => '名前/メールアドレスを変更しました🤗']);
         } catch(\Exception $e) {
             Log::error($e);
+            return response()->json(['message' => '名前/メールアドレスの変更に失敗しました😵']);
         }
     }
 }
