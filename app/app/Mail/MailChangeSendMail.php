@@ -23,7 +23,7 @@ class MailChangeSendMail extends Mailable
     {
         $this->data = [
             'name' => $request->name,
-            'email' => $request->email,
+            'email' => $request->mail,
             'preUser' => $preUser,
             'preEmail' => $preEmail,
         ];
