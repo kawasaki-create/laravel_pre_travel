@@ -30,16 +30,20 @@ class LoginController extends Controller
         ], 401);
 
     }
+}
 
+class ForgotController extends Controller
+{
+    use SendsPasswordResetEmails;
     public function forgot(Request $request)
     {
+        Log::info($request);
         // パスワードリセットメールを送信するための処理
         try{
-            $response = $this->sendResetLinkEmail($request);
-            Log::info($response);
+            // $response = $this->sendResetLinkEmail($request);
+            // Log::info($response);
         } catch(\Exception $e) {
             Log::error($e);
         }
-        return $response;
     }
 }
