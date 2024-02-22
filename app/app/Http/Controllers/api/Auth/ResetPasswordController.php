@@ -1,20 +1,38 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\api\Auth\ResetPasswordRequest;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\ValidationException;
 
-class ResetPasswordController extends Controller
+final class ResetPasswordController extends Controller
 {
     /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ResetPasswordRequest $request
+     * @return JsonResponse
+     * @throws ValidationException
      */
-    public function __invoke(Request $request)
+    public function __invoke(ResetPasswordRequest $request): JsonResponse
     {
-        //
+        $credentials = request()->only(['email', 'token', 'password']);
+
+        $status = Password::reset($credentials, function (User $user, string $password) {
+            $user->password = bcrypt($password);
+            $user->save();
+        });
+
+        if ($status !== Password::PASSWORD_RESET) {
+            throw ValidationException::withMessages([
+                'email' => trans($status),
+            ]);
+        }
+
+        return new JsonResponse([
+            'message' => trans($status),
+        ]);
     }
 }
