@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\RegisterController;
 use App\Http\Controllers\api\LoginController;
-use App\Http\Controllers\api\ForgotController;
+use App\Http\Controllers\Api\Auth\ForgotPasswordController;
 use App\Http\Controllers\api\MobileHomeController;
 use App\Models\User;
 
@@ -21,7 +21,8 @@ use App\Models\User;
 
 Route::post('/register', [RegisterController::class, 'register']); // ユーザー登録
 Route::post('/login', [LoginController::class, 'login']); // ログイン
-Route::post('/forgot', [ForgotController::class, 'forgot']); // ログイン
+Route::post('/forgot', [LoginController::class, 'forgot']); // ログイン
+Route::post('/forgot-password', ForgotPasswordController::class)->name('password.forgot');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
