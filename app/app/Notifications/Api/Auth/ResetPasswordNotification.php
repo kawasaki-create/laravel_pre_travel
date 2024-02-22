@@ -27,7 +27,7 @@ final class ResetPasswordNotification extends ResetPassword
      */
     protected function resetUrl($notifiable): string
     {
-        return self::PASSWORD_RESET_ENDPOINT . '?' . http_build_query([
+        return self::PASSWORD_RESET_ENDPOINT . '/' . http_build_query([
                 'token' => $this->token,
                 'email' => $notifiable->getEmailForPasswordReset(),
             ]);
