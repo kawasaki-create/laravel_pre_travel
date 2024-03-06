@@ -51,3 +51,7 @@ Route::post('/schedule/belongings_delete', [App\Http\Controllers\ScheduleControl
 Route::get('/home/contact', [App\Http\Controllers\HomeController::class, 'contact']);
 Route::post('/home/contact_send/{name}/{email}/{message}', [App\Http\Controllers\HomeController::class, 'contactSend'])->name('contact.send');
 Route::post('/home/contact_confirm', [App\Http\Controllers\HomeController::class, 'contactConfirm'])->name('contact.comfirm');
+
+Route::get('/support-page', function () {
+    return view('supportpage');
+})->name('index');
