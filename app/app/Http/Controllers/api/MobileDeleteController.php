@@ -93,12 +93,19 @@ class MobileDeleteController extends Controller
     // アカウント以外を削除する(デモモード)
     public function deleteAllExceptAccount(Request $request)
     {
-
-        $details = TravelDetail::find($request->id);
+        $travelPlans = TravelPlan::where('user_id', $request->id);
+        $belongings = Belonging::whereIn('travel_plan_id', $travelPlans->pluck('id'));
+        $travelDetails = TravelDetail::whereIn('travel_plan_id', $travelPlans->pluck('id'));
+        Log::info(
+            '旅行プランid：'. $travelPlans,
+            '持ち物id：'. $belongings,
+            '旅行詳細id：'. $travelDetails
+        );
         // ユーザーに関連するデータの削除
-        TravelDetail::where('travel_plan_id', $request)->delete();
-        Tweet::where('user_id', $request)->delete();
-        TravelPlan::where('user_id', $request)->delete();
+        // TravelDetail::where('travel_plan_id', $request)->delete();
+        // Tweet::where('user_id', $request)->delete();
+        // $travelPlans->delete();
+        // $belongings->delete();
 
         return response()->json(['message' => 'アカウント以外のデータを削除しました']);
     }
