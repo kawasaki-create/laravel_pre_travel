@@ -44,7 +44,7 @@ class MobileDeleteController extends Controller
         }
     }
 
-    // つぶやきを追加する
+    // 持ち物を追加する
     public function deleteBelongings(Request $request)
     {
         Log::info($request);
@@ -88,5 +88,18 @@ class MobileDeleteController extends Controller
             return response()->json(['message' => 'Account deleted failed']);
         }
 
+    }
+
+    // アカウント以外を削除する(デモモード)
+    public function deleteAllExceptAccount(Request $request)
+    {
+
+        $details = TravelDetail::find($request->id);
+        // ユーザーに関連するデータの削除
+        TravelDetail::where('travel_plan_id', $request)->delete();
+        Tweet::where('user_id', $request)->delete();
+        TravelPlan::where('user_id', $request)->delete();
+
+        return response()->json(['message' => 'アカウント以外のデータを削除しました']);
     }
 }
