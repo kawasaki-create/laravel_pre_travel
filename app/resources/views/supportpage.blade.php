@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <?= "▼アプリ版PreTravelはこちら\n\n"; ?>
                     <?= "\n"?>
-                    ▪️お問い合わせ先：r.kawasaki.biz@gmail.com
+                    ▪️お問い合わせ先：kawasakicreate@gmail.com
                     <img src="/images/D850C2FE-20AF-4087-B6C8-DB05A46D3ACA_1_105_c.jpeg" alt="" width="341" height="662">
                 </div>
             </div>
