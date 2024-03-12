@@ -22,8 +22,12 @@ class MobileDeleteController extends Controller
     public function deleteTravelPlan(Request $request)
     {
         Log::info($request);
+        $id = $request->id;
         try {
-            TravelPlan::where('id', $request->id)->delete();
+            TravelDetail::where('travel_plan_id', $id)->delete();
+            Tweet::where('travel_plan_id', $id)->delete();
+            Belonging::where('travel_plan_id', $id)->delete();
+            TravelPlan::where('id', $id)->delete();
             Log::info('旅行プランID：' . $request->id . 'を削除しました');
         } catch(\Exception $e) {
             Log::error($e);
