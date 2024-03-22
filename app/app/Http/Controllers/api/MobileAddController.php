@@ -10,6 +10,7 @@ use App\Models\Belonging;
 use App\Models\TravelDetail;
 use App\Models\TravelPlan;
 use App\Models\Tweet;
+use App\Models\Contact;
 use DateTime;
 use Illuminate\Support\Facades\Log;
 
@@ -119,6 +120,22 @@ class MobileAddController extends Controller
         } catch(\Exception $e) {
             Log::error($e);
             return response()->json(['message' => 'TravelDetail added failed']);
+        }
+    }
+
+    // お問い合わせメッセージを追加する
+    public function addContact(Request $request)
+    {
+        Log::info($request);
+        $user_id = $request->user()->id;
+        try {
+            $contact = new Contact();
+            $contact->user_id = $user_id;
+            $contact->contents = $request->contents;
+            $contact->save();
+        } catch(\Exception $e) {
+            Log::error($e);
+            return response()->json(['message' => 'Contact added failed']);
         }
     }
 }
