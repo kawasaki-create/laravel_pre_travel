@@ -13,6 +13,8 @@ use App\Models\Tweet;
 use App\Models\Contact;
 use DateTime;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\{ContactToAdminSendMail, ContactToUserSendMail};
 
 class MobileAddController extends Controller
 {
@@ -131,8 +133,18 @@ class MobileAddController extends Controller
         try {
             $contact = new Contact();
             $contact->user_id = $user_id;
-            $contact->contents = $request->contents;
+            $contact->message = $request->content;
+            $contact->name = $request->name;
+
+            // Userテーブルからemailを取得して代入する
+            $user = User::findOrFail($user_id);
+            $contact->email = $user->email;
+
             $contact->save();
+
+            // メール送信
+            Mail::send(new ContactToAdminSendMail($request->name, $user->email, $request->content));
+            Mail::send(new ContactToUserSendMail($request->name, $user->email, $request->content));
         } catch(\Exception $e) {
             Log::error($e);
             return response()->json(['message' => 'Contact added failed']);
