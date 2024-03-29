@@ -1,6 +1,6 @@
 // mysqlでバックアップ
-cd /home/rin/mysql_bkup 
-mysqldump -h localhost -u rin -pP@ssw0rd --databases pt > 2023-11-14.sql
+cd /home/rin/mysql_bkup
+mysqldump -h localhost -u rin -pP@ssw0rd --databases pt > 2024-03-29.sql
 
 // リストア
-mysql -u root -p pt < 2023-11-14.sql
+mysql -u root -p pt < 2024-03-29.sql
