@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\api\RegisterController;
+use App\Http\Controllers\api\Auth\RegisterIOSController;
+use App\Http\Controllers\api\Auth\RegisterAndroidController;
 use App\Http\Controllers\api\LoginController;
 use App\Http\Controllers\api\Auth\ForgotPasswordController;
 use App\Http\Controllers\api\Auth\ResetPasswordController;
@@ -20,7 +21,8 @@ use App\Models\User;
 |
 */
 
-Route::post('/register', [RegisterController::class, 'register']); // ユーザー登録
+Route::post('/register-ios', [RegisterIOSController::class, 'registerIos']); // ユーザー登録(iOS)
+Route::post('/register-android', [RegisterAndroidController::class, 'registerAndroid']); // ユーザー登録(Android)
 Route::post('/login', [LoginController::class, 'login']); // ログイン
 Route::post('/forgot', [LoginController::class, 'forgot']); // ログイン
 Route::post('/forgot-password', ForgotPasswordController::class)->name('password.forgot');

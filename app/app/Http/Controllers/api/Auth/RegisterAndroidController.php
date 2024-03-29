@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api; // apiフォルダにあるため末尾を"Api"に
+namespace App\Http\Controllers\Api\Auth; // apiフォルダにあるため末尾を"Api"に
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use \Symfony\Component\HttpFoundation\Response;
 
-class RegisterController extends Controller
+class RegisterAndroidController extends Controller
 {
     public function register(Request $request)
     {
@@ -29,6 +29,8 @@ class RegisterController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            // 以下Android版の登録
+            'register_os' => 2,
         ]);
         // 確認メールを送信
         $user->sendEmailVerificationNotification();
