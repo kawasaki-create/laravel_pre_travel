@@ -21,8 +21,8 @@ use App\Models\User;
 |
 */
 
-Route::post('/register-ios', [RegisterIOSController::class, 'registerIos']); // ユーザー登録(iOS)
-Route::post('/register-android', [RegisterAndroidController::class, 'registerAndroid']); // ユーザー登録(Android)
+Route::post('/register-ios', [RegisterIOSController::class, 'register']); // ユーザー登録(iOS)
+Route::post('/register-android', [RegisterAndroidController::class, 'register']); // ユーザー登録(Android)
 Route::post('/login', [LoginController::class, 'login']); // ログイン
 Route::post('/forgot', [LoginController::class, 'forgot']); // ログイン
 Route::post('/forgot-password', ForgotPasswordController::class)->name('password.forgot');
