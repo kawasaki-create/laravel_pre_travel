@@ -18,6 +18,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        // 最終ログイン日時を更新する
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\UpdateLastLoginAt',
+        ],
     ];
 
     /**

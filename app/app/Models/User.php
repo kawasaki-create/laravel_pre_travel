@@ -24,6 +24,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'register_os', // 追加
+        'last_login_os', // 追加
+        'last_login_at', // 追加
+        'vip_flg', // 追加
     ];
 
     /**
