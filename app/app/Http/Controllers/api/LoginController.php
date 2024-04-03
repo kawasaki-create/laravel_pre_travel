@@ -17,12 +17,18 @@ class LoginController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if(auth()->attempt($credentials)) {
-
+        if (auth()->attempt($credentials)) {
             $user = auth()->user();
+
+            // Userモデルを取得
+            $userModel = \App\Models\User::find($user->id);
+    
+            // last_login_osの更新
+            $userModel->last_login_os = $request->loginOS;
+            $userModel->save();
+    
             $token = $user->createToken('token')->accessToken;
             return ['token' => $token];
-
         }
 
         return response([
