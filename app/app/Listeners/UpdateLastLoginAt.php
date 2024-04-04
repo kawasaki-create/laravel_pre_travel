@@ -27,6 +27,7 @@ class UpdateLastLoginAt
     public function handle(Login $event)
     {
         $event->user->last_login_at = now();
+        $event->user->last_login_os = 0;
         $event->user->save();
     }
 }
