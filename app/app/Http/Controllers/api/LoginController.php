@@ -23,8 +23,9 @@ class LoginController extends Controller
             // Userモデルを取得
             $userModel = \App\Models\User::find($user->id);
     
-            // last_login_osの更新
+            // last_login_os,vip_flgの更新
             $userModel->last_login_os = $request->loginOS;
+            $userModel->vip_flg = $request->vipFlg;
             $userModel->save();
     
             $token = $user->createToken('token')->accessToken;

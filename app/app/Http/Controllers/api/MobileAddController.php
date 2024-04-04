@@ -150,4 +150,18 @@ class MobileAddController extends Controller
             return response()->json(['message' => 'Contact added failed']);
         }
     }
+
+    //　有料会員登録したとき、開発者に誰が登録したかメールを送信する
+    public function sendMailToMe(Request $request)
+    {
+        Log::info($request);
+        $user_id = $request->user()->id;
+        try {
+            $user = User::findOrFail($user_id);
+            Mail::send(new VipRegisterNoticeToAdminSendMail($user->name, $user->email));
+        } catch(\Exception $e) {
+            Log::error($e);
+            return response()->json(['message' => 'Send mail failed']);
+        }
+    }
 }
