@@ -153,23 +153,29 @@ class HomeController extends Controller
     }
 
     public function AccountDeleted(Request $request, $id)
-    {
-        // リンクの検証
-        if (!$request->hasValidSignature()) {
-            return redirect('/home')->with('danger', 'URLの有効期限が切れています😇');
-        }
-
-        // ユーザーに関連するデータの削除
-        TravelDetail::where('travel_plan_id', $id)->delete();
-        Tweet::where('user_id', $id)->delete();
-        Belonging::where('travel_plan_id', $id)->delete();
-        TravelPlan::where('user_id', $id)->delete();
-        User::where('id', $id)->delete();
-
-        Mail::send(new AccountDeleteCompleteSendMail($request));
-
-        return redirect('/')->with('success', 'アカウント削除が完了しました👋');
+{
+    // リンクの検証
+    if (!$request->hasValidSignature()) {
+        return redirect('/home')->with('danger', 'URLの有効期限が切れています😇');
     }
+
+    // ユーザーに関連するデータの削除
+    $travelPlans = TravelPlan::where('user_id', $id)->get();
+    
+    foreach ($travelPlans as $travelPlan) {
+        TravelDetail::where('travel_plan_id', $travelPlan->id)->delete();
+        Belonging::where('travel_plan_id', $travelPlan->id)->delete();
+        Tweet::where('travel_plan_id', $travelPlan->id)->delete();
+    }
+    
+    TravelPlan::where('user_id', $id)->delete();
+    Contact::where('user_id', $id)->delete();
+    User::where('id', $id)->delete();
+
+    Mail::send(new AccountDeleteCompleteSendMail($request));
+
+    return redirect('/')->with('success', 'アカウント削除が完了しました👋');
+}
 
     public function changeAddress()
     {
