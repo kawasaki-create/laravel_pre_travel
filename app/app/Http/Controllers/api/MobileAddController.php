@@ -14,7 +14,7 @@ use App\Models\Contact;
 use DateTime;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\{ContactToAdminSendMail, ContactToUserSendMail};
+use App\Mail\{ContactToAdminSendMail, ContactToUserSendMail, VipRegisterNoticeToAdminSendMail};
 
 class MobileAddController extends Controller
 {

@@ -77,7 +77,7 @@ class MobileDeleteController extends Controller
     public function deleteAccount(Request $request)
     {
         try {
-            $id = auth()->user()->id;
+            $id = $request->user()->id;
             $urls = [
                 'hi' => URL::temporarySignedRoute(
                     'deleted',
