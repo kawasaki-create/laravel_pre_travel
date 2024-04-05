@@ -162,6 +162,7 @@ class HomeController extends Controller
         // ユーザーに関連するデータの削除
         TravelDetail::where('travel_plan_id', $id)->delete();
         Tweet::where('user_id', $id)->delete();
+        Belonging::where('travel_plan_id', $id)->delete();
         TravelPlan::where('user_id', $id)->delete();
         User::where('id', $id)->delete();
 
