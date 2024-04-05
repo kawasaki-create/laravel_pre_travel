@@ -36,10 +36,10 @@ class VipRegisterNoticeToAdminSendMail extends Mailable
      */
     public function build()
     {
-        return $this->view('email.contactToAdmin')
+        return $this->view('email.vipRegisterNoticeToAdmin')
                 ->with($this->data)
                 ->to(env('MAIL_KAWASAKI_ADDRESS'))
                 ->from(env('MAIL_USERNAME'),env('APP_NAME'))
-                ->subject('【要確認】PreTravel利用者からのお問い合わせ');
+                ->subject('【お知らせ】ユーザーが有料会員登録しました🥳');
     }
 }

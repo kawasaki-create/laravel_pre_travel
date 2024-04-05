@@ -152,7 +152,7 @@ class MobileAddController extends Controller
     }
 
     //　有料会員登録したとき、開発者に誰が登録したかメールを送信する
-    public function sendMailToMe(Request $request)
+    public function sendVipMailToMe(Request $request)
     {
         Log::info($request);
         $user_id = $request->user()->id;

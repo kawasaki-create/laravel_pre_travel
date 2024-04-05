@@ -47,6 +47,7 @@ Route::middleware('auth:api')->post('/add-belongings', [App\Http\Controllers\api
 Route::middleware('auth:api')->post('/add-detail', [App\Http\Controllers\api\MobileAddController::class, 'addDetail']);
 Route::middleware('auth:api')->post('/add-contact', [App\Http\Controllers\api\MobileAddController::class, 'addContact']);
 Route::middleware('auth:api')->post('/add-detail18', [App\Http\Controllers\api\MobileAddController::class, 'addDetail18']);
+Route::middleware('auth:api')->post('/register-vip', [App\Http\Controllers\api\MobileAddController::class, 'sendVipMailToMe']);
 Route::middleware('auth:api')->post('/delete-detail', [App\Http\Controllers\api\MobileDeleteController::class, 'deleteDetail']);
 Route::middleware('auth:api')->post('/delete-account', [App\Http\Controllers\api\MobileDeleteController::class, 'deleteAccount']);
 Route::middleware('auth:api')->post('/delete-account-exception', [App\Http\Controllers\api\MobileDeleteController::class, 'deleteAllExceptAccount']);
