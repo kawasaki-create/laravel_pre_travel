@@ -83,7 +83,27 @@
                     @endif
 
                     <p>ようこそ、{{Auth::user()->name;}}さん！</p>
-                    <input type="button" class="btn btn-secondary" onclick="location.href='/schedule'" value="スケジュール作成">
+                    <!-- <input type="button" class="btn btn-secondary" onclick="location.href='/schedule'" value="スケジュール作成"> -->
+                    @if(Auth::check())
+                        @php
+                            $user = Auth::user();
+                            $userTravelPlansCount = $user->travelPlan()->count();
+                        @endphp
+                        <input type="button" class="btn btn-secondary" onclick="checkTravelPlans()" value="スケジュール作成">
+                        <script>
+                            function checkTravelPlans() {
+                                @if($user->vip_flg == 0)
+                                    @if($userTravelPlansCount >= 4)
+                                        alert('無料会員は3つまで旅行プランを設定可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。');
+                                    @else
+                                        location.href='/schedule';
+                                    @endif
+                                @else
+                                    location.href='/schedule';
+                                @endif
+                            }
+                        </script>
+                    @endif
                 </div>
             </div>
             <br><br>
@@ -94,53 +114,38 @@
                 @if($travelPlan->trip_start <= date('Y-m-d H:i:s', strtotime('+1 day')) && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end)
                     @php
                         $displayCard = true;
-                        $currentId = $travelPlan->id;
+                        $currentTravelPlanId = $travelPlan->id;
+                        $tweetCount = $travelPlan->tweet()->count();
                     @endphp
                 @endif
             @endforeach
             @if($displayCard)
             <div class="card">
-                <div class="card-header">持っていくものリスト確認 <span style="color:red; font-size:10px;">※旅行前日から表示</span></div>
+                <div class="card-header">つぶやき <span style="color:red; font-size:10px;">※旅行中のみ表示</span></div>
                 <div class="card-body">
-                    @foreach($belongings as $row)
-                        @if($row->TravelPlan->trip_start <= date('Y-m-d H:i:s', strtotime('+1 day')) && date('Y-m-d H:i:s', strtotime('-1 day')) <= $row->TravelPlan->trip_end)
-                            <input type="checkbox" class="checkbox" data-id="{{ $row->id }}">
-                            <span class="belonging-item" data-id="{{ $row->id }}">{{ $row->contents }}</span><br>
-                        @endif
-                    @endforeach
-                    <br>
-                    <a href="/schedule/belongings/{{ $currentId }}">持ち物リスト編集</a>
+                    <form action="{{ route('button.click') }}" method="POST" onsubmit="return checkTweetCount({{ auth()->user()->vip_flg }}, {{ $tweetCount }});">
+                        @csrf
+                        <input type="hidden" name="travel_plan_id" value="{{ $currentTravelPlanId }}">
+                        <textarea id="myTextarea" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
+                        <div id="charCount"></div>
+                        <button type="submit" class="btn btn-primary" id="tweetButton">投稿</button>　
+                        <select name="duplicatedTravel" id="duplicatedTravel" {{ $tripCnt >= 2 ? '' : 'hidden' }}>
+                        @for($i = 0; $i < $tripCnt; $i++)
+                            <option value="{{ $duplicatedIdList[$i] }}">{{ $duplicatedTitleList[$i] }}</option>
+                        @endfor
+                        </select>
+                    </form>
                 </div>
             </div>
-            <br><br>
-            @endif
-            @php
-                $displayCard = false;
-            @endphp
-            @foreach ($travelPlans as $travelPlan)
-                @if($travelPlan->trip_start <= date('Y-m-d H:i:s') && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end)
-                    @php
-                        $displayCard = true;
-                    @endphp
-                @endif
-            @endforeach
-            @if($displayCard)
-                <div class="card">
-                    <div class="card-header">つぶやき <span style="color:red; font-size:10px;">※旅行中のみ表示</span></div>
-                    <div class="card-body">
-                        <form action="{{ route('button.click') }}" method="POST">
-                            @csrf
-                            <textarea id="myTextarea" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
-                            <div id="charCount"></div>
-                            <button type="submit" class="btn btn-primary" id="tweetButton">投稿</button>　
-                            <select name="duplicatedTravel" id="duplicatedTravel" {{ $tripCnt >= 2 ? '' : 'hidden' }}>
-                            @for($i = 0; $i < $tripCnt; $i++)
-                                <option value="{{ $duplicatedIdList[$i] }}">{{ $duplicatedTitleList[$i] }}</option>
-                            @endfor
-                            </select>
-                        </form>
-                    </div>
-                </div>
+            <script>
+                function checkTweetCount(vipFlg, tweetCount) {
+                    if (vipFlg == 0 && tweetCount >= 10) {
+                        alert("無料会員は1つの旅行で10個までつぶやき可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。");
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
                 <br><br>
                 <div class="card">
                     <div class="card-header">旅行概要 <span style="color:red; font-size:10px;">※旅行中のみ表示</span></div>
