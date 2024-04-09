@@ -8,6 +8,7 @@ use App\Models\TravelPlan;
 use App\Models\TravelDetail;
 use App\Models\Tweet;
 use App\Models\Belonging;
+use App\Models\User;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
@@ -18,6 +19,11 @@ class ScheduleController extends Controller
 {
     public function index()
     {
+        $travelPlanCount = TravelPlan::where('user_id', Auth::id())->count();
+        $isVipUser = User::where('id', Auth::id())->value('vip_flg');
+        if($travelPlanCount >= 3 && $isVipUser == 0) {
+            return redirect('/home')->with('danger', '無料会員は4つ以上の予定を登録できません。有料会員になると無制限で登録できます。');
+        }
         return view('index');
     }
 

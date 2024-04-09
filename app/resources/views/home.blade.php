@@ -93,7 +93,7 @@
                         <script>
                             function checkTravelPlans() {
                                 @if($user->vip_flg == 0)
-                                    @if($userTravelPlansCount >= 4)
+                                    @if($userTravelPlansCount >= 3)
                                         alert('無料会員は3つまで旅行プランを設定可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。');
                                     @else
                                         location.href='/schedule';
