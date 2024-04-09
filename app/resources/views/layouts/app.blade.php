@@ -15,8 +15,24 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <style>
+        #app-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: center;
+            z-index: 9999;
+        }
+    </style>
 </head>
 <body>
+    <div id="app-banner" style="display: none;">
+        <a id="app-link" href="#">アプリ版で開く</a>
+    </div>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -82,5 +98,35 @@
             @yield('content')
         </main>
     </div>
+    @yield('scripts')
 </body>
 </html>
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var appBanner = document.getElementById('app-banner');
+        var appLink = document.getElementById('app-link');
+        var userAgent = navigator.userAgent || navigator.vendor;
+        var urlScheme = 'your-app-url-scheme://';
+        var iosStoreUrl = 'https://apps.apple.com/app/id12345';
+        var androidStoreUrl = 'https://play.google.com/store/apps/details?id=com.example.app';
+        
+        if (/iPhone|iPad|iPod/i.test(userAgent)) {
+            appLink.href = urlScheme;
+            appLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                window.location.href = iosStoreUrl;
+            });
+            appBanner.style.display = 'block';
+        } else if (/Android/i.test(userAgent)) {
+            appLink.href = urlScheme;
+            appLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                window.location.href = androidStoreUrl;
+            });
+            appBanner.style.display = 'block';
+        }
+    });
+</script>
+@endsection
