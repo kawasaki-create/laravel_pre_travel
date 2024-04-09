@@ -494,7 +494,7 @@ class ScheduleController extends Controller
     {
         $travelPlanId = $request->travel_plan_id;
         $travelDate = $request->travelDate;
-        $travelPlan = TravelPlan::find($travelPlanId);
+        $travelPlan = TravelPlan::with('user')->find($travelPlanId);
 
         return view('travel_detail_new',[
             'travelPlanId' => $travelPlanId,

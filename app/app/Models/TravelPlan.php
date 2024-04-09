@@ -13,4 +13,19 @@ class TravelPlan extends Model
     {
         return $this->hasMany(Tweet::class);
     }
+
+    public function belonging()
+    {
+        return $this->hasMany(Belonging::class);
+    }
+
+    public function travelDetail()
+    {
+        return $this->hasMany(TravelDetail::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

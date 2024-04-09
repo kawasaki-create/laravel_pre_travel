@@ -18,12 +18,14 @@
                     @php
                         $url = $_SERVER['REQUEST_URI'];
                         $editUrl = ltrim(strrchr("$url", "/"), '/');
+                        $detailCount = $travelPlan->travelDetail()->count();
+                        $vipFlg = $travelPlan->user->vip_flg;
                     @endphp
                     @csrf
                     <span>旅行名：{{ $travelPlan->trip_title }}</span>　
                     <span>{{ $travelDate }}</span><br><br>
                     <a href="#" class="expense">食事・費用を入力する</a><br><br>
-                    <form action="{{ route('schedule.detailNR') }}" method="POST">
+                    <form action="{{ route('schedule.detailNR') }}" method="POST" onsubmit="return checkDetailCount({{ $vipFlg }}, {{ $detailCount }});">
                         @csrf
                         <div name="expenses" style="display: none;">
                             <div name="morning">
@@ -77,7 +79,7 @@
                         </div><br>
                     </form>
                     <a href="#" class="todo">予定を入力する</a><br>
-                    <form action="{{ route('schedule.detailNR') }}" method="POST">
+                    <form action="{{ route('schedule.detailNR') }}" method="POST" onsubmit="return checkDetailCount({{ $vipFlg }}, {{ $detailCount }});">
                         @csrf
                         <div name="times" style="display: none;">
                             <button type="button" name="add" class="btn btn-outline-success btn-sm">＋</button>
@@ -99,4 +101,13 @@
         </div>
     </div>
 </div>
+<script>
+    function checkDetailCount(vipFlg, detailCount) {
+        if (vipFlg === 0 && detailCount >= 20) {
+            alert("無料会員は1つの旅行で20個まで旅行詳細を登録可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。");
+            return false;
+        }
+        return true;
+    }
+</script>
 @endsection

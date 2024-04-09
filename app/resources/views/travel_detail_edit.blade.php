@@ -174,7 +174,7 @@
             <div class="card">
                 <div class="card-header">詳細スケジュール<span style="color:cornflowerblue; font-weight: bold;">追加</span></div>
                 <div class="card-body">
-                    <form action="{{ route('schedule.detailNR') }}" method="POST">
+                    <form action="{{ route('schedule.detailNR') }}" method="POST" onsubmit="return checkDetailCount({{ auth()->user()->vip_flg }}, {{ $travelPlan->travelDetail()->count() }});">
                         @php
                             $url = $_SERVER['REQUEST_URI'];
                             $editUrl = ltrim(strrchr("$url", "/"), '/');
@@ -219,4 +219,13 @@
         </div>
     </div>
 </div>
+<script>
+    function checkDetailCount(vipFlg, detailCount) {
+        if (vipFlg === 0 && detailCount >= 20) {
+            alert("無料会員は1つの旅行で20個まで旅行詳細を登録可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。");
+            return false;
+        }
+        return true;
+    }
+</script>
 @endsection

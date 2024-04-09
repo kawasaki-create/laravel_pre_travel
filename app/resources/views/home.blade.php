@@ -109,6 +109,8 @@
             <br><br>
             @php
                 $displayCard = false;
+                $currentTravelPlanId = null;
+                $tweetCount = 0;
             @endphp
             @foreach ($travelPlans as $travelPlan)
                 @if($travelPlan->trip_start <= date('Y-m-d H:i:s', strtotime('+1 day')) && date('Y-m-d H:i:s', strtotime('-1 day')) <= $travelPlan->trip_end)
@@ -117,28 +119,41 @@
                         $currentTravelPlanId = $travelPlan->id;
                         $tweetCount = $travelPlan->tweet()->count();
                     @endphp
+                    @break
                 @endif
             @endforeach
             @if($displayCard)
             <div class="card">
                 <div class="card-header">つぶやき <span style="color:red; font-size:10px;">※旅行中のみ表示</span></div>
                 <div class="card-body">
-                    <form action="{{ route('button.click') }}" method="POST" onsubmit="return checkTweetCount({{ auth()->user()->vip_flg }}, {{ $tweetCount }});">
+                    <form action="{{ route('button.click') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="travel_plan_id" value="{{ $currentTravelPlanId }}">
+                        <input type="hidden" name="travel_plan_id" value="{{ $currentTravelPlanId }}" id="selectedTravelPlanId">
                         <textarea id="myTextarea" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
                         <div id="charCount"></div>
-                        <button type="submit" class="btn btn-primary" id="tweetButton">投稿</button>　
-                        <select name="duplicatedTravel" id="duplicatedTravel" {{ $tripCnt >= 2 ? '' : 'hidden' }}>
+                        <button type="submit" class="btn btn-primary" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->vip_flg }});">投稿</button>　
+                        <select name="duplicatedTravel" id="duplicatedTravel" {{ $tripCnt >= 2 ? '' : 'hidden' }} onchange="updateTweetCount()">
                         @for($i = 0; $i < $tripCnt; $i++)
-                            <option value="{{ $duplicatedIdList[$i] }}">{{ $duplicatedTitleList[$i] }}</option>
+                            <option value="{{ $duplicatedIdList[$i] }}" data-tweet-count="{{ $travelPlans->find($duplicatedIdList[$i])->tweet()->count() }}">{{ $duplicatedTitleList[$i] }}</option>
                         @endfor
                         </select>
                     </form>
                 </div>
             </div>
             <script>
-                function checkTweetCount(vipFlg, tweetCount) {
+                // console.log("vipFlg: {{ auth()->user()->vip_flg }}");
+                // console.log("tweetCount: {{ $tweetCount }}");
+
+                function updateTweetCount() {
+                    var selectedOption = document.getElementById("duplicatedTravel").selectedOptions[0];
+                    var tweetCount = selectedOption.getAttribute("data-tweet-count");
+                    document.getElementById("selectedTravelPlanId").value = selectedOption.value;
+                    // console.log("Updated tweetCount: " + tweetCount);
+                    return tweetCount;
+                }
+    
+                function checkTweetCount(vipFlg) {
+                    var tweetCount = updateTweetCount();
                     if (vipFlg == 0 && tweetCount >= 10) {
                         alert("無料会員は1つの旅行で10個までつぶやき可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。");
                         return false;
