@@ -31,7 +31,11 @@
 </head>
 <body>
     <div id="app-banner" style="display: none;">
-        <a id="app-link" href="#">アプリ版で開く</a>
+        <a id="app-link" href="#" style="margin-right: 20px;"></a>
+        <button id="open-app-button" style="display: none;"></button>
+    </div>
+    <div>
+        <br><br>
     </div>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -102,31 +106,56 @@
 </body>
 </html>
 
-@section('scripts')
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var appBanner = document.getElementById('app-banner');
         var appLink = document.getElementById('app-link');
+        var openAppButton = document.getElementById('open-app-button');
         var userAgent = navigator.userAgent || navigator.vendor;
-        var urlScheme = 'your-app-url-scheme://';
-        var iosStoreUrl = 'https://apps.apple.com/app/id12345';
-        var androidStoreUrl = 'https://play.google.com/store/apps/details?id=com.example.app';
+        var urlScheme = 'pretravel://';
+        var iosStoreUrl = 'https://apps.apple.com/app/id6478861524';
+        var androidStoreUrl = 'https://play.google.com/store/apps/details?id=com.pretravel.kawasaki_create.pre_travel_mobile';
         
         if (/iPhone|iPad|iPod/i.test(userAgent)) {
-            appLink.href = urlScheme;
+            appLink.href = iosStoreUrl;
+            appLink.textContent = 'App Storeでダウンロード';
             appLink.addEventListener('click', function(event) {
                 event.preventDefault();
                 window.location.href = iosStoreUrl;
             });
-            appBanner.style.display = 'block';
+            appBanner.style.display = 'inline-block';
+
+            openAppButton.textContent = '開く';
+            openAppButton.addEventListener('click', function() {
+                window.location.href = urlScheme;
+            });
         } else if (/Android/i.test(userAgent)) {
-            appLink.href = urlScheme;
+            appLink.href = androidStoreUrl;
+            appLink.textContent = 'Google Playでダウンロード';
             appLink.addEventListener('click', function(event) {
                 event.preventDefault();
                 window.location.href = androidStoreUrl;
             });
-            appBanner.style.display = 'block';
+            appBanner.style.display = 'inline-block';
+
+            openAppButton.textContent = '開く';
+            openAppButton.addEventListener('click', function() {
+                window.location.href = urlScheme;
+            });
         }
+
+        // Check if the app is installed
+        // var fallbackLink = document.createElement('a');
+        // fallbackLink.href = urlScheme;
+        // fallbackLink.style.display = 'none';
+        // document.body.appendChild(fallbackLink);
+
+        // fallbackLink.click();
+
+            if (/iPhone|iPad|iPod|Android/i.test(userAgent)) {
+                // appLink.style.display = 'none';
+                openAppButton.style.display = 'inline-block';
+            }
     });
 </script>
-@endsection
