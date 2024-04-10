@@ -26,13 +26,42 @@
             padding: 10px;
             text-align: center;
             z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #app-banner span {
+            margin-right: 10px;
+        }
+
+        #app-banner a {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        #app-banner button {
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
+    <!-- デバッグ用(すぐ消す)　-->
+    <!-- <div>
+        <a href="" style="width: 35px; height: 35px; border-radius: 22%; overflow: hidden; display: inline-block; vertical-align: middle;"><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/76/cf/55/76cf55e1-a085-7781-710a-50f44008ce9f/AppIcon-0-0-1x_U007emarketing-0-7-0-P3-85-220.png/540x540bb.jpg" alt="PreTravel〜旅行計画作成アプリ〜" style="width: 35px; height: 35px; border-radius: 22%; overflow: hidden; display: inline-block; vertical-align: middle;" id="badge"></a>
+        <a href='https://play.google.com/store/apps/details?id=com.pretravel.kawasaki_create.pre_travel_mobile&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Google Play で手に入れよう' src='https://play.google.com/intl/ja/badges/static/images/badges/ja_badge_web_generic.png' style="width: 106px; height: 35px;" id="android-badge"/></a>
+        <a href="https://apps.apple.com/jp/app/pretravel-%E6%97%85%E8%A1%8C%E8%A8%88%E7%94%BB%E4%BD%9C%E6%88%90%E3%82%A2%E3%83%97%E3%83%AA/id6478861524?itsct=apps_box_badge&amp;itscg=30200" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 106px; height: 35px;"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/ja-jp?size=250x83&amp;releaseDate=1709769600" alt="Download on the App Store" style="border-radius: 13px; width: 106px; height: 35px;" id="ios-badge"></a>
+        <button>ひらく</button>
+    </div> -->
+    <!-- デバッグ用ここまで　-->
     <div id="app-banner" style="display: none;">
-        <img src="{{ asset('img/ptfav.png') }}" alt="">
-        <a id="app-link" href="#" style="margin-right: 20px;"></a>
+        <span>アプリ版DLはこちら：</span>
+        <a href='https://play.google.com/store/apps/details?id=com.pretravel.kawasaki_create.pre_travel_mobile&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1' id="android-badge">
+            <img alt='Google Play で手に入れよう' src='https://play.google.com/intl/ja/badges/static/images/badges/ja_badge_web_generic.png' style="width: 106px; height: 35px;">
+        </a>
+        <a href="https://apps.apple.com/jp/app/pretravel-%E6%97%85%E8%A1%8C%E8%A8%88%E7%94%BB%E4%BD%9C%E6%88%90%E3%82%A2%E3%83%97%E3%83%AA/id6478861524?itsct=apps_box_badge&amp;itscg=30200" id="ios-badge">
+            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/ja-jp?size=250x83&amp;releaseDate=1709769600" alt="Download on the App Store" style="border-radius: 13px; width: 106px; height: 35px;">
+        </a>
         <button id="open-app-button" style="display: none;"></button>
     </div>
     <div id="smart-br" style="display: none;">
@@ -111,35 +140,30 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var appBanner = document.getElementById('app-banner');
-        var appLink = document.getElementById('app-link');
         var openAppButton = document.getElementById('open-app-button');
         var userAgent = navigator.userAgent || navigator.vendor;
         var urlScheme = 'pretravel://';
         var iosStoreUrl = 'https://apps.apple.com/app/id6478861524';
         var androidStoreUrl = 'https://play.google.com/store/apps/details?id=com.pretravel.kawasaki_create.pre_travel_mobile';
         var smartBr = document.getElementById('smart-br');
+        var iosBadge = document.getElementById('ios-badge');
+        var androidBadge = document.getElementById('android-badge');
         
         if (/iPhone|iPad|iPod/i.test(userAgent)) {
-            appLink.href = iosStoreUrl;
-            appLink.textContent = 'App Storeでダウンロード';
-            appLink.addEventListener('click', function(event) {
+            iosBadge.addEventListener('click', function(event) {
                 event.preventDefault();
                 window.location.href = iosStoreUrl;
             });
-            appBanner.style.display = 'inline-block';
+            appBanner.style.display = 'flex';
+            androidBadge.style.display = 'none';
 
             openAppButton.textContent = '開く';
             openAppButton.addEventListener('click', function() {
                 window.location.href = urlScheme;
             });
         } else if (/Android/i.test(userAgent)) {
-            appLink.href = androidStoreUrl;
-            appLink.textContent = 'Google Playでダウンロード';
-            appLink.addEventListener('click', function(event) {
-                event.preventDefault();
-                window.location.href = androidStoreUrl;
-            });
-            appBanner.style.display = 'inline-block';
+            appBanner.style.display = 'flex';
+            iosBadge.style.display = 'none';
 
             openAppButton.textContent = '開く';
             openAppButton.addEventListener('click', function() {
@@ -147,18 +171,9 @@
             });
         }
 
-        // Check if the app is installed
-        // var fallbackLink = document.createElement('a');
-        // fallbackLink.href = urlScheme;
-        // fallbackLink.style.display = 'none';
-        // document.body.appendChild(fallbackLink);
-
-        // fallbackLink.click();
-
-            if (/iPhone|iPad|iPod|Android/i.test(userAgent)) {
-                // appLink.style.display = 'none';
-                openAppButton.style.display = 'inline-block';
-                smartBr.style.display = 'inline-block';
-            }
+        if (/iPhone|iPad|iPod|Android/i.test(userAgent)) {
+            openAppButton.style.display = 'inline-block';
+            smartBr.style.display = 'block';
+        }
     });
 </script>
