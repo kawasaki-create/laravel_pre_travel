@@ -39,7 +39,11 @@ class ScheduleController extends Controller
         $travel_plan->trip_end = $request->input('trip-end');
         $travel_plan->meet_place = $request->input('meet-place');
         $travel_plan->departure_time = sprintf('%s %s', $date, $time);
-        $travel_plan->budget = $request->input('budget');
+        if($request->input('budget') == null) {
+            $travel_plan->budget = 0;
+        } else {
+            $travel_plan->budget = $request->input('budget');
+        }
         $travel_plan->user_id = auth()->user()->id;
         $travel_plan->save();
 
