@@ -31,10 +31,11 @@
 </head>
 <body>
     <div id="app-banner" style="display: none;">
+        <img src="{{ asset('img/ptfav.png') }}" alt="">
         <a id="app-link" href="#" style="margin-right: 20px;"></a>
         <button id="open-app-button" style="display: none;"></button>
     </div>
-    <div>
+    <div id="smart-br" style="display: none;">
         <br><br>
     </div>
     <div id="app">
@@ -116,6 +117,7 @@
         var urlScheme = 'pretravel://';
         var iosStoreUrl = 'https://apps.apple.com/app/id6478861524';
         var androidStoreUrl = 'https://play.google.com/store/apps/details?id=com.pretravel.kawasaki_create.pre_travel_mobile';
+        var smartBr = document.getElementById('smart-br');
         
         if (/iPhone|iPad|iPod/i.test(userAgent)) {
             appLink.href = iosStoreUrl;
@@ -156,6 +158,7 @@
             if (/iPhone|iPad|iPod|Android/i.test(userAgent)) {
                 // appLink.style.display = 'none';
                 openAppButton.style.display = 'inline-block';
+                smartBr.style.display = 'inline-block';
             }
     });
 </script>
