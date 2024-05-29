@@ -55,3 +55,6 @@ Route::post('/home/contact_confirm', [App\Http\Controllers\HomeController::class
 Route::get('/support-page', function () {
     return view('supportpage');
 })->name('index');
+Route::get('/support-page2', function () {
+    return view('supportpage2');
+})->name('index');
