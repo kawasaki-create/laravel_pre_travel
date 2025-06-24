@@ -70,65 +70,9 @@
                                 $user = Auth::user();
                                 $userTravelPlansCount = $user->travelPlan()->count();
                             @endphp
-                            <button onclick="checkTravelPlans()" class="btn btn-primary">
+                            <a href="/schedule" class="btn btn-primary">
                                 スケジュール作成
-                            </button>
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    window.checkTravelPlans = function() {
-                                        console.log('checkTravelPlans function called');
-                                        try {
-                                            @if(!$user->canCreatePlan())
-                                                console.log('User cannot create plan - showing premium modal');
-                                                var premiumModalElement = document.getElementById('premiumModal');
-                                                if (premiumModalElement) {
-                                                    // Bootstrap 5の構文でモーダル表示
-                                                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                                                        var premiumModal = new bootstrap.Modal(premiumModalElement);
-                                                        premiumModal.show();
-                                                    } else {
-                                                        // Bootstrapが利用できない場合は直接スタイル操作
-                                                        premiumModalElement.style.display = 'block';
-                                                        premiumModalElement.classList.add('show');
-                                                        document.body.classList.add('modal-open');
-                                                        
-                                                        // モーダル背景も追加
-                                                        var backdrop = document.createElement('div');
-                                                        backdrop.className = 'modal-backdrop fade show';
-                                                        backdrop.id = 'premium-modal-backdrop';
-                                                        document.body.appendChild(backdrop);
-                                                        
-                                                        // 閉じるボタンのイベントリスナー追加
-                                                        var closeButtons = premiumModalElement.querySelectorAll('[data-bs-dismiss="modal"]');
-                                                        closeButtons.forEach(function(btn) {
-                                                            btn.addEventListener('click', function() {
-                                                                premiumModalElement.style.display = 'none';
-                                                                premiumModalElement.classList.remove('show');
-                                                                document.body.classList.remove('modal-open');
-                                                                var backdrop = document.getElementById('premium-modal-backdrop');
-                                                                if (backdrop) backdrop.remove();
-                                                            });
-                                                        });
-                                                    }
-                                                } else {
-                                                    console.error('Premium modal element not found');
-                                                    alert('旅行プランの上限に達しました。\n\n無料会員は3つまでの旅行プランを作成できます。\n有料会員登録で無制限にご利用いただけます。');
-                                                }
-                                            @else
-                                                console.log('User can create plan - redirecting to schedule');
-                                                window.location.href = '/schedule';
-                                            @endif
-                                        } catch (error) {
-                                            console.error('Error in checkTravelPlans:', error);
-                                            @if(!$user->canCreatePlan())
-                                                alert('旅行プランの上限に達しました。\n\n無料会員は3つまでの旅行プランを作成できます。\n有料会員登録で無制限にご利用いただけます。');
-                                            @else
-                                                window.location.href = '/schedule';
-                                            @endif
-                                        }
-                                    };
-                                });
-                            </script>
+                            </a>
                         @endif
                     </div>
                 </div>
@@ -167,7 +111,7 @@
                                         <div id="charCount" class="text-sm text-gray-500 mt-1"></div>
                                     </div>
                                     <div class="flex items-center space-x-4">
-                                        <button type="submit" class="btn btn-primary" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->isPremiumUser() ? 1 : 0 }});">
+                                        <button type="submit" class="btn btn-primary" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->canTweetUnlimited() ? 1 : 0 }});">
                                             投稿
                                         </button>
                                         @if($tripCnt >= 2)

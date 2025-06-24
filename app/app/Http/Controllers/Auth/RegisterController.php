@@ -69,7 +69,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             // 以下Web版の登録
-            'register_os' => 0,
+            'register_os' => User::OS_WEB,
         ]);
     }
 }

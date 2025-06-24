@@ -86,29 +86,7 @@
                             $user = Auth::user();
                             $userTravelPlansCount = $user->travelPlan()->count();
                         @endphp
-                        <input type="button" class="btn btn-secondary" onclick="checkTravelPlans()" value="スケジュール作成">
-                        <script>
-                            function checkTravelPlans() {
-                                @if(!$user->canCreatePlan())
-                                    @if(!$user->isPremiumUser())
-                                        // プレミアムモーダルを表示
-                                        var premiumModalElement = document.getElementById('premiumModal');
-                                        if (premiumModalElement) {
-                                            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                                                var premiumModal = new bootstrap.Modal(premiumModalElement);
-                                                premiumModal.show();
-                                            } else {
-                                                alert('旅行プランの上限に達しました。\\n\\n無料会員は3つまでの旅行プランを作成できます。\\n有料会員登録で無制限にご利用いただけます。');
-                                            }
-                                        }
-                                    @else
-                                        alert('旅行プランの作成上限に達しました。');
-                                    @endif
-                                @else
-                                    location.href='/schedule';
-                                @endif
-                            }
-                        </script>
+                        <a href="/schedule" class="btn btn-secondary">スケジュール作成</a>
                     @endif
                 </div>
             </div>
@@ -137,7 +115,7 @@
                         <input type="hidden" name="travel_plan_id" value="{{ $currentTravelPlanId }}" id="selectedTravelPlanId">
                         <textarea id="myTextarea" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
                         <div id="charCount"></div>
-                        <button type="submit" class="btn btn-primary" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->isPremiumUser() ? 1 : 0 }});">投稿</button>　
+                        <button type="submit" class="btn btn-primary" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->canTweetUnlimited() ? 1 : 0 }});">投稿</button>　
                         <select name="duplicatedTravel" id="duplicatedTravel" {{ $tripCnt >= 2 ? '' : 'hidden' }} onchange="updateTweetCount()">
                         @for($i = 0; $i < $tripCnt; $i++)
                             <option value="{{ $duplicatedIdList[$i] }}" data-tweet-count="{{ $travelPlans->find($duplicatedIdList[$i])->tweet()->count() }}">{{ $duplicatedTitleList[$i] }}</option>

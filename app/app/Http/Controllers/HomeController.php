@@ -30,6 +30,13 @@ class HomeController extends Controller
     public function index()
     {
         $userId = Auth::id();
+        
+        // Web版アクセス時に既存ユーザーのregister_osを更新
+        $user = Auth::user();
+        if ($user && ($user->register_os === null || $user->register_os == 0)) {
+            $user->update(['register_os' => User::OS_WEB]);
+        }
+        
         $cacheKey = 'user_home_data_' . $userId;
         
         // キャッシュから取得（5分間）

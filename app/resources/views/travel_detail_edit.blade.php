@@ -174,7 +174,7 @@
             <div class="card">
                 <div class="card-header">詳細スケジュール<span style="color:cornflowerblue; font-weight: bold;">追加</span></div>
                 <div class="card-body">
-                    <form action="{{ route('schedule.detailNR') }}" method="POST" onsubmit="return checkDetailCount({{ auth()->user()->isPremiumUser() ? 1 : 0 }}, {{ $travelPlan->travelDetail()->count() }});"
+                    <form action="{{ route('schedule.detailNR') }}" method="POST" onsubmit="return checkDetailCount({{ auth()->user()->canAddDetailUnlimited() ? 1 : 0 }}, {{ $travelPlan->travelDetail()->count() }});"
                         @php
                             $url = $_SERVER['REQUEST_URI'];
                             $editUrl = ltrim(strrchr("$url", "/"), '/');

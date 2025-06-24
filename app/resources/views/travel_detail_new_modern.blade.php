@@ -85,7 +85,7 @@
                     </div>
 
                     <div class="card-body p-0" id="expenseSection" style="display: none;">
-                        <form action="{{ route('schedule.detailNR') }}" method="POST" id="expenseForm" onsubmit="return checkDetailCount({{ $travelPlan->user->isPremiumUser() ? 1 : 0 }}, {{ $detailCount }});"
+                        <form action="{{ route('schedule.detailNR') }}" method="POST" id="expenseForm" onsubmit="return checkDetailCount({{ $travelPlan->user->canAddDetailUnlimited() ? 1 : 0 }}, {{ $detailCount }});"
                             @csrf
                             <div class="p-4">
                                 <!-- Expense Categories -->
@@ -275,7 +275,7 @@
                     </div>
 
                     <div class="card-body p-0" id="scheduleSection" style="display: none;">
-                        <form action="{{ route('schedule.detailNR') }}" method="POST" id="scheduleForm" onsubmit="return checkDetailCount({{ $travelPlan->user->isPremiumUser() ? 1 : 0 }}, {{ $detailCount }});"
+                        <form action="{{ route('schedule.detailNR') }}" method="POST" id="scheduleForm" onsubmit="return checkDetailCount({{ $travelPlan->user->canAddDetailUnlimited() ? 1 : 0 }}, {{ $detailCount }});"
                             @csrf
                             <div class="p-4">
                                 <!-- Control Buttons -->

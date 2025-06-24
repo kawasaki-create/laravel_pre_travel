@@ -1,5 +1,5 @@
-<!-- Premium Modal -->
-<div class="modal fade" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel" aria-hidden="true">
+<!-- Premium Modal - Web版では非表示 -->
+<div class="modal fade" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel" aria-hidden="true" style="display: none !important;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content" style="border-radius: 16px; border: none;">
             <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px 16px 0 0;">
@@ -19,8 +19,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <div>
-                        <h6 class="mb-1 fw-bold">旅行プランの上限に達しました</h6>
-                        <p class="mb-0 small">無料会員は3つまでの旅行プランを作成できます。</p>
+                        <h6 class="mb-1 fw-bold">機能制限に達しました</h6>
+                        <p class="mb-0 small">モバイル無料版では制限があります。</p>
                     </div>
                 </div>
 
@@ -30,18 +30,17 @@
                         <div class="card h-100 border-0" style="background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);">
                             <div class="card-body text-center p-4">
                                 <div class="mb-3">
-                                    <svg width="48" height="48" style="color: #667eea;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <svg width="48" height="48" style="color: #6c757d;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
                                 </div>
-                                <h6 class="fw-bold mb-2">Web版プレミアム</h6>
-                                <p class="small text-muted mb-3">広告を見て24時間無制限</p>
-                                <button class="btn btn-outline-primary btn-sm" id="watchAdBtn">
-                                    <svg width="16" height="16" class="me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-3-9v5l-2-2m2 2l2-2" />
-                                    </svg>
-                                    広告を見る
-                                </button>
+                                <h6 class="fw-bold mb-2">Web版について</h6>
+                                <div class="text-muted small text-start">
+                                    <p class="mb-1">✅ 旅行プラン: 無制限</p>
+                                    <p class="mb-1">✅ つぶやき: 無制限</p>
+                                    <p class="mb-2">✅ 旅行詳細: 無制限</p>
+                                    <p class="mb-0 text-success small">Web版は広告表示により無制限利用可能</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -67,92 +66,29 @@
                     </div>
                 </div>
 
-                <!-- Web版プレミアムの詳細 -->
+                <!-- アプリ版の特典 -->
                 <div class="card border-0 mb-4" style="background: linear-gradient(135deg, #e8f5e8 0%, #f8f9fa 100%);">
                     <div class="card-body">
                         <h6 class="fw-bold mb-3 d-flex align-items-center">
                             <svg width="20" height="20" class="me-2" style="color: #28a745;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
-                            Web版プレミアムの特典
+                            アプリ版プレミアムの特典
                         </h6>
                         <ul class="mb-0 small">
                             <li>✅ 旅行プランを無制限で作成</li>
-                            <li>✅ 24時間有効（毎日更新可能）</li>
-                            <li>✅ 完全無料（広告視聴のみ）</li>
-                            <li>✅ すぐに利用開始</li>
+                            <li>✅ つぶやきを無制限で投稿</li>
+                            <li>✅ 旅行詳細を無制限で追加</li>
+                            <li>✅ 買い切りで永続利用</li>
+                            <li>✅ オフライン機能</li>
                         </ul>
-                    </div>
-                </div>
-
-                <!-- 広告表示エリア -->
-                <div id="adContainer" class="text-center mb-4" style="display: none;">
-                    <div class="card border-2 border-primary" style="border-radius: 12px;">
-                        <div class="card-header bg-primary text-white">
-                            <h6 class="mb-0 fw-bold">
-                                <svg width="20" height="20" class="me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                </svg>
-                                広告視聴中...
-                            </h6>
-                        </div>
-                        <div class="card-body p-4">
-                            <!-- Google AdSense 広告 -->
-                            <div id="adsenseContainer">
-                                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1568606156833955"
-                                     crossorigin="anonymous"></script>
-                                <!-- PreTravel -->
-                                <ins class="adsbygoogle"
-                                     style="display:block; min-height: 200px;"
-                                     data-ad-client="ca-pub-1568606156833955"
-                                     data-ad-slot="6046649503"
-                                     data-ad-format="auto"
-                                     data-full-width-responsive="true"></ins>
-                            </div>
-                            <script>
-                                // AdSense広告の遅延初期化
-                                setTimeout(function() {
-                                    try {
-                                        (adsbygoogle = window.adsbygoogle || []).push({});
-                                    } catch (e) {
-                                        console.warn('AdSense push error:', e);
-                                    }
-                                }, 500);
-                            </script>
-                            
-                            <!-- 広告視聴完了ボタン -->
-                            <div class="mt-3">
-                                <p class="small text-muted mb-2">広告を確認後、下のボタンをクリックしてください</p>
-                                <button class="btn btn-success" id="confirmAdBtn">
-                                    <svg width="16" height="16" class="me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    広告視聴完了
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- プレミアム状態表示 -->
-                <div id="premiumStatus" style="display: none;">
-                    <div class="alert alert-success d-flex align-items-center">
-                        <svg width="24" height="24" class="me-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <div>
-                            <h6 class="mb-1 fw-bold">プレミアム機能が有効になりました！</h6>
-                            <p class="mb-0 small">24時間、旅行プランを無制限で作成できます。</p>
-                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="modal-footer border-0">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">後で</button>
-                <button type="button" class="btn btn-primary" onclick="location.reload()">
-                    ページを更新
-                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                <a href="#" class="btn btn-primary" id="mainMobileAppBtn">アプリをダウンロード</a>
             </div>
         </div>
     </div>
@@ -160,98 +96,42 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const watchAdBtn = document.getElementById('watchAdBtn');
-    const adContainer = document.getElementById('adContainer');
-    const confirmAdBtn = document.getElementById('confirmAdBtn');
-    const premiumStatus = document.getElementById('premiumStatus');
     const mobileAppBtn = document.getElementById('mobileAppBtn');
     const mobileAppText = document.getElementById('mobileAppText');
+    const mainMobileAppBtn = document.getElementById('mainMobileAppBtn');
     
     // iOS/Android判別とストアリンク設定
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     const iosStoreUrl = 'https://apps.apple.com/jp/app/pretravel-%E6%97%85%E8%A1%8C%E8%A8%88%E7%94%BB%E4%BD%9C%E6%88%90%E3%82%A2%E3%83%97%E3%83%AA/id6478861524';
     const androidStoreUrl = 'https://play.google.com/store/apps/details?id=com.pretravel.kawasaki_create.pre_travel_mobile';
     
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        // iOS
-        mobileAppBtn.href = iosStoreUrl;
-        mobileAppText.textContent = 'App Storeでダウンロード';
-    } else if (/android/i.test(userAgent)) {
-        // Android
-        mobileAppBtn.href = androidStoreUrl;
-        mobileAppText.textContent = 'Google Playでダウンロード';
-    } else {
-        // その他（PC等）
-        mobileAppBtn.href = '#';
-        mobileAppText.textContent = 'モバイル端末でアクセス';
-        mobileAppBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('モバイル端末でアクセスしてアプリをダウンロードしてください。\\n\\niOS: App Store\\nAndroid: Google Play');
-        });
-    }
-
-    // 広告を見るボタンクリック
-    watchAdBtn.addEventListener('click', function() {
-        adContainer.style.display = 'block';
-        watchAdBtn.disabled = true;
-        watchAdBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>広告を読み込み中...';
+    function setupAppButton(button, textElement) {
+        if (!button) return;
         
-        // AdSense広告の初期化
-        try {
-            if (typeof adsbygoogle !== 'undefined') {
-                adsbygoogle.push({});
-            } else {
-                // adsbygoogle が利用できない場合の処理
-                window.adsbygoogle = window.adsbygoogle || [];
-                adsbygoogle.push({});
-            }
-        } catch (e) {
-            console.warn('AdSense initialization error:', e);
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            // iOS
+            button.href = iosStoreUrl;
+            if (textElement) textElement.textContent = 'App Storeでダウンロード';
+            else button.textContent = 'App Storeでダウンロード';
+        } else if (/android/i.test(userAgent)) {
+            // Android
+            button.href = androidStoreUrl;
+            if (textElement) textElement.textContent = 'Google Playでダウンロード';
+            else button.textContent = 'Google Playでダウンロード';
+        } else {
+            // その他（PC等）
+            button.href = '#';
+            if (textElement) textElement.textContent = 'モバイル端末でアクセス';
+            else button.textContent = 'モバイル端末でアクセス';
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('モバイル端末でアクセスしてアプリをダウンロードしてください。\\n\\niOS: App Store\\nAndroid: Google Play');
+            });
         }
-        
-        // 5秒後に広告視聴完了ボタンを有効化
-        setTimeout(() => {
-            confirmAdBtn.disabled = false;
-            confirmAdBtn.style.backgroundColor = '#28a745';
-            confirmAdBtn.style.borderColor = '#28a745';
-        }, 5000);
-    });
-
-    // 広告視聴完了ボタンクリック
-    confirmAdBtn.addEventListener('click', function() {
-        confirmAdBtn.disabled = true;
-        confirmAdBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>処理中...';
-
-        // APIに広告視聴を記録
-        fetch('/api/ad/record', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                adContainer.style.display = 'none';
-                premiumStatus.style.display = 'block';
-                
-                // 成功メッセージ表示
-                setTimeout(() => {
-                    location.reload(); // ページリロードで状態反映
-                }, 2000);
-            } else {
-                alert('エラーが発生しました: ' + data.message);
-                confirmAdBtn.disabled = false;
-                confirmAdBtn.innerHTML = '広告視聴完了';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('通信エラーが発生しました');
-            confirmAdBtn.disabled = false;
-            confirmAdBtn.innerHTML = '広告視聴完了';
-        });
-    });
+    }
+    
+    // ボタンの設定
+    setupAppButton(mobileAppBtn, mobileAppText);
+    setupAppButton(mainMobileAppBtn, null);
 });
 </script>

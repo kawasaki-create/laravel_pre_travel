@@ -98,11 +98,21 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function canCreatePlan(): bool
     {
+        // Web版ユーザーは無制限（広告表示済みのため）
+        if ($this->register_os == self::OS_WEB) {
+            return true;
+        }
+        
+        // 既存のWeb版ユーザー（register_os = 0 or null）も無制限
+        if ($this->register_os === null || $this->register_os == 0) {
+            return true;
+        }
+
         if ($this->isPremiumUser()) {
             return true; // プレミアムユーザーは無制限
         }
 
-        // 無料ユーザーは3つまで
+        // モバイル無料ユーザーは3つまで
         $planCount = $this->travelPlan()->count();
         return $planCount < 3;
     }
@@ -137,5 +147,29 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return $this->daily_ad_count;
+    }
+
+    /**
+     * Web版ユーザーかどうか
+     */
+    public function isWebUser(): bool
+    {
+        return $this->register_os == self::OS_WEB || $this->register_os === null || $this->register_os == 0;
+    }
+
+    /**
+     * つぶやき制限なしかどうか
+     */
+    public function canTweetUnlimited(): bool
+    {
+        return $this->isWebUser() || $this->isPremiumUser();
+    }
+
+    /**
+     * 旅行詳細制限なしかどうか
+     */
+    public function canAddDetailUnlimited(): bool
+    {
+        return $this->isWebUser() || $this->isPremiumUser();
     }
 }

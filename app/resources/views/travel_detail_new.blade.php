@@ -25,7 +25,7 @@
                     <span>旅行名：{{ $travelPlan->trip_title }}</span>　
                     <span>{{ $travelDate }}</span><br><br>
                     <a href="#" class="expense">食事・費用を入力する</a><br><br>
-                    <form action="{{ route('schedule.detailNR') }}" method="POST" onsubmit="return checkDetailCount({{ $travelPlan->user->isPremiumUser() ? 1 : 0 }}, {{ $detailCount }});"
+                    <form action="{{ route('schedule.detailNR') }}" method="POST" onsubmit="return checkDetailCount({{ $travelPlan->user->canAddDetailUnlimited() ? 1 : 0 }}, {{ $detailCount }});"
                         @csrf
                         <div name="expenses" style="display: none;">
                             <div name="morning">
@@ -79,7 +79,7 @@
                         </div><br>
                     </form>
                     <a href="#" class="todo">予定を入力する</a><br>
-                    <form action="{{ route('schedule.detailNR') }}" method="POST" onsubmit="return checkDetailCount({{ $travelPlan->user->isPremiumUser() ? 1 : 0 }}, {{ $detailCount }});"
+                    <form action="{{ route('schedule.detailNR') }}" method="POST" onsubmit="return checkDetailCount({{ $travelPlan->user->canAddDetailUnlimited() ? 1 : 0 }}, {{ $detailCount }});"
                         @csrf
                         <div name="times" style="display: none;">
                             <button type="button" name="add" class="btn btn-outline-success btn-sm">＋</button>

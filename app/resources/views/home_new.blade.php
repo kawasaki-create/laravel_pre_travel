@@ -239,7 +239,7 @@
                         </h3>
                         <div class="row g-3">
                             <div class="col-md-4">
-                                <button onclick="checkTravelPlans()" class="btn text-white w-100 d-flex align-items-center p-3 border-0 rounded shadow-sm" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                <a href="/schedule" class="btn text-white w-100 d-flex align-items-center p-3 border-0 rounded shadow-sm text-decoration-none" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                     <svg width="24" height="24" class="me-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                     </svg>
@@ -247,7 +247,7 @@
                                         <div class="fw-bold">新しい旅行</div>
                                         <div class="small" style="opacity: 0.9;">計画を作成</div>
                                     </div>
-                                </button>
+                                </a>
                             </div>
                             <div class="col-md-4">
                                 <a href="/schedule/all_plan/" class="btn text-white w-100 d-flex align-items-center p-3 border-0 rounded shadow-sm text-decoration-none" style="background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
@@ -388,7 +388,7 @@
                                     </div>
                                 @endif
                                 
-                                <button type="submit" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->isPremiumUser() ? 1 : 0 }});" class="btn text-white" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                <button type="submit" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->canTweetUnlimited() ? 1 : 0 }});" class="btn text-white" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                     投稿する
                                 </button>
                             </form>
@@ -466,9 +466,9 @@
                             </div>
                             <h3 class="h5 fw-bold mb-2">現在アクティブな旅行はありません</h3>
                             <p class="text-muted mb-4">新しい旅行を計画して、素敵な思い出を作りましょう！</p>
-                            <button onclick="checkTravelPlans()" class="btn text-white" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            <a href="/schedule" class="btn text-white text-decoration-none" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                 新しい旅行を計画する
-                            </button>
+                            </a>
                         </div>
                     </div>
                 @endif
@@ -505,29 +505,6 @@
 </style>
 
 <script>
-    // Travel plan creation check
-    function checkTravelPlans() {
-        @php $user = Auth::user(); @endphp
-        @if(!$user->canCreatePlan())
-            @if(!$user->isPremiumUser())
-                // プレミアムモーダルを表示
-                var premiumModalElement = document.getElementById('premiumModal');
-                if (premiumModalElement) {
-                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                        var premiumModal = new bootstrap.Modal(premiumModalElement);
-                        premiumModal.show();
-                    } else {
-                        alert('旅行プランの上限に達しました。\\n\\n無料会員は3つまでの旅行プランを作成できます。\\n有料会員登録で無制限にご利用いただけます。');
-                    }
-                }
-            @else
-                alert('旅行プランの作成上限に達しました。');
-            @endif
-        @else
-            location.href='/schedule';
-        @endif
-    }
-
     // Tweet count functions
     function updateTweetCount() {
         var selectedOption = document.getElementById("duplicatedTravel")?.selectedOptions[0];
