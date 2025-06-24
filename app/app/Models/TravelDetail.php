@@ -9,8 +9,8 @@ class TravelDetail extends Model
 {
     use HasFactory;
 
-    public function travelDetail()
+    public function travelPlan()
     {
-        return $this->hasMany(travelDetail::class);
+        return $this->belongsTo(TravelPlan::class);
     }
 }
