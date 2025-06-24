@@ -174,7 +174,7 @@
             <div class="card">
                 <div class="card-header">詳細スケジュール<span style="color:cornflowerblue; font-weight: bold;">追加</span></div>
                 <div class="card-body">
-                    <form action="{{ route('schedule.detailNR') }}" method="POST" onsubmit="return checkDetailCount({{ auth()->user()->vip_flg }}, {{ $travelPlan->travelDetail()->count() }});">
+                    <form action="{{ route('schedule.detailNR') }}" method="POST" onsubmit="return checkDetailCount({{ auth()->user()->isPremiumUser() ? 1 : 0 }}, {{ $travelPlan->travelDetail()->count() }});"
                         @php
                             $url = $_SERVER['REQUEST_URI'];
                             $editUrl = ltrim(strrchr("$url", "/"), '/');
@@ -220,12 +220,23 @@
     </div>
 </div>
 <script>
-    function checkDetailCount(vipFlg, detailCount) {
-        if (vipFlg === 0 && detailCount >= 20) {
-            alert("無料会員は1つの旅行で20個まで旅行詳細を登録可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。");
+    function checkDetailCount(isPremium, detailCount) {
+        if (isPremium === 0 && detailCount >= 20) {
+            // プレミアムモーダルを表示
+            var premiumModalElement = document.getElementById('premiumModal');
+            if (premiumModalElement) {
+                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    var premiumModal = new bootstrap.Modal(premiumModalElement);
+                    premiumModal.show();
+                } else {
+                    alert('旅行詳細の上限に達しました。\\n\\n無料会員は20個までの詳細を追加できます。\\n有料会員登録で無制限にご利用いただけます。');
+                }
+            }
             return false;
         }
         return true;
     }
 </script>
+
+@include('components.premium-modal')
 @endsection

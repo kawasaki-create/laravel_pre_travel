@@ -55,12 +55,12 @@
                                     </svg>
                                 </div>
                                 <h6 class="fw-bold mb-2">モバイル版プレミアム</h6>
-                                <p class="small text-muted mb-3">月額課金で永続的に無制限</p>
-                                <a href="#" class="btn btn-outline-warning btn-sm">
+                                <p class="small text-muted mb-3">買い切りで永続的に無制限</p>
+                                <a href="#" class="btn btn-outline-warning btn-sm" id="mobileAppBtn">
                                     <svg width="16" height="16" class="me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                     </svg>
-                                    アプリをダウンロード
+                                    <span id="mobileAppText">アプリをダウンロード</span>
                                 </a>
                             </div>
                         </div>
@@ -98,17 +98,26 @@
                         </div>
                         <div class="card-body p-4">
                             <!-- Google AdSense 広告 -->
-                            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1568606156833955"
-                                 crossorigin="anonymous"></script>
-                            <!-- PreTravel -->
-                            <ins class="adsbygoogle"
-                                 style="display:block"
-                                 data-ad-client="ca-pub-1568606156833955"
-                                 data-ad-slot="6046649503"
-                                 data-ad-format="auto"
-                                 data-full-width-responsive="true"></ins>
+                            <div id="adsenseContainer">
+                                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1568606156833955"
+                                     crossorigin="anonymous"></script>
+                                <!-- PreTravel -->
+                                <ins class="adsbygoogle"
+                                     style="display:block; min-height: 200px;"
+                                     data-ad-client="ca-pub-1568606156833955"
+                                     data-ad-slot="6046649503"
+                                     data-ad-format="auto"
+                                     data-full-width-responsive="true"></ins>
+                            </div>
                             <script>
-                                 (adsbygoogle = window.adsbygoogle || []).push({});
+                                // AdSense広告の遅延初期化
+                                setTimeout(function() {
+                                    try {
+                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                    } catch (e) {
+                                        console.warn('AdSense push error:', e);
+                                    }
+                                }, 500);
                             </script>
                             
                             <!-- 広告視聴完了ボタン -->
@@ -155,6 +164,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const adContainer = document.getElementById('adContainer');
     const confirmAdBtn = document.getElementById('confirmAdBtn');
     const premiumStatus = document.getElementById('premiumStatus');
+    const mobileAppBtn = document.getElementById('mobileAppBtn');
+    const mobileAppText = document.getElementById('mobileAppText');
+    
+    // iOS/Android判別とストアリンク設定
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const iosStoreUrl = 'https://apps.apple.com/jp/app/pretravel-%E6%97%85%E8%A1%8C%E8%A8%88%E7%94%BB%E4%BD%9C%E6%88%90%E3%82%A2%E3%83%97%E3%83%AA/id6478861524';
+    const androidStoreUrl = 'https://play.google.com/store/apps/details?id=com.pretravel.kawasaki_create.pre_travel_mobile';
+    
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        // iOS
+        mobileAppBtn.href = iosStoreUrl;
+        mobileAppText.textContent = 'App Storeでダウンロード';
+    } else if (/android/i.test(userAgent)) {
+        // Android
+        mobileAppBtn.href = androidStoreUrl;
+        mobileAppText.textContent = 'Google Playでダウンロード';
+    } else {
+        // その他（PC等）
+        mobileAppBtn.href = '#';
+        mobileAppText.textContent = 'モバイル端末でアクセス';
+        mobileAppBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('モバイル端末でアクセスしてアプリをダウンロードしてください。\\n\\niOS: App Store\\nAndroid: Google Play');
+        });
+    }
 
     // 広告を見るボタンクリック
     watchAdBtn.addEventListener('click', function() {
@@ -162,10 +196,25 @@ document.addEventListener('DOMContentLoaded', function() {
         watchAdBtn.disabled = true;
         watchAdBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>広告を読み込み中...';
         
-        // 3秒後に広告視聴完了ボタンを有効化（実際は広告の読み込み完了を監視）
+        // AdSense広告の初期化
+        try {
+            if (typeof adsbygoogle !== 'undefined') {
+                adsbygoogle.push({});
+            } else {
+                // adsbygoogle が利用できない場合の処理
+                window.adsbygoogle = window.adsbygoogle || [];
+                adsbygoogle.push({});
+            }
+        } catch (e) {
+            console.warn('AdSense initialization error:', e);
+        }
+        
+        // 5秒後に広告視聴完了ボタンを有効化
         setTimeout(() => {
             confirmAdBtn.disabled = false;
-        }, 3000);
+            confirmAdBtn.style.backgroundColor = '#28a745';
+            confirmAdBtn.style.borderColor = '#28a745';
+        }, 5000);
     });
 
     // 広告視聴完了ボタンクリック

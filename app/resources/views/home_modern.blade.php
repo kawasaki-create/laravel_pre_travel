@@ -74,17 +74,60 @@
                                 スケジュール作成
                             </button>
                             <script>
-                                function checkTravelPlans() {
-                                    @if($user->vip_flg == 0)
-                                        @if($userTravelPlansCount >= 3)
-                                            alert('無料会員は3つまで旅行プランを設定可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。');
-                                        @else
-                                            location.href='/schedule';
-                                        @endif
-                                    @else
-                                        location.href='/schedule';
-                                    @endif
-                                }
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    window.checkTravelPlans = function() {
+                                        console.log('checkTravelPlans function called');
+                                        try {
+                                            @if(!$user->canCreatePlan())
+                                                console.log('User cannot create plan - showing premium modal');
+                                                var premiumModalElement = document.getElementById('premiumModal');
+                                                if (premiumModalElement) {
+                                                    // Bootstrap 5の構文でモーダル表示
+                                                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                                                        var premiumModal = new bootstrap.Modal(premiumModalElement);
+                                                        premiumModal.show();
+                                                    } else {
+                                                        // Bootstrapが利用できない場合は直接スタイル操作
+                                                        premiumModalElement.style.display = 'block';
+                                                        premiumModalElement.classList.add('show');
+                                                        document.body.classList.add('modal-open');
+                                                        
+                                                        // モーダル背景も追加
+                                                        var backdrop = document.createElement('div');
+                                                        backdrop.className = 'modal-backdrop fade show';
+                                                        backdrop.id = 'premium-modal-backdrop';
+                                                        document.body.appendChild(backdrop);
+                                                        
+                                                        // 閉じるボタンのイベントリスナー追加
+                                                        var closeButtons = premiumModalElement.querySelectorAll('[data-bs-dismiss="modal"]');
+                                                        closeButtons.forEach(function(btn) {
+                                                            btn.addEventListener('click', function() {
+                                                                premiumModalElement.style.display = 'none';
+                                                                premiumModalElement.classList.remove('show');
+                                                                document.body.classList.remove('modal-open');
+                                                                var backdrop = document.getElementById('premium-modal-backdrop');
+                                                                if (backdrop) backdrop.remove();
+                                                            });
+                                                        });
+                                                    }
+                                                } else {
+                                                    console.error('Premium modal element not found');
+                                                    alert('旅行プランの上限に達しました。\n\n無料会員は3つまでの旅行プランを作成できます。\n有料会員登録で無制限にご利用いただけます。');
+                                                }
+                                            @else
+                                                console.log('User can create plan - redirecting to schedule');
+                                                window.location.href = '/schedule';
+                                            @endif
+                                        } catch (error) {
+                                            console.error('Error in checkTravelPlans:', error);
+                                            @if(!$user->canCreatePlan())
+                                                alert('旅行プランの上限に達しました。\n\n無料会員は3つまでの旅行プランを作成できます。\n有料会員登録で無制限にご利用いただけます。');
+                                            @else
+                                                window.location.href = '/schedule';
+                                            @endif
+                                        }
+                                    };
+                                });
                             </script>
                         @endif
                     </div>
@@ -124,7 +167,7 @@
                                         <div id="charCount" class="text-sm text-gray-500 mt-1"></div>
                                     </div>
                                     <div class="flex items-center space-x-4">
-                                        <button type="submit" class="btn btn-primary" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->vip_flg }});">
+                                        <button type="submit" class="btn btn-primary" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->isPremiumUser() ? 1 : 0 }});">
                                             投稿
                                         </button>
                                         @if($tripCnt >= 2)
@@ -150,10 +193,19 @@
                             return tweetCount;
                         }
             
-                        function checkTweetCount(vipFlg) {
+                        function checkTweetCount(isPremium) {
                             var tweetCount = updateTweetCount();
-                            if (vipFlg == 0 && tweetCount >= 10) {
-                                alert("無料会員は1つの旅行で10個までつぶやき可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。");
+                            if (isPremium == 0 && tweetCount >= 10) {
+                                // プレミアムモーダルを表示
+                                var premiumModalElement = document.getElementById('premiumModal');
+                                if (premiumModalElement) {
+                                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                                        var premiumModal = new bootstrap.Modal(premiumModalElement);
+                                        premiumModal.show();
+                                    } else {
+                                        alert('つぶやきの上限に達しました。\n\n無料会員は10個までのつぶやきを投稿できます。\n有料会員登録で無制限にご利用いただけます。');
+                                    }
+                                }
                                 return false;
                             }
                             return true;
@@ -311,5 +363,98 @@
             modalCharCount.className = remaining < 20 ? 'text-sm text-red-500' : 'text-sm text-gray-500';
         });
     }
+    
+    // Edit modal functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const editButtons = document.querySelectorAll('.editButton');
+        const modal = document.getElementById('easyModal');
+        const modalTextarea = document.getElementById('myTweetEdit');
+        const modalCharCount = document.getElementById('modalCharCount');
+        const closeButtons = document.querySelectorAll('.modalClose');
+        const saveButton = document.querySelector('.editSaveBtn');
+        let currentTweetId = null;
+        
+        // Edit button click handlers
+        editButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                currentTweetId = this.getAttribute('data-tweet-id');
+                
+                // Find the tweet content for this ID
+                const tweetElement = this.closest('.bg-gray-50').querySelector('p');
+                const tweetText = tweetElement.textContent.replace('(編集済み)', '').trim();
+                
+                // Set modal content
+                modalTextarea.value = tweetText;
+                
+                // Update character count
+                const remaining = 140 - tweetText.length;
+                modalCharCount.textContent = `残り${remaining}文字`;
+                modalCharCount.className = remaining < 20 ? 'text-sm text-red-500' : 'text-sm text-gray-500';
+                
+                // Show modal
+                modal.classList.remove('hidden');
+                modal.style.display = 'block';
+                modalTextarea.focus();
+            });
+        });
+        
+        // Close modal handlers
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+                currentTweetId = null;
+            });
+        });
+        
+        // Click outside modal to close
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+                currentTweetId = null;
+            }
+        });
+        
+        // Save button handler
+        if (saveButton) {
+            saveButton.addEventListener('click', function() {
+                if (!currentTweetId || !modalTextarea.value.trim()) {
+                    alert('つぶやき内容を入力してください');
+                    return;
+                }
+                
+                // Send update request
+                const formData = new FormData();
+                formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+                formData.append('tweet_id', currentTweetId);
+                formData.append('tweet_content', modalTextarea.value.trim());
+                
+                fetch('/tweet/update', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Close modal and reload page
+                        modal.classList.add('hidden');
+                        modal.style.display = 'none';
+                        location.reload();
+                    } else {
+                        alert('更新に失敗しました: ' + (data.message || 'エラーが発生しました'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('通信エラーが発生しました');
+                });
+            });
+        }
+    });
 </script>
+
+<!-- プレミアムモーダルを含める -->
+@include('components.premium-modal')
+
 @endsection

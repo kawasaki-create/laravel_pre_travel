@@ -27,11 +27,12 @@ class SecurityHeaders
 
         // Content Security Policy
         $csp = "default-src 'self'; " .
-               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://code.jquery.com https://stackpath.bootstrapcdn.com https://cdn.jsdelivr.net; " .
-               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.bunny.net https://stackpath.bootstrapcdn.com; " .
+               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; " .
+               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.bunny.net https://cdn.jsdelivr.net; " .
                "font-src 'self' https://fonts.gstatic.com https://fonts.bunny.net data:; " .
-               "img-src 'self' data: https: blob:; " .
-               "connect-src 'self'; " .
+               "img-src 'self' data: https: blob: https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; " .
+               "connect-src 'self' https://pagead2.googlesyndication.com; " .
+               "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; " .
                "frame-ancestors 'none';";
         
         $response->headers->set('Content-Security-Policy', $csp);

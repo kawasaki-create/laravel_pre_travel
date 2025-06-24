@@ -59,9 +59,9 @@
                             </div>
                             <h5 class="fw-bold mb-1">{{Auth::user()->name}}</h5>
                             <p class="text-muted small mb-0">
-                                @if(Auth::user()->vip_flg)
+                                @if(Auth::user()->isPremiumUser())
                                     <span class="badge rounded-pill text-white" style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);">
-                                        ✨ VIP会員
+                                        ✨ プレミアム会員
                                     </span>
                                 @else
                                     <span class="badge bg-light text-dark">無料会員</span>
@@ -388,7 +388,7 @@
                                     </div>
                                 @endif
                                 
-                                <button type="submit" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->vip_flg }});" class="btn text-white" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                <button type="submit" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->isPremiumUser() ? 1 : 0 }});" class="btn text-white" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                     投稿する
                                 </button>
                             </form>
@@ -508,12 +508,20 @@
     // Travel plan creation check
     function checkTravelPlans() {
         @php $user = Auth::user(); @endphp
-        @if($user->vip_flg == 0)
-            @php $userTravelPlansCount = $user->travelPlan()->count(); @endphp
-            @if($userTravelPlansCount >= 3)
-                alert('無料会員は3つまで旅行プランを設定可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。');
+        @if(!$user->canCreatePlan())
+            @if(!$user->isPremiumUser())
+                // プレミアムモーダルを表示
+                var premiumModalElement = document.getElementById('premiumModal');
+                if (premiumModalElement) {
+                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                        var premiumModal = new bootstrap.Modal(premiumModalElement);
+                        premiumModal.show();
+                    } else {
+                        alert('旅行プランの上限に達しました。\\n\\n無料会員は3つまでの旅行プランを作成できます。\\n有料会員登録で無制限にご利用いただけます。');
+                    }
+                }
             @else
-                location.href='/schedule';
+                alert('旅行プランの作成上限に達しました。');
             @endif
         @else
             location.href='/schedule';
@@ -531,10 +539,19 @@
         return 0;
     }
 
-    function checkTweetCount(vipFlg) {
+    function checkTweetCount(isPremium) {
         var tweetCount = updateTweetCount();
-        if (vipFlg == 0 && tweetCount >= 10) {
-            alert("無料会員は1つの旅行で10個までつぶやき可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。");
+        if (isPremium == 0 && tweetCount >= 10) {
+            // プレミアムモーダルを表示
+            var premiumModalElement = document.getElementById('premiumModal');
+            if (premiumModalElement) {
+                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    var premiumModal = new bootstrap.Modal(premiumModalElement);
+                    premiumModal.show();
+                } else {
+                    alert('つぶやきの上限に達しました。\\n\\n無料会員は10個までのつぶやきを投稿できます。\\n有料会員登録で無制限にご利用いただけます。');
+                }
+            }
             return false;
         }
         return true;
@@ -736,4 +753,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+@include('components.premium-modal')
 @endsection

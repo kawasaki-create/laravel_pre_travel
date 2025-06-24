@@ -82,11 +82,11 @@
                     <div class="card-body p-0" id="addSection" style="display: none;">
                         @php
                             $detailCount = $travelPlan->travelDetail()->count();
-                            $vipFlg = $travelPlan->user->vip_flg;
+                            $canCreateDetail = $travelPlan->user->isPremiumUser() || $detailCount < 20;
                         @endphp
 
                         <!-- Expense Form -->
-                        <form action="{{ route('schedule.detailNR') }}" method="POST" id="expenseForm" onsubmit="return checkDetailCount({{ $vipFlg }}, {{ $detailCount }});">
+                        <form action="{{ route('schedule.detailNR') }}" method="POST" id="expenseForm" onsubmit="return checkDetailCount({{ $travelPlan->user->isPremiumUser() ? 1 : 0 }}, {{ $detailCount }});"
                             @csrf
                             <div class="p-4 border-bottom">
                                 <h6 class="fw-bold mb-3 d-flex align-items-center">
@@ -220,7 +220,7 @@
                         </form>
 
                         <!-- Schedule Form -->
-                        <form action="{{ route('schedule.detailNR') }}" method="POST" id="scheduleForm" onsubmit="return checkDetailCount({{ $vipFlg }}, {{ $detailCount }});">
+                        <form action="{{ route('schedule.detailNR') }}" method="POST" id="scheduleForm" onsubmit="return checkDetailCount({{ $travelPlan->user->isPremiumUser() ? 1 : 0 }}, {{ $detailCount }});"
                             @csrf
                             <div class="p-4">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
@@ -847,12 +847,23 @@ function cancelEdit(button) {
 }
 
 // Detail count check function
-function checkDetailCount(vipFlg, detailCount) {
-    if (vipFlg === 0 && detailCount >= 20) {
-        alert("無料会員は1つの旅行で20個まで旅行詳細を登録可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。");
+function checkDetailCount(isPremium, detailCount) {
+    if (isPremium === 0 && detailCount >= 20) {
+        // プレミアムモーダルを表示
+        var premiumModalElement = document.getElementById('premiumModal');
+        if (premiumModalElement) {
+            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                var premiumModal = new bootstrap.Modal(premiumModalElement);
+                premiumModal.show();
+            } else {
+                alert('旅行詳細の上限に達しました。\\n\\n無料会員は20個までの詳細を追加できます。\\n有料会員登録で無制限にご利用いただけます。');
+            }
+        }
         return false;
     }
     return true;
 }
 </script>
+
+@include('components.premium-modal')
 @endsection

@@ -5,9 +5,6 @@
 @vite(['resources/js/accountDelete.js'])
 @vite(['resources/js/belongingsHome.js'])
 @vite(['resources/css/homeNav.css'])
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <!-- ナビゲーションバー -->
 <nav class="navbar navbar-light bg-light hamnav">
     <!-- ハンバーガーメニュー -->
@@ -92,11 +89,20 @@
                         <input type="button" class="btn btn-secondary" onclick="checkTravelPlans()" value="スケジュール作成">
                         <script>
                             function checkTravelPlans() {
-                                @if($user->vip_flg == 0)
-                                    @if($userTravelPlansCount >= 3)
-                                        alert('無料会員は3つまで旅行プランを設定可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。');
+                                @if(!$user->canCreatePlan())
+                                    @if(!$user->isPremiumUser())
+                                        // プレミアムモーダルを表示
+                                        var premiumModalElement = document.getElementById('premiumModal');
+                                        if (premiumModalElement) {
+                                            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                                                var premiumModal = new bootstrap.Modal(premiumModalElement);
+                                                premiumModal.show();
+                                            } else {
+                                                alert('旅行プランの上限に達しました。\\n\\n無料会員は3つまでの旅行プランを作成できます。\\n有料会員登録で無制限にご利用いただけます。');
+                                            }
+                                        }
                                     @else
-                                        location.href='/schedule';
+                                        alert('旅行プランの作成上限に達しました。');
                                     @endif
                                 @else
                                     location.href='/schedule';
@@ -131,7 +137,7 @@
                         <input type="hidden" name="travel_plan_id" value="{{ $currentTravelPlanId }}" id="selectedTravelPlanId">
                         <textarea id="myTextarea" name="tweet" placeholder="つぶやき" minlength="1" maxlength="140"></textarea><br>
                         <div id="charCount"></div>
-                        <button type="submit" class="btn btn-primary" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->vip_flg }});">投稿</button>　
+                        <button type="submit" class="btn btn-primary" id="tweetButton" onclick="return checkTweetCount({{ auth()->user()->isPremiumUser() ? 1 : 0 }});">投稿</button>　
                         <select name="duplicatedTravel" id="duplicatedTravel" {{ $tripCnt >= 2 ? '' : 'hidden' }} onchange="updateTweetCount()">
                         @for($i = 0; $i < $tripCnt; $i++)
                             <option value="{{ $duplicatedIdList[$i] }}" data-tweet-count="{{ $travelPlans->find($duplicatedIdList[$i])->tweet()->count() }}">{{ $duplicatedTitleList[$i] }}</option>
@@ -152,14 +158,123 @@
                     return tweetCount;
                 }
     
-                function checkTweetCount(vipFlg) {
+                function checkTweetCount(isPremium) {
                     var tweetCount = updateTweetCount();
-                    if (vipFlg == 0 && tweetCount >= 10) {
-                        alert("無料会員は1つの旅行で10個までつぶやき可能です。有料会員登録はお手数ですが、スマホアプリ版よりご登録ください。");
+                    if (isPremium == 0 && tweetCount >= 10) {
+                        // プレミアムモーダルを表示
+                        var premiumModalElement = document.getElementById('premiumModal');
+                        if (premiumModalElement) {
+                            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                                var premiumModal = new bootstrap.Modal(premiumModalElement);
+                                premiumModal.show();
+                            } else {
+                                alert('つぶやきの上限に達しました。\\n\\n無料会員は10個までのつぶやきを投稿できます。\\n有料会員登録で無制限にご利用いただけます。');
+                            }
+                        }
                         return false;
                     }
                     return true;
                 }
+            </script>
+            
+            <script>
+                // Character counter for main textarea
+                document.addEventListener('DOMContentLoaded', function() {
+                    const textarea = document.getElementById('myTextarea');
+                    const charCount = document.getElementById('charCount');
+                    
+                    if (textarea && charCount) {
+                        textarea.addEventListener('input', function() {
+                            const remaining = 140 - this.value.length;
+                            charCount.textContent = `残り${remaining}文字`;
+                            charCount.style.color = remaining < 20 ? 'red' : 'gray';
+                        });
+                    }
+                    
+                    // Edit button functionality
+                    const editButtons = document.querySelectorAll('.editButton');
+                    editButtons.forEach(function(button) {
+                        button.addEventListener('click', function() {
+                            const tweetId = this.getAttribute('data-tweet-id');
+                            const tweetElement = this.previousElementSibling.previousElementSibling;
+                            const tweetText = tweetElement.textContent.replace('(編集済み)', '').trim();
+                            
+                            // Find the modal and textarea
+                            const modal = document.getElementById('easyModal');
+                            const modalTextarea = document.getElementById('myTweetEdit');
+                            const modalCharCount = document.getElementById('modalCharCount');
+                            
+                            if (modal && modalTextarea) {
+                                modalTextarea.value = tweetText;
+                                const remaining = 140 - tweetText.length;
+                                modalCharCount.textContent = `残り${remaining}文字`;
+                                modalCharCount.style.color = remaining < 20 ? 'red' : 'gray';
+                                
+                                modal.style.display = 'block';
+                                modal.setAttribute('data-tweet-id', tweetId);
+                            }
+                        });
+                    });
+                    
+                    // Modal close functionality
+                    const modalCloses = document.querySelectorAll('.modalClose');
+                    modalCloses.forEach(function(closeBtn) {
+                        closeBtn.addEventListener('click', function() {
+                            const modal = document.getElementById('easyModal');
+                            if (modal) {
+                                modal.style.display = 'none';
+                            }
+                        });
+                    });
+                    
+                    // Save functionality
+                    const saveButtons = document.querySelectorAll('.editSaveBtn');
+                    saveButtons.forEach(function(saveBtn) {
+                        saveBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const modal = document.getElementById('easyModal');
+                            const modalTextarea = document.getElementById('myTweetEdit');
+                            const tweetId = modal.getAttribute('data-tweet-id');
+                            
+                            if (tweetId && modalTextarea.value.trim()) {
+                                // Send update request
+                                const formData = new FormData();
+                                formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+                                formData.append('tweet_id', tweetId);
+                                formData.append('tweet_content', modalTextarea.value.trim());
+                                
+                                fetch('/tweet/update', {
+                                    method: 'POST',
+                                    body: formData
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        modal.style.display = 'none';
+                                        location.reload();
+                                    } else {
+                                        alert('更新に失敗しました');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('通信エラーが発生しました');
+                                });
+                            }
+                        });
+                    });
+                    
+                    // Modal textarea character counter
+                    const modalTextarea = document.getElementById('myTweetEdit');
+                    const modalCharCount = document.getElementById('modalCharCount');
+                    if (modalTextarea && modalCharCount) {
+                        modalTextarea.addEventListener('input', function() {
+                            const remaining = 140 - this.value.length;
+                            modalCharCount.textContent = `残り${remaining}文字`;
+                            modalCharCount.style.color = remaining < 20 ? 'red' : 'gray';
+                        });
+                    }
+                });
             </script>
                 <br><br>
                 <div class="card">
@@ -265,4 +380,6 @@
         </div>
     </div>
 </div>
+
+@include('components.premium-modal')
 @endsection
