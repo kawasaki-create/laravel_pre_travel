@@ -40,7 +40,9 @@ class MobileHomeController extends Controller
     {
         $user_id = $request->user()->id;
 
-        $travelPlan = TravelPlan::where('user_id', $user_id)->get();
+        $travelPlan = TravelPlan::where('user_id', $user_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return $travelPlan;
     }
@@ -50,8 +52,17 @@ class MobileHomeController extends Controller
     {
         $user_id = $request->user()->id;
 
-        $travelPlanId = TravelPlan::where('user_id', $user_id)->pluck('id');
-        $belongings = Belonging::whereIn('travel_plan_id', $travelPlanId)->get();
+        $belongings = Belonging::whereHas('travelPlan', function($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })
+            ->with('travelPlan:id,trip_start,trip_end')
+            ->get();
+
+        $belongingsId = [];
+        $travelPlanIds = [];
+        $contents = [];
+        $tripStart = [];
+        $tripEnd = [];
 
         foreach($belongings as $row) {
             $belongingsId[] = $row->id;
@@ -75,8 +86,10 @@ class MobileHomeController extends Controller
     {
         $user_id = $request->user()->id;
 
-        $travelPlanId = TravelPlan::where('user_id', $user_id)->pluck('id');
-        $belongings = Belonging::whereIn('travel_plan_id', $travelPlanId)->get();
+        $belongings = Belonging::whereHas('travelPlan', function($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })
+            ->get();
 
         return $belongings;
     }
@@ -86,8 +99,20 @@ class MobileHomeController extends Controller
     {
         $user_id = $request->user()->id;
 
-        $travelPlanId = TravelPlan::where('user_id', $user_id)->pluck('id');
-        $tweets = Tweet::whereIn('travel_plan_id', $travelPlanId)->get();
+        $tweets = Tweet::whereHas('travelPlan', function($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })
+            ->with('travelPlan:id,trip_start,trip_end')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $tweetId = [];
+        $travelPlanIds = [];
+        $tweet = [];
+        $tripStart = [];
+        $tripEnd = [];
+        $createdAt = [];
+        $editFlg = [];
 
         foreach($tweets as $row) {
             $tweetId[] = $row->id;
@@ -115,9 +140,11 @@ class MobileHomeController extends Controller
     {
         $user_id = $request->user()->id;
 
-        $travelPlanId = TravelPlan::where('user_id', $user_id)->pluck('id');
-
-        $travelDetail = TravelDetail::whereIn('travel_plan_id', $travelPlanId)->get();
+        $travelDetail = TravelDetail::whereHas('travelPlan', function($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return $travelDetail;
     }
@@ -127,8 +154,11 @@ class MobileHomeController extends Controller
     {
         $user_id = $request->user()->id;
 
-        $travelPlanId = TravelPlan::where('user_id', $user_id)->pluck('id');
-        $tweets = Tweet::whereIn('travel_plan_id', $travelPlanId)->get();
+        $tweets = Tweet::whereHas('travelPlan', function($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return $tweets;
     }

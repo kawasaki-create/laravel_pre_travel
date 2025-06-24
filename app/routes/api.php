@@ -8,6 +8,7 @@ use App\Http\Controllers\api\LoginController;
 use App\Http\Controllers\api\Auth\ForgotPasswordController;
 use App\Http\Controllers\api\Auth\ResetPasswordController;
 use App\Http\Controllers\api\MobileHomeController;
+use App\Http\Controllers\api\GuestAuthController;
 use App\Models\User;
 
 /*
@@ -27,6 +28,11 @@ Route::post('/login', [LoginController::class, 'login']); // ログイン
 Route::post('/forgot', [LoginController::class, 'forgot']); // ログイン
 Route::post('/forgot-password', ForgotPasswordController::class)->name('password.forgot');
 Route::post('/reset-password', ResetPasswordController::class)->name('password.reset');
+
+// ゲスト認証関連のルート
+Route::post('/guest-auth', [GuestAuthController::class, 'authenticate']); // ゲスト認証
+Route::post('/guest-verify', [GuestAuthController::class, 'verify']); // トークン検証
+Route::post('/migrate-guest-user', [GuestAuthController::class, 'migrateToUser']); // ゲスト→正式ユーザー移行
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
