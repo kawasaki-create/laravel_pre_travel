@@ -33,6 +33,18 @@ class MobileAddController extends Controller
         // Log::info($endDate);
         // Log::info($departureTime);
 
+        // プレミアム機能の制限チェック
+        $user = User::find($request->user_id);
+        if (!$user->canCreatePlan()) {
+            return response()->json([
+                'message' => 'Travel plan limit reached',
+                'error' => 'PREMIUM_REQUIRED',
+                'current_plan_count' => $user->travelPlan()->count(),
+                'max_free_plans' => 3,
+                'is_premium' => $user->isPremiumUser()
+            ], 403);
+        }
+
         // データベースへの保存など、他の処理をここで実行
         try {
             $travelPlan = new TravelPlan;

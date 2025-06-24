@@ -13,8 +13,13 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/css/app-modern.css', 'resources/sass/app.scss', 'resources/js/app.js'])
 
     <style>
         #app-banner {
@@ -44,8 +49,9 @@
             margin-left: 10px;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
-<body>
+<body class="font-sans antialiased">
     <!-- デバッグ用(すぐ消す)　-->
     <!-- <div>
         <a href="" style="width: 35px; height: 35px; border-radius: 22%; overflow: hidden; display: inline-block; vertical-align: middle;"><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/76/cf/55/76cf55e1-a085-7781-710a-50f44008ce9f/AppIcon-0-0-1x_U007emarketing-0-7-0-P3-85-220.png/540x540bb.jpg" alt="PreTravel〜旅行計画作成アプリ〜" style="width: 35px; height: 35px; border-radius: 22%; overflow: hidden; display: inline-block; vertical-align: middle;" id="badge"></a>

@@ -5,7 +5,13 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('新規登録') }}</div>
+                <div class="card-header text-center">
+                    <h2 class="h4 fw-bold">新規アカウント作成</h2>
+                    <p class="text-muted mt-2">
+                        すでにアカウントをお持ちの方は
+                        <a href="{{ route('login') }}" class="text-primary">ログイン</a>
+                    </p>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
@@ -64,11 +70,28 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('登録') }}
+                                    {{ __('アカウントを作成') }}
                                 </button>
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+            
+            <!-- Mobile App Promotion -->
+            <div class="text-center mt-4">
+                <p class="text-muted">モバイルアプリ版もご利用いただけます</p>
+                <div class="d-flex justify-content-center flex-wrap mt-3" style="gap: 1rem;">
+                    <a href="https://apps.apple.com/jp/app/pretravel-旅行計画作成アプリ/id6478861524" class="d-inline-block">
+                        <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/ja-jp?size=250x83" 
+                             alt="Download on the App Store" 
+                             style="height: 2.5rem;">
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.pretravel.kawasaki_create.pre_travel_mobile" class="d-inline-block">
+                        <img src="https://play.google.com/intl/ja/badges/static/images/badges/ja_badge_web_generic.png" 
+                             alt="Google Play で手に入れよう" 
+                             style="height: 2.5rem;">
+                    </a>
                 </div>
             </div>
         </div>

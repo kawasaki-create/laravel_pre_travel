@@ -39,6 +39,7 @@ Route::post('/schedule/detail/edit/{travel_plan_id}/{date}', [App\Http\Controlle
 Route::post('/schedule/detail/new/register', [App\Http\Controllers\ScheduleController::class, 'detailNR'])->name('schedule.detailNR');
 Route::post('/schedule/detail/edit/register', [App\Http\Controllers\ScheduleController::class, 'detailER'])->name('schedule.detailER');
 Route::post('/schedule/detail/delete', [App\Http\Controllers\ScheduleController::class, 'detailDelete'])->name('schedule.detailDelete');
+Route::post('/schedule/update-detail', [App\Http\Controllers\ScheduleController::class, 'updateDetail'])->name('schedule.updateDetail');
 Route::get('/email', [App\Http\Controllers\HomeController::class, 'email']);
 Route::get('/home/account_delete', [App\Http\Controllers\MailSendController::class, 'AccountDeleteSend']);
 Route::get('/register_send', [App\Http\Controllers\MailSendController::class, 'registerSend']);
@@ -51,6 +52,13 @@ Route::post('/schedule/belongings_delete', [App\Http\Controllers\ScheduleControl
 Route::get('/home/contact', [App\Http\Controllers\HomeController::class, 'contact']);
 Route::post('/home/contact_send/{name}/{email}/{message}', [App\Http\Controllers\HomeController::class, 'contactSend'])->name('contact.send');
 Route::post('/home/contact_confirm', [App\Http\Controllers\HomeController::class, 'contactConfirm'])->name('contact.comfirm');
+
+// 広告・プレミアム機能
+Route::middleware(['auth'])->group(function () {
+    Route::post('/api/ad/record', [App\Http\Controllers\AdController::class, 'recordAdView'])->name('ad.record');
+    Route::get('/api/premium/status', [App\Http\Controllers\AdController::class, 'checkPremiumStatus'])->name('premium.status');
+    Route::get('/premium/modal', [App\Http\Controllers\AdController::class, 'showPremiumModal'])->name('premium.modal');
+});
 
 Route::get('/support-page', function () {
     return view('supportpage');

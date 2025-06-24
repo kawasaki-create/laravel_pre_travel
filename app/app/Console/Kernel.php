@@ -16,6 +16,17 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        
+        // ゲストユーザーのクリーンアップ（毎日深夜2時）
+        $schedule->command('guest:cleanup')->dailyAt('02:00');
+        
+        // データベース最適化（毎週日曜日の深夜3時）
+        $schedule->command('db:optimize')->weeklyOn(0, '3:00');
+        
+        // キャッシュのウォームアップ（毎日深夜4時）
+        $schedule->command('cache:clear')->dailyAt('04:00');
+        $schedule->command('config:cache')->dailyAt('04:05');
+        $schedule->command('route:cache')->dailyAt('04:10');
     }
 
     /**

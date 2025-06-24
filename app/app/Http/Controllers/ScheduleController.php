@@ -19,16 +19,31 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        $travelPlanCount = TravelPlan::where('user_id', Auth::id())->count();
-        $isVipUser = User::where('id', Auth::id())->value('vip_flg');
-        if($travelPlanCount >= 3 && $isVipUser == 0) {
-            return redirect('/home')->with('danger', '無料会員は4つ以上の予定を登録できません。有料会員になると無制限で登録できます。');
+        $user = User::find(Auth::id());
+        
+        if (!$user->canCreatePlan()) {
+            // プレミアム機能の案内を表示
+            return view('index_modern', [
+                'showPremiumModal' => true,
+                'user' => $user
+            ]);
         }
-        return view('index');
+        
+        return view('index_modern', [
+            'showPremiumModal' => false,
+            'user' => $user
+        ]);
     }
 
     public function addPlan(Request $request)
     {
+        $user = User::find(Auth::id());
+        
+        // プレミアム機能の制限チェック
+        if (!$user->canCreatePlan()) {
+            return redirect('/schedule')->with('warning', '旅行プランの上限に達しました。プレミアム機能をご利用ください。');
+        }
+
         $date = $request->input('trip-start');
         $time = $request->input('departure-time');
 
@@ -89,7 +104,7 @@ class ScheduleController extends Controller
             return $travelPlan;
         });
 
-        return view('all_plan',[
+        return view('all_plan_modern',[
             'travelPlans' => $travelPlans,
         ]);
     }
@@ -110,7 +125,7 @@ class ScheduleController extends Controller
         $departure = substr($travelPlan->departure_time, 11, 5);
 
         // 編集画面のビューにデータを渡す
-        return view('schedule_edit', [
+        return view('schedule_edit_modern', [
             'travelPlan' => $travelPlan,
             'formatted_start' => $formatted_start,
             'formatted_end' => $formatted_end,
@@ -440,7 +455,7 @@ class ScheduleController extends Controller
         // dd($contents9);
 
 
-        return view('schedule_detail', [
+        return view('schedule_detail_modern', [
             'travelPlan' => $travelPlan,
             'formatted_start' => $formatted_start,
             'formatted_end' => $formatted_end,
@@ -506,7 +521,7 @@ class ScheduleController extends Controller
         $travelDate = $request->travelDate;
         $travelPlan = TravelPlan::with('user')->find($travelPlanId);
 
-        return view('travel_detail_new',[
+        return view('travel_detail_new_modern',[
             'travelPlanId' => $travelPlanId,
             'travelDate' => $travelDate,
             'travelPlan' => $travelPlan
@@ -655,7 +670,7 @@ class ScheduleController extends Controller
 
         $deleteFlg = false;
 
-        return view('travel_detail_edit',[
+        return view('travel_detail_edit_modern',[
             'travelPlanId' => $travelPlanId,
             'travelDate' => $travelDate,
             'travelPlan' => $travelPlan,
@@ -950,7 +965,7 @@ class ScheduleController extends Controller
                 $dateCount ++;
             }
 
-            return view('belongings_edit', [
+            return view('belongings_edit_modern', [
                 'travelPlans' => $travelPlans,
                 'id' => $id,
                 'belongings' => $belongings,
@@ -1008,6 +1023,41 @@ class ScheduleController extends Controller
 
         // 削除後のリダイレクトなどの処理を行う
         return redirect('/schedule/belongings/' . $travelPlanId)->with('danger', '旅行に持っていくものを削除しました😇');
+    }
+
+    public function updateDetail(Request $request)
+    {
+        $travelDetail = TravelDetail::find($request->id);
+        
+        if (!$travelDetail) {
+            return response()->json(['success' => false, 'message' => 'アイテムが見つかりません']);
+        }
+
+        // ユーザー権限チェック
+        $userId = Auth::id();
+        if ($travelDetail->travelPlan->user_id !== $userId) {
+            return response()->json(['success' => false, 'message' => '権限がありません']);
+        }
+
+        try {
+            $travelDetail->contents = $request->contents;
+            
+            if ($request->has('price')) {
+                $travelDetail->price = $request->price;
+            }
+            
+            if ($request->has('time_from') && $request->has('time_to')) {
+                $date = substr($travelDetail->date, 0, 10);
+                $travelDetail->time_from = $date . ' ' . $request->time_from;
+                $travelDetail->time_to = $date . ' ' . $request->time_to;
+            }
+            
+            $travelDetail->save();
+            
+            return response()->json(['success' => true, 'message' => '更新しました']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => '更新に失敗しました']);
+        }
     }
 
 }
