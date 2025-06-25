@@ -21,6 +21,9 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
+    <!-- 広告ブロッカー検出用のbaitファイル -->
+    <script src="{{ asset('ads.js') }}" async></script>
+    
     <!-- Scripts -->
     @vite(['resources/css/app-modern.css', 'resources/sass/app.scss', 'resources/js/app.js'])
 
@@ -140,6 +143,9 @@
         <main class="py-4">
             @yield('content')
         </main>
+        
+        <!-- 広告ブロッカー検出モーダル -->
+        @include('components.adblock-modal')
     </div>
     
     <!-- Bootstrap 5 JS -->
