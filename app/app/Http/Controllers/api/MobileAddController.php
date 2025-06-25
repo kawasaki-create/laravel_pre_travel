@@ -33,17 +33,9 @@ class MobileAddController extends Controller
         // Log::info($endDate);
         // Log::info($departureTime);
 
-        // プレミアム機能の制限チェック
-        $user = User::find($request->user_id);
-        if (!$user->canCreatePlan()) {
-            return response()->json([
-                'message' => 'Travel plan limit reached',
-                'error' => 'PREMIUM_REQUIRED',
-                'current_plan_count' => $user->travelPlan()->count(),
-                'max_free_plans' => 3,
-                'is_premium' => $user->isPremiumUser()
-            ], 403);
-        }
+        // 認証されたユーザーを取得
+        $user = $request->user();
+        // Web版は広告表示により制限なし（プレミアム機能制限チェックを無効化）
 
         // データベースへの保存など、他の処理をここで実行
         try {
@@ -54,7 +46,7 @@ class MobileAddController extends Controller
             $travelPlan->meet_place = $request->meetPlace;
             $travelPlan->departure_time = DateTime::createFromFormat('Y-m-d H:i:s', $departureTime);
             $travelPlan->budget = $request->budget;
-            $travelPlan->user_id = $request->user_id;
+            $travelPlan->user_id = $user->id;
             $travelPlan->save();
         } catch(\Exception $e) {
             Log::info($e);
@@ -67,11 +59,13 @@ class MobileAddController extends Controller
     public function addTweet(Request $request)
     {
         Log::info($request);
+        // 認証されたユーザーを取得
+        $user = $request->user();
         try {
             $tweet = new Tweet;
             $tweet->travel_plan_id = $request->travelPlanId;
             $tweet->tweet = $request->tweet;
-            $tweet->user_id = $request->user_id;
+            $tweet->user_id = $user->id;
             $tweet->editFlg = $request->editFlg;
             $tweet->save();
         } catch(\Exception $e) {

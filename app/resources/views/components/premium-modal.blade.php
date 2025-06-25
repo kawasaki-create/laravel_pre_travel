@@ -1,5 +1,5 @@
-<!-- Premium Modal - Web版では非表示 -->
-<div class="modal fade" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel" aria-hidden="true" style="display: none !important;">
+{{-- Premium Modal - 完全無効化（コメントアウト）
+<div class="modal fade" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel" aria-hidden="true" style="display: none !important;"> --}}
     <div class="modal-dialog modal-lg">
         <div class="modal-content" style="border-radius: 16px; border: none;">
             <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px 16px 0 0;">
@@ -134,4 +134,4 @@ document.addEventListener('DOMContentLoaded', function() {
     setupAppButton(mobileAppBtn, mobileAppText);
     setupAppButton(mainMobileAppBtn, null);
 });
-</script>
+</script> --}}

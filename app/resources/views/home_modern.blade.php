@@ -399,6 +399,6 @@
 </script>
 
 <!-- プレミアムモーダルを含める -->
-@include('components.premium-modal')
+{{-- @include('components.premium-modal') --}}
 
 @endsection

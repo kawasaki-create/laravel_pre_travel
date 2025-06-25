@@ -244,11 +244,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <!-- Include Premium Modal if needed -->
+{{-- プレミアムモーダル無効化
 @if(isset($showPremiumModal) && $showPremiumModal)
     @include('components.premium-modal')
 @endif
+--}}
 @endsection
 
+{{-- プレミアムモーダル自動表示スクリプト無効化
 @if(isset($showPremiumModal) && $showPremiumModal)
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -258,3 +261,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endif
+--}}

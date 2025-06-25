@@ -359,5 +359,5 @@
     </div>
 </div>
 
-@include('components.premium-modal')
+{{-- @include('components.premium-modal') --}}
 @endsection

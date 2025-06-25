@@ -731,5 +731,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-@include('components.premium-modal')
+{{-- @include('components.premium-modal') --}}
 @endsection

@@ -35,7 +35,7 @@ class MobileEditController extends Controller
             $travelPlan->meet_place = $request->meetPlace;
             $travelPlan->departure_time = DateTime::createFromFormat('Y-m-d H:i:s', $departureTime);
             $travelPlan->budget = $request->budget;
-            $travelPlan->user_id = $request->user_id;
+            $travelPlan->user_id = $request->user()->id;
             $travelPlan->save();
             Log::info('旅行プラン名：' . $request->trip_title . 'を編集しました');
         } catch(\Exception $e) {
@@ -53,7 +53,7 @@ class MobileEditController extends Controller
             $tweet = Tweet::find($request->id);
             $tweet->travel_plan_id = $request->travelPlanId;
             $tweet->tweet = $request->tweet;
-            $tweet->user_id = $request->user_id;
+            $tweet->user_id = $request->user()->id;
             $tweet->editFlg = $request->editFlg;
             $tweet->save();
             Log::info('つぶやきID：' . $request->id . 'を編集しました');

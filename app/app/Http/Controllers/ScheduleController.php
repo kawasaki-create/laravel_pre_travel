@@ -21,14 +21,7 @@ class ScheduleController extends Controller
     {
         $user = User::find(Auth::id());
         
-        if (!$user->canCreatePlan()) {
-            // プレミアム機能の案内を表示
-            return view('index_modern', [
-                'showPremiumModal' => true,
-                'user' => $user
-            ]);
-        }
-        
+        // プレミアムモーダルを無効化 - 常にfalseを返す
         return view('index_modern', [
             'showPremiumModal' => false,
             'user' => $user
@@ -39,10 +32,7 @@ class ScheduleController extends Controller
     {
         $user = User::find(Auth::id());
         
-        // プレミアム機能の制限チェック
-        if (!$user->canCreatePlan()) {
-            return redirect('/schedule')->with('warning', '旅行プランの上限に達しました。プレミアム機能をご利用ください。');
-        }
+        // プレミアム機能の制限チェックを無効化
 
         $date = $request->input('trip-start');
         $time = $request->input('departure-time');
